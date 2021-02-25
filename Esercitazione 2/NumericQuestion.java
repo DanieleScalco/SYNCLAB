@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class NumericQuestion extends Question {
 	
@@ -22,14 +23,24 @@ public class NumericQuestion extends Question {
 	@ Override
 	public int ask() {
 		Scanner tastiera = new Scanner(System.in);
-		int rispostaUtente;
+		int rispostaUtente = -1;
 		String rispostaUtenteS;
 		int puntiOttenuti = 0;
+		boolean inputValido = false;
 		
 		System.out.println(this.getDomanda());
 		rispostaUtenteS = "";
-		System.out.println("Inserisci un intero come risposta:");
-		rispostaUtente = tastiera.nextInt();
+		
+		while (!inputValido) {
+			try {
+				System.out.println("Inserisci un intero come risposta:");
+				rispostaUtente = tastiera.nextInt();
+				inputValido = true;
+			} catch (InputMismatchException e) {
+				System.out.println("Errore: non hai inserito un intero!");
+				tastiera.next();
+			}
+		}		
 		rispostaUtenteS += rispostaUtente;
 		if (getRispostaCorretta().equalsIgnoreCase(rispostaUtenteS))
 			puntiOttenuti += getPunteggio();
