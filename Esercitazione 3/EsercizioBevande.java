@@ -1,5 +1,7 @@
 package Esercitazione3;
 
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /*
@@ -119,9 +121,18 @@ public class EsercizioBevande {
 					}
 					break;
 				case(6):
-					System.out.println("Inserisci numero colonna da ricaricare");
-					int numeroColonna;
-					numeroColonna = tastiera.nextInt();
+					int numeroColonna = -1;
+					boolean end = false;
+					while (!end) {
+						try {
+							System.out.println("Inserisci numero colonna da ricaricare");
+							numeroColonna = tastiera.nextInt();
+							end = true;
+						} catch (InputMismatchException e) {
+							System.out.println("Errore di input");
+							tastiera.next();
+						}
+					}
 					if (numeroColonna < 1 || numeroColonna > d.getListaColonne().size()) {
 						System.out.println("Codice inesistente");
 					} else {
