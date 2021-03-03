@@ -6,8 +6,12 @@ public class Divisione extends OperazioneAstratta implements Operazione {
 	
 	@ Override
 	public double eseguiOperazione() {
-		if (y == 0)
-			return 0.123456789;
-		return x / y;
+		double risultato = 0;
+		try {
+			risultato = x / y;
+		} catch (ArithmeticException e) {
+			System.out.println("Divisione per zero non valida");
+		}
+		return risultato;
 	}
 }

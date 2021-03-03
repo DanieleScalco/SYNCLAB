@@ -10,11 +10,13 @@ public class Es3Interfaccia {
 	public static void main(String[] args) {
 		Operazione o1 = new Addizione(4, 2);
 		Operazione o2 = new Divisione(4, 2);
-		Operazione o3 = new Moltiplicazione(4, 2);
+		Operazione o3 = new Divisione(4, 0);
+		Operazione o4 = new Moltiplicazione(4, 2);
 		
 		System.out.println("Addizione: " + o1.eseguiOperazione());
 		System.out.println("Divisione: " + o2.eseguiOperazione());
-		System.out.println("Moltiplicazione: " + o3.eseguiOperazione());
+		System.out.println("Divisione per zero: " + o3.eseguiOperazione());
+		System.out.println("Moltiplicazione: " + o4.eseguiOperazione());
 	
 	}
 }
