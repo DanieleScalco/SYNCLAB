@@ -5,19 +5,22 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema CinemaMultisala
+-- Schema cinema_multisala
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `cinema_multisala` ;
 
 -- -----------------------------------------------------
--- Schema CinemaMultisala
+-- Schema cinema_multisala
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `CinemaMultisala` DEFAULT CHARACTER SET utf8 ;
-USE `CinemaMultisala` ;
+CREATE SCHEMA IF NOT EXISTS `cinema_multisala` DEFAULT CHARACTER SET utf8 ;
+USE `cinema_multisala` ;
 
 -- -----------------------------------------------------
--- Table `CinemaMultisala`.`Persona`
+-- Table `cinema_multisala`.`persona`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CinemaMultisala`.`Persona` (
+DROP TABLE IF EXISTS `cinema_multisala`.`persona` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`persona` (
   `mail` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `ruolo` ENUM('UTENTE', 'DIPENDENTE', 'ADMIN') NOT NULL,
@@ -26,9 +29,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CinemaMultisala`.`Film`
+-- Table `cinema_multisala`.`film`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CinemaMultisala`.`Film` (
+DROP TABLE IF EXISTS `cinema_multisala`.`film` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`film` (
   `titolo` VARCHAR(45) NOT NULL,
   `data` DATE NOT NULL,
   `ora_inizio` TIME NOT NULL,
@@ -41,9 +46,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CinemaMultisala`.`Posto_a_sedere`
+-- Table `cinema_multisala`.`posto_a_sedere`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CinemaMultisala`.`Posto_a_sedere` (
+DROP TABLE IF EXISTS `cinema_multisala`.`posto_a_sedere` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posto_a_sedere` (
   `numero_fila` INT NOT NULL,
   `numero_posto` INT NOT NULL,
   `numero_sala` INT NOT NULL,
@@ -52,72 +59,52 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CinemaMultisala`.`Prenotazione`
+-- Table `cinema_multisala`.`prenotazione`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CinemaMultisala`.`Prenotazione` (
-  `id` INT NOT NULL,
-  `nome_prenotazione` VARCHAR(45) NULL,
-  `film` VARCHAR(45) NULL,
-  `data` DATE NULL,
-  `orario` TIME NULL,
+DROP TABLE IF EXISTS `cinema_multisala`.`prenotazione` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`prenotazione` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome_prenotazione` VARCHAR(45) NOT NULL,
+  `film` VARCHAR(45) NOT NULL,
+  `data` DATE NOT NULL,
+  `orario` TIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_mail_prenotazione_idx` (`nome_prenotazione` ASC) VISIBLE,
-  INDEX `fk_film_idx` (`film` ASC) VISIBLE,
-  INDEX `fk_data_idx` (`data` ASC) VISIBLE,
-  INDEX `fk_ora_idx` (`orario` ASC) VISIBLE,
+  INDEX `fk_film_idx` (`film` ASC, `data` ASC, `orario` ASC) VISIBLE,
   CONSTRAINT `fk_mail_prenotazione`
     FOREIGN KEY (`nome_prenotazione`)
-    REFERENCES `CinemaMultisala`.`Persona` (`mail`)
+    REFERENCES `cinema_multisala`.`persona` (`mail`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_film`
-    FOREIGN KEY (`film`)
-    REFERENCES `CinemaMultisala`.`Film` (`titolo`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_data`
-    FOREIGN KEY (`data`)
-    REFERENCES `CinemaMultisala`.`Film` (`data`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_ora`
-    FOREIGN KEY (`orario`)
-    REFERENCES `CinemaMultisala`.`Film` (`ora_inizio`)
+    FOREIGN KEY (`film` , `data` , `orario`)
+    REFERENCES `cinema_multisala`.`film` (`titolo` , `data` , `ora_inizio`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CinemaMultisala`.`Posti_prenotazione`
+-- Table `cinema_multisala`.`posti_prenotazione`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CinemaMultisala`.`Posti_prenotazione` (
+DROP TABLE IF EXISTS `cinema_multisala`.`posti_prenotazione` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posti_prenotazione` (
   `id_prenotazione` INT NOT NULL,
-  `fila` INT NULL,
-  `posto` INT NULL,
-  `sala` INT NULL,
+  `fila` INT NOT NULL,
+  `posto` INT NOT NULL,
+  `sala` INT NOT NULL,
   PRIMARY KEY (`id_prenotazione`),
-  INDEX `fk_fila_idx` (`fila` ASC) VISIBLE,
-  INDEX `fk_sala_idx` (`sala` ASC) VISIBLE,
-  INDEX `fk_posto_idx` (`posto` ASC) VISIBLE,
+  INDEX `fk_posto_idx` (`posto` ASC, `fila` ASC, `sala` ASC) VISIBLE,
   CONSTRAINT `fk_prenotazione`
     FOREIGN KEY (`id_prenotazione`)
-    REFERENCES `CinemaMultisala`.`Prenotazione` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_fila`
-    FOREIGN KEY (`fila`)
-    REFERENCES `CinemaMultisala`.`Posto_a_sedere` (`numero_fila`)
+    REFERENCES `cinema_multisala`.`prenotazione` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_posto`
-    FOREIGN KEY (`posto`)
-    REFERENCES `CinemaMultisala`.`Posto_a_sedere` (`numero_posto`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_sala`
-    FOREIGN KEY (`sala`)
-    REFERENCES `CinemaMultisala`.`Posto_a_sedere` (`numero_sala`)
+    FOREIGN KEY (`fila` , `posto` , `sala`)
+    REFERENCES `cinema_multisala`.`posto_a_sedere` (`numero_fila` , `numero_posto` , `numero_sala`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
