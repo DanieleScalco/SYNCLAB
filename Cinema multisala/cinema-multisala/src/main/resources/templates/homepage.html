@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<!-- Per usare le thymeleaf expressions -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Homepage</title>
+</head>
+
+<body>
+	
+	<h3>CINEMA MULTISALA</h3>
+	<hr>
+	<p>Incoming...</p>
+	<p th:text="${data}"/>
+	<a th:href="@{/homepage/provadb}">Prova database</a>	
+		
+</body>
+</html>

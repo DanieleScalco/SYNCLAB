@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<!-- Per usare le thymeleaf expressions -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Prova Database</title>
+</head>
+
+<body>
+	<h3>Prova Database</h3>
+	
+	
+	<hr>
+	<h1>Persona</h1>
+	<p>getPersone()</p>
+	<table>
+		<thead>
+			<tr>
+				<th>Mail</th>
+				<th>Password</th>
+				<th>Ruolo</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="persona : ${persone}">
+				<td th:text=${persona.mail}/>
+				<td th:text=${persona.password}/>
+				<td th:text=${persona.ruolo}/>
+			</tr>
+			
+		</tbody>
+		
+	</table>
+	
+		
+	<hr>
+	<h1>Film</h1>
+	<p>getFilms</p>	
+	<table>
+		<thead>
+			<tr>
+				<th>Titolo</th>
+				<th>Data</th>
+				<th>Orario inizio</th>
+				<th>Descrizione</th>
+				<th>Cast</th>
+				<th>Immagine</th>
+				<th>Regista</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="film : ${listaFilm}">
+				<td th:text=${film.filmId.titolo}/>
+				<td th:text=${film.filmId.data}/>
+				<td th:text=${film.filmId.oraInizio}/>
+				<td th:text=${film.descrizione}/>
+				<td th:text=${film.cast}/>
+				<td th:text=${film.immagine}/>
+				<td th:text=${film.regista}/>
+			</tr>				
+		</tbody>
+		
+	</table>
+	
+	<hr>
+	<h1>Posto a sedere</h1>
+	<p>getPosti()</p>	
+	<table>
+		<thead>
+			<tr>
+				<th>Numero Fila</th>
+				<th>Numero Posto</th>
+				<th>Numero Sala</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="posto : ${posti}">
+				<td th:text=${posto.idPosto.numeroFila}>
+				<td th:text=${posto.idPosto.numeroPosto}>
+				<td th:text=${posto.idPosto.numeroSala}>
+			</tr>				
+		</tbody>
+		
+	</table>
+	
+	<hr>
+	<a th:href=@{/homepage/home}>Homepage</a>
+		
+		
+</body>
+</html>

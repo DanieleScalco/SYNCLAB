@@ -65,23 +65,23 @@ DROP TABLE IF EXISTS `cinema_multisala`.`prenotazione` ;
 
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`prenotazione` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nome_prenotazione` VARCHAR(45) NOT NULL,
+  `mail_prenotazione` VARCHAR(45) NOT NULL,
   `film` VARCHAR(45) NOT NULL,
   `data` DATE NOT NULL,
   `orario` TIME NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_mail_prenotazione_idx` (`nome_prenotazione` ASC) VISIBLE,
+  INDEX `fk_mail_prenotazione_idx` (`mail_prenotazione` ASC) VISIBLE,
   INDEX `fk_film_idx` (`film` ASC, `data` ASC, `orario` ASC) VISIBLE,
   CONSTRAINT `fk_mail_prenotazione`
-    FOREIGN KEY (`nome_prenotazione`)
+    FOREIGN KEY (`mail_prenotazione`)
     REFERENCES `cinema_multisala`.`persona` (`mail`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_film`
     FOREIGN KEY (`film` , `data` , `orario`)
     REFERENCES `cinema_multisala`.`film` (`titolo` , `data` , `ora_inizio`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -100,13 +100,13 @@ CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posti_prenotazione` (
   CONSTRAINT `fk_prenotazione`
     FOREIGN KEY (`id_prenotazione`)
     REFERENCES `cinema_multisala`.`prenotazione` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_posto`
     FOREIGN KEY (`fila` , `posto` , `sala`)
     REFERENCES `cinema_multisala`.`posto_a_sedere` (`numero_fila` , `numero_posto` , `numero_sala`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
