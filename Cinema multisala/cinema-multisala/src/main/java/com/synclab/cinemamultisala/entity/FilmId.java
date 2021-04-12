@@ -7,6 +7,14 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/*
+ * Documentazione:
+ * Note that a composite key class has to fulfill some key requirements:
+	-We have to mark it with @Embeddable.
+	-It has to implement java.io.Serializable.
+	-We need to provide an implementation of the hashcode() and equals() methods.
+	-None of the fields can be an entity themselves.
+ */
 @Embeddable
 public class FilmId implements Serializable{
 
@@ -22,6 +30,14 @@ public class FilmId implements Serializable{
 	public FilmId() {
 		
 	}
+
+	public FilmId(String titolo, Date data, LocalTime oraInizio) {
+		this.titolo = titolo;
+		this.data = data;
+		this.oraInizio = oraInizio;
+	}
+
+
 
 	public String getTitolo() {
 		return titolo;

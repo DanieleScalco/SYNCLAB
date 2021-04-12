@@ -21,6 +21,12 @@ public class IdPosto implements Serializable {
 		
 	}
 
+	public IdPosto(int numeroFila, int numeroPosto, int numeroSala) {
+		this.numeroFila = numeroFila;
+		this.numeroPosto = numeroPosto;
+		this.numeroSala = numeroSala;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -72,6 +78,13 @@ public class IdPosto implements Serializable {
 	public void setNumeroSala(int numeroSala) {
 		this.numeroSala = numeroSala;
 	}
+
+	@Override
+	public String toString() {
+		return "Numero fila: " + numeroFila + ", numero posto: " + numeroPosto + ", numero sala: " + numeroSala;
+	}
+	
+	
 	
 	
 }
