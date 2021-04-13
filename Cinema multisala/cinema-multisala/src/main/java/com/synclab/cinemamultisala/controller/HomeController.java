@@ -1,5 +1,6 @@
 package com.synclab.cinemamultisala.controller;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.synclab.cinemamultisala.entity.Film;
@@ -61,8 +64,8 @@ public class HomeController {
 		personaService.salvaPersona(persona2);
 		
 		// Creazione e aggiunta di film (!!! Possibile modificare costruttore?)
-		Film film1 = new Film(new FilmId("Avatar", new Date(121, 11, 1), LocalTime.of(21, 0, 0)), "descrizione", "cast", "immagine", "regista");
-		Film film2 = new Film(new FilmId("Avatar2", new Date(121, 11, 1), LocalTime.of(21, 30, 0)), "descrizione", "cast", "immagine", "regista");
+		Film film1 = new Film(new FilmId("Avatar", LocalDate.of(2021, 12, 1), LocalTime.of(21, 0, 0)), "descrizione", "cast", "immagine", "regista");
+		Film film2 = new Film(new FilmId("Avatar2", LocalDate.of(2021, 12, 1), LocalTime.of(21, 30, 0)), "descrizione", "cast", "immagine", "regista");
 		filmService.salvaFilm(film1);
 		filmService.salvaFilm(film2);
 		
@@ -74,7 +77,7 @@ public class HomeController {
 		
 		// Creazione e aggiunta di una prenotazione
 		Prenotazione prenotazione = new Prenotazione();
-		Film film = filmService.getFilm(new FilmId("Avatar", new Date(121, 11, 1), LocalTime.of(21, 0, 0)));
+		Film film = filmService.getFilm(new FilmId("Avatar", LocalDate.of(2021, 12, 1), LocalTime.of(21, 0, 0)));
 		prenotazione.setFilm(film);
 		Persona persona = personaService.getPersona("danielescalco@hotmail.it");
 		prenotazione.setPersona(persona);
@@ -97,5 +100,7 @@ public class HomeController {
 		
 		return "provadb";
 	}
+	
+	
 	
 }

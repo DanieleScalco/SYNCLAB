@@ -2,6 +2,7 @@ package com.synclab.cinemamultisala.entity;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class FilmId implements Serializable{
 	private String titolo;
 	
 	@Column(name="data")
-	private Date data;
+	private LocalDate data;
 	
 	@Column(name="ora_inizio")
 	private LocalTime oraInizio;
@@ -32,7 +33,7 @@ public class FilmId implements Serializable{
 		
 	}
 
-	public FilmId(String titolo, Date data, LocalTime oraInizio) {
+	public FilmId(String titolo, LocalDate data, LocalTime oraInizio) {
 		this.titolo = titolo;
 		this.data = data;
 		this.oraInizio = oraInizio;
@@ -50,15 +51,16 @@ public class FilmId implements Serializable{
 	}
 
 
-	public String getData() {
+	public LocalDate getData() {
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY");
-		String dataString = simpleDateFormat.format(data);
-		return dataString;
+		System.out.println("GetData(): " + data);
+		//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY");
+		//String dataString = simpleDateFormat.format(data);
+		return data;
 	}
 
 
-	public void setData(Date data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 

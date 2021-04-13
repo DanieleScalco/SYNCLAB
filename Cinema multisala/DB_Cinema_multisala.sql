@@ -35,7 +35,7 @@ DROP TABLE IF EXISTS `cinema_multisala`.`film` ;
 
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`film` (
   `titolo` VARCHAR(45) NOT NULL,
-  `data` DATE NOT NULL,
+  `data` TIMESTAMP NOT NULL,
   `ora_inizio` TIME NOT NULL,
   `descrizione` VARCHAR(45) NULL,
   `cast` VARCHAR(45) NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `cinema_multisala`.`prenotazione` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `mail_prenotazione` VARCHAR(45) NOT NULL,
   `film` VARCHAR(45) NOT NULL,
-  `data` DATE NOT NULL,
+  `data` TIMESTAMP NOT NULL,
   `orario` TIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_mail_prenotazione_idx` (`mail_prenotazione` ASC) VISIBLE,
