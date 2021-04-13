@@ -1,6 +1,5 @@
 package com.synclab.cinemamultisala.controller;
 
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
