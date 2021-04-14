@@ -1,10 +1,8 @@
 package com.synclab.cinemamultisala.entity;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -53,9 +51,6 @@ public class FilmId implements Serializable{
 
 	public LocalDate getData() {
 		
-		System.out.println("GetData(): " + data);
-		//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY");
-		//String dataString = simpleDateFormat.format(data);
 		return data;
 	}
 
