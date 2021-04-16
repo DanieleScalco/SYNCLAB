@@ -4,14 +4,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Homepage</title>
+	<link rel="stylesheet" th:href="@{/css/homepage.css}"/>
 </head>
 
 <body>
 	
 	<h3>CINEMA MULTISALA</h3>
 	<hr>
-	<p>Incoming...</p>
-	<p th:text="${data}"/>
+	
+	
+	<table border="1">
+		<caption>Film (getFilms())</caption>
+		<thead>
+			<tr>
+				<th>Titolo</th>
+				<th>Data</th>
+				<th>Orario inizio</th>
+				<th>Descrizione</th>
+				<th>Cast</th>
+				<th>Immagine</th>
+				<th>Regista</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="film : ${listaFilm}">
+				<td th:text=${film.filmId.titolo}/>
+				<td th:text=${film.filmId.data}/>
+				<td th:text=${film.filmId.oraInizio}/>
+				<td th:text=${film.descrizione}/>
+				<td th:text=${film.cast}/>
+				<!-- Modo speciale per visualizzare un immagine da una stringa -->
+				<td><img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}" th:alt="'Immagine ' + ${film.filmId.titolo}"></td>
+				<td th:text=${film.regista}/>
+			</tr>				
+		</tbody>
+		
+	</table>
+	
+	<hr>
 	<a th:href="@{/homepage/provadb}">Prova database</a>	
 		
 </body>

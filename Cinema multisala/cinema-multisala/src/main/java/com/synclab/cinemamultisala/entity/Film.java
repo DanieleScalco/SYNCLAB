@@ -1,8 +1,11 @@
 package com.synclab.cinemamultisala.entity;
 
+import java.util.Base64;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -18,8 +21,9 @@ public class Film {
 	@Column(name="cast")
 	private String cast;
 	
+	@Lob
 	@Column(name="immagine")
-	private String immagine;
+	private byte[] immagine;
 	
 	@Column(name="regista")
 	private String regista;
@@ -28,7 +32,7 @@ public class Film {
 		
 	}
 
-	public Film(FilmId filmId, String descrizione, String cast, String immagine, String regista) {
+	public Film(FilmId filmId, String descrizione, String cast, byte[] immagine, String regista) {
 		this.filmId = filmId;
 		this.descrizione = descrizione;
 		this.cast = cast;
@@ -60,11 +64,11 @@ public class Film {
 		this.cast = cast;
 	}
 
-	public String getImmagine() {
+	public byte[] getImmagine() {
 		return immagine;
 	}
 
-	public void setImmagine(String immagine) {
+	public void setImmagine(byte[] immagine) {
 		this.immagine = immagine;
 	}
 
@@ -75,12 +79,21 @@ public class Film {
 	public void setRegista(String regista) {
 		this.regista = regista;
 	}
+	
+	public String imageFromByteToString() {
+		String stringa = null;
+		stringa = Base64.getEncoder().encodeToString(immagine);
+		
+		return stringa;
+	}
 
 	@Override
 	public String toString() {
 		return filmId.toString() + ", descrizione: " + descrizione + ", cast: " + cast + ", immagine: " +
 				immagine + ", regista: " + regista;
 	}
+	
+	
 	
 	
 	
