@@ -53,8 +53,8 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `cinema_multisala`.`posto_a_sedere` ;
 
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posto_a_sedere` (
-  `numero_fila` INT NOT NULL,
   `numero_posto` INT NOT NULL,
+  `numero_fila` INT NOT NULL,
   `numero_sala` INT NOT NULL,
   PRIMARY KEY (`numero_fila`, `numero_posto`, `numero_sala`))
 ENGINE = InnoDB

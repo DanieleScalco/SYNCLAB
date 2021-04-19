@@ -1,49 +1,85 @@
 <!DOCTYPE html>
 
 <!-- Per usare le thymeleaf expressions -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	lang="it">
 <head>
 	<title>Homepage</title>
-	<link rel="stylesheet" th:href="@{/css/homepage.css}"/>
+	<meta charset="utf-8">
+	<meta name="author" content="Daniele Scalco">
+	
+	<!-- Utilizzo di Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-	
-	<h3>CINEMA MULTISALA</h3>
-	<hr>
-	
-	
-	<table border="1">
-		<caption>Film (getFilms())</caption>
-		<thead>
-			<tr>
-				<th>Titolo</th>
-				<th>Data</th>
-				<th>Orario inizio</th>
-				<th>Descrizione</th>
-				<th>Cast</th>
-				<th>Immagine</th>
-				<th>Regista</th>
-			</tr>
-		</thead>
+
+	<!--  Container che contiene tutto il body necessario per Bootstrap -->
+	<div class="container-fluid">
+		<h3 class="text-center">CINEMA MULTISALA </h3>
 		
-		<tbody>
-			<tr th:each="film : ${listaFilm}">
-				<td th:text=${film.filmId.titolo}/>
-				<td th:text=${film.filmId.data}/>
-				<td th:text=${film.filmId.oraInizio}/>
-				<td th:text=${film.descrizione}/>
-				<td th:text=${film.cast}/>
-				<!-- Modo speciale per visualizzare un immagine da una stringa -->
-				<td><img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}" th:alt="'Immagine ' + ${film.filmId.titolo}"></td>
-				<td th:text=${film.regista}/>
-			</tr>				
-		</tbody>
+		<hr>
 		
-	</table>
-	
-	<hr>
-	<a th:href="@{/homepage/provadb}">Prova database</a>	
+		<div id="menu" class="d-flex font-weight-bold">
+				<ul class="nav mr-auto">
+				    <li class="nav-item">
+				      <a class="nav-link" href="#">PROGRAMMAZIONE</a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" href="#">AGGIUNGI FILM</a>
+				    </li>
+				</ul>
+			<ul class="nav">
+			    <li class="nav-item">
+			      <a class="nav-link" href="#">REGISTRAZIONE</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="#">LOGIN</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="#">LOGOUT</a>
+			    </li>
+			</ul>
+		</div>
+		
+		<hr>
+		
+		<table class="table-bordered">
+			<thead>
+				<tr>
+					<th>Immagine</th>
+					<th>Titolo</th>
+					<th>Regista</th>
+					<th>Cast</th>
+					<th>Link</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="film : ${listaFilm}">
+					<!-- Modo speciale per visualizzare un immagine da una stringa -->				
+					<td>
+						<img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}"
+							th:class="rounded"
+							th:alt="'Immagine ' + ${film.filmId.titolo}"
+							th:style="'max-width:100%;height:auto;'">
+					</td>
+					<td th:text=${film.filmId.titolo}/>
+					<td th:text=${film.regista}/>
+					<td th:text=${film.cast}/>
+					<td><a th:href="@{/scheda}">Scheda Film</a></td>
+				</tr>				
+			</tbody>
+			
+		</table>
+		
+		<hr>
+		<a th:href="@{/homepage/provadb}">Prova database</a>	
+	</div>
 		
 </body>
 </html>
