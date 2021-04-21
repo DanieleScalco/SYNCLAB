@@ -80,6 +80,7 @@ public class Film {
 		this.regista = regista;
 	}
 	
+	// Trasforma i byte in una stringa per poterla passare al model e visualizzarla
 	public String imageFromByteToString() {
 		String stringa = null;
 		stringa = Base64.getEncoder().encodeToString(immagine);

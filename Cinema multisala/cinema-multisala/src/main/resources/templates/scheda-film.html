@@ -4,7 +4,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	lang="it">
 <head>
-	<title>Homepage</title>
+	<title>Scheda Film</title>
 	<meta charset="utf-8">
 	<meta name="author" content="Daniele Scalco">
 	
@@ -53,30 +53,24 @@
 		<hr>
 		
 		
-		<!-- LISTA FILM -->
-		<!-- Se ci sono film in programmazione li mostra -->
-		<div th:if="${!listaFilm.isEmpty()}">
-			<div class="jumbotron" th:each="film : ${listaFilm}">
-				<p>
-					<img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}"
-								th:class="'mx-auto d-block rounded'"
-								th:alt="'Immagine ' + ${film.filmId.titolo}"
-								th:width="320"
-								th:height="400">
-				</p>
-				<ul th:class="text-center" th:style="'list-style-type:none;'">
-					<li><h4 th:text="${film.filmId.titolo}"></h4></li>
-					<li><p th:text="'Regista: ' + ${film.regista}"></p></li>
-					<li><p th:text="'Cast: ' + ${film.cast}"></p></li>
-					<li><p><a th:href="@{/scheda/mostraFilm(titoloFilm=${film.filmId.titolo})}">Scheda Film</a></p></li>
-				</ul>	
-			</div>
+		<!-- SCHEDA FILM -->
+		
+		<div class="jumbotron">
+			<p>
+				<img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}"
+							th:class="'mx-auto d-block rounded'"
+							th:alt="'Immagine ' + ${film.filmId.titolo}"
+							th:width="320"
+							th:height="400">
+			</p>
+			<ul th:class="text-center" th:style="'list-style-type:none;'">
+				<li><h4 th:text="${film.filmId.titolo}"></h4></li>
+				<li><p th:text="'Regista: ' + ${film.regista}"></p></li>
+				<li><p th:text="'Cast: ' + ${film.cast}"></p></li>
+				<li><p th:text="${film.descrizione}"></p></li>
+				<li><p><a th:href="@{/prenota}">Prenota Ora</a></p></li>
+			</ul>	
 		</div>
-		<!-- Se non ci sono film in programmazione -->
-		<div th:if="${listaFilm.isEmpty()}">
-			<br><br>
-			<p th:text="'Nessun film in programmazione'" th:class="'display-4 text-center'"></p>			
-		</div> 
 
 		
 		<hr>

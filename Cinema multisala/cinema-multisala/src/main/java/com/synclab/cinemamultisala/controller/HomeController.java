@@ -1,8 +1,6 @@
 package com.synclab.cinemamultisala.controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,6 +20,8 @@ import com.synclab.cinemamultisala.service.FilmService;
 import com.synclab.cinemamultisala.service.PersonaService;
 import com.synclab.cinemamultisala.service.PostoASedereService;
 import com.synclab.cinemamultisala.service.PrenotazioneService;
+
+import net.bytebuddy.asm.Advice.Local;
 
 @Controller
 @RequestMapping("/homepage")
@@ -44,8 +44,11 @@ public class HomeController {
 	@GetMapping("/home")
 	public String homePage(Model model) {
 		
-		// Ritiro dati da tutte le tabelle per aggiungerli al model		
-		List<Film> listaFilm =  filmService.getFilms();
+		LocalDate dataAttuale = LocalDate.now();
+		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
+		
+		// Prendiamo tutti i film disponibili di qui a 7 giorni
+		List<Film> listaFilm =  filmService.getFilmsFromDayToDay(dataAttuale, dataAttualePiu7);
 		model.addAttribute("listaFilm", listaFilm);
 		
 		return "homepage";

@@ -1,5 +1,7 @@
 package com.synclab.cinemamultisala.service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,4 +47,13 @@ public class FilmServiceImpl implements FilmService {
 		filmRepository.deleteById(filmId);
 	}
 
+	public List<Film> getFilmsFromDayToDay(LocalDate daData, LocalDate aData) {
+		return filmRepository.getFilmsFromDayToDay(daData, aData);
+	}
+	
+	public List<Film> getFilmFromDayToDay(String titolo, LocalDate daData, LocalDate aData) {
+		return filmRepository.getFilmFromDayToDay(titolo, daData, aData);
+	}
+
+	
 }

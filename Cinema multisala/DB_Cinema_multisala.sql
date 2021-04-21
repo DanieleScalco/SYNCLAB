@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `cinema_multisala`.`film` (
   `titolo` VARCHAR(45) NOT NULL,
   `data` TIMESTAMP NOT NULL,
   `ora_inizio` TIME NOT NULL,
-  `descrizione` VARCHAR(45) NOT NULL,
-  `cast` VARCHAR(45) NOT NULL,
+  `descrizione` VARCHAR(450) NOT NULL,
+  `cast` VARCHAR(450) NOT NULL,
   `immagine` MEDIUMBLOB,
   `regista` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`titolo`, `data`, `ora_inizio`))

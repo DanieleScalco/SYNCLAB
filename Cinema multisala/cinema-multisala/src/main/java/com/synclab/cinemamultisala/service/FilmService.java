@@ -1,5 +1,7 @@
 package com.synclab.cinemamultisala.service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import com.synclab.cinemamultisala.entity.Film;
@@ -15,4 +17,9 @@ public interface FilmService {
 	public void salvaFilm(Film film);
 	
 	public void eliminaFilm(FilmId filmId);
+		
+	public List<Film> getFilmsFromDayToDay(LocalDate daData, LocalDate aData);
+
+	public List<Film> getFilmFromDayToDay(String titolo, LocalDate daData, LocalDate aData);
+
 }
