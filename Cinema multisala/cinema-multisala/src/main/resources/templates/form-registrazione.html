@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<!-- Per usare le thymeleaf expressions -->
+<html xmlns:th="http://www.thymeleaf.org"
+	lang="it">
+<head>
+	<title>Registrazione</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Daniele Scalco">
+	
+	<!-- Utilizzo di Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+	<!--  Container che contiene tutto il body necessario per Bootstrap -->
+	<div class="container-fluid">
+		
+		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
+		
+		<hr>
+		<br>
+		<br>
+
+		<h4 class="text-primary ml-5 mb-3">Registrazione</h4>
+		
+		<div class="ml-5">
+			<form  action="#" th:action="@{/homepage/processRegistrazioneForm}" th:object="${persona}" method="POST">
+				<!-- *{firstName} si riferisce all'attributo firstName del th:object -->
+				<input type="text" th:field="*{mail}" class="form-control mb-3 col-4" placeholder="E-mail">
+				<input type="password" th:field="*{password}" class="form-control mb-3 col-4" placeholder="Password">
+				<input type="password" class="form-control mb-3 col-4" placeholder="Conferma Password">
+				<button type="submit" class="btn btn-info col-2">Registra</button> 
+			</form>
+		</div>
+	</div>
+</body>
+</html>

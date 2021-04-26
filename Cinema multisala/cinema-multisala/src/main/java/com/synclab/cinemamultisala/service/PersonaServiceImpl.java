@@ -1,19 +1,37 @@
 package com.synclab.cinemamultisala.service;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.synclab.cinemamultisala.dao.PersonaRepository;
+import com.synclab.cinemamultisala.dao.RuoloRepository;
 import com.synclab.cinemamultisala.entity.Persona;
+import com.synclab.cinemamultisala.entity.Ruolo;
+import com.synclab.cinemamultisala.persona.CrmPersona;
 
 @Service
 public class PersonaServiceImpl implements PersonaService{
 
 	@Autowired
 	private PersonaRepository personaRepository;
+	
+	@Autowired
+	private RuoloRepository ruoloRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
 	public List<Persona> getPersone() {
@@ -38,6 +56,20 @@ public class PersonaServiceImpl implements PersonaService{
 	public void salvaPersona(Persona persona) {
 		personaRepository.save(persona);
 	}
+	
+	@Override
+	public void salvaPersona(CrmPersona crmPersona) {
+		Persona persona = new Persona();
+		persona.setMail(crmPersona.getMail());
+		persona.setPassword(crmPersona.getPassword());
+		
+		// Di default si viene registrati come utenti
+		persona.setRuoli(Arrays.asList(ruoloRepository.findRoleByName("ROLE_UTENTE")));
+		
+		personaRepository.save(persona);
+
+	}
+
 
 	@Override
 	public void eliminaPersona(String mail) {
@@ -48,5 +80,20 @@ public class PersonaServiceImpl implements PersonaService{
 	public Persona findByName(String name) {
 		return personaRepository.findByName(name);
 	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+		Persona persona = personaRepository.findByName(mail);
+		if (persona == null) {
+			throw new UsernameNotFoundException("Invalid username or password.");
+		}
+		return new org.springframework.security.core.userdetails.User(persona.getMail(), persona.getPassword(),
+				mapRolesToAuthorities(persona.getRuoli()));
+	}
+
+	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Ruolo> roles) {
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getNomeRuolo())).collect(Collectors.toList());
+	}
+
 
 }

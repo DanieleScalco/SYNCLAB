@@ -1,6 +1,14 @@
 
 INSERT IGNORE INTO cinema_multisala.persona VALUES
-	('danielescalco@hotmail.it', 'password', 'ADMIN');
+	('danielescalco@hotmail.it', 'password');
+    
+INSERT IGNORE INTO cinema_multisala.ruolo VALUES
+	(1, 'ROLE_UTENTE'),
+	(2, 'ROLE_DIPENDENTE'),
+	(3, 'ROLE_AMMINISTRATORE');
+
+INSERT IGNORE INTO cinema_multisala.persona_ruolo VALUES
+	('danielescalco@hotmail.it', 3);
 
 INSERT IGNORE INTO cinema_multisala.film VALUES
 	('Avatar', '2021-12-01', '21:00:00', 'L\'ex marine Jake Sully è stato reclutato per una missione sul pianeta Pandora con lo scopo di recuperare risorse naturali in esaurimento sulla Terra. Inaspettatamente si ritrova a voler proteggere il mondo magico al quale si sente stranamente legato.', 'Sam Worthington, Zoe Saldana, Stephen Lang, Michelle Rodriguez, Sigourney Weaver', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Data\\Uploads\\Avatar.jpg') , 'James Cameron'),

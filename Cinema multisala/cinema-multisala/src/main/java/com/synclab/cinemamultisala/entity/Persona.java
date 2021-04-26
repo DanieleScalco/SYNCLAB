@@ -1,5 +1,6 @@
 package com.synclab.cinemamultisala.entity;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -7,6 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,20 +25,30 @@ public class Persona {
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="ruolo")
-	private String ruolo;
-	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="persona", cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Prenotazione> prenotazioni;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(name = "persona_ruolo", 
+				joinColumns = @JoinColumn(name = "mail"), 
+				inverseJoinColumns = @JoinColumn(name = "id_ruolo"))
+	private Collection<Ruolo> ruoli;
 	
 	public Persona() {
 		
 	}
 
-	public Persona(String mail, String password, String ruolo) {
+	public Persona(String mail, String password) {
 		this.mail = mail;
 		this.password = password;
-		this.ruolo = ruolo;
+	}
+	
+	
+
+	public Persona(String mail, String password, Collection<Ruolo> ruoli) {
+		this.mail = mail;
+		this.password = password;
+		this.ruoli = ruoli;
 	}
 
 	public String getMail() {
@@ -53,15 +67,6 @@ public class Persona {
 		this.password = password;
 	}
 
-	public String getRuolo() {
-		return ruolo;
-	}
-
-	public void setRuolo(String ruolo) {
-		this.ruolo = ruolo;
-	}
-
-	
 	public List<Prenotazione> getPrenotazioni() {
 		return prenotazioni;
 	}
@@ -70,9 +75,17 @@ public class Persona {
 		this.prenotazioni = prenotazioni;
 	}
 
+	public Collection<Ruolo> getRuoli() {
+		return ruoli;
+	}
+
+	public void setRuoli(Collection<Ruolo> ruoli) {
+		this.ruoli = ruoli;
+	}
+
 	@Override
 	public String toString() {
-		return "Mail: " + mail + ", password: " + password + ", ruolo: " + ruolo;
+		return "Mail: " + mail + ", password: " + password + ", ruoli: " + ruoli;
 	}
 	
 	

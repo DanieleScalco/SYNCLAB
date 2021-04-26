@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `cinema_multisala`.`film` (
   `titolo` VARCHAR(45) NOT NULL,
   `data` TIMESTAMP NOT NULL,
   `ora_inizio` TIME NOT NULL,
-  `descrizione` VARCHAR(450) NOT NULL,
-  `cast` VARCHAR(450) NOT NULL,
-  `immagine` MEDIUMBLOB,
+  `descrizione` VARCHAR(45) NOT NULL,
+  `cast` VARCHAR(45) NOT NULL,
+  `immagine` MEDIUMBLOB NOT NULL,
   `regista` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`titolo`, `data`, `ora_inizio`))
 ENGINE = InnoDB
@@ -41,7 +41,6 @@ DROP TABLE IF EXISTS `cinema_multisala`.`persona` ;
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`persona` (
   `mail` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `ruolo` ENUM('UTENTE', 'DIPENDENTE', 'ADMIN') NOT NULL,
   PRIMARY KEY (`mail`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -56,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posto_a_sedere` (
   `numero_posto` INT NOT NULL,
   `numero_fila` INT NOT NULL,
   `numero_sala` INT NOT NULL,
-  PRIMARY KEY (`numero_fila`, `numero_posto`, `numero_sala`))
+  PRIMARY KEY (`numero_posto`, `numero_fila`, `numero_sala`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -93,20 +92,55 @@ DROP TABLE IF EXISTS `cinema_multisala`.`posti_prenotazione` ;
 
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posti_prenotazione` (
   `id_prenotazione` INT NOT NULL,
-  `fila` INT NOT NULL,
   `posto` INT NOT NULL,
+  `fila` INT NOT NULL,
   `sala` INT NOT NULL,
   PRIMARY KEY (`id_prenotazione`),
   INDEX `fk_posto_idx` (`posto` ASC, `fila` ASC, `sala` ASC) VISIBLE,
-  INDEX `fk_posto` (`fila` ASC, `posto` ASC, `sala` ASC) VISIBLE,
+  INDEX `fk_posto` (`posto` ASC, `fila` ASC, `sala` ASC) VISIBLE,
   CONSTRAINT `fk_posto`
-    FOREIGN KEY (`fila` , `posto` , `sala`)
-    REFERENCES `cinema_multisala`.`posto_a_sedere` (`numero_fila` , `numero_posto` , `numero_sala`),
+    FOREIGN KEY (`posto` , `fila` , `sala`)
+    REFERENCES `cinema_multisala`.`posto_a_sedere` (`numero_posto` , `numero_fila` , `numero_sala`),
   CONSTRAINT `fk_prenotazione`
     FOREIGN KEY (`id_prenotazione`)
     REFERENCES `cinema_multisala`.`prenotazione` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `cinema_multisala`.`ruolo`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cinema_multisala`.`ruolo` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`ruolo` (
+  `id` INT NOT NULL,
+  `nome_ruolo` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `cinema_multisala`.`persona_ruolo`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cinema_multisala`.`persona_ruolo` ;
+
+CREATE TABLE IF NOT EXISTS `cinema_multisala`.`persona_ruolo` (
+  `mail` VARCHAR(45) NOT NULL,
+  `id_ruolo` INT NOT NULL,
+  PRIMARY KEY (`mail`, `id_ruolo`),
+  INDEX `fk_ruolo_idx` (`id_ruolo` ASC) VISIBLE,
+  CONSTRAINT `fk_persona`
+    FOREIGN KEY (`mail`)
+    REFERENCES `cinema_multisala`.`persona` (`mail`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ruolo`
+    FOREIGN KEY (`id_ruolo`)
+    REFERENCES `cinema_multisala`.`ruolo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
