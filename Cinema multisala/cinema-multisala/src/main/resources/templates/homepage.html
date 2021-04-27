@@ -39,10 +39,10 @@
 				</ul>
 			<ul class="nav">
 			    <li class="nav-item">
-			      <a class="nav-link" href="#" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
+			      <a class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link" href="#" th:href="@{/homepage/showLoginForm}">LOGIN</a>
+			      <a class="nav-link" th:href="@{/homepage/showLoginForm}">LOGIN</a>
 			    </li>
 			    <li class="nav-item">
 			      <a class="nav-link" href="#" th:href="@{/homepage/logout}">LOGOUT</a>
@@ -52,6 +52,12 @@
 		
 		<hr>
 		
+		<!-- Messaggio di avvenuta registrazione (opzionale) -->
+		<div class="row justify-content-center">
+			<div class="col col-md-4" th:if="${registrazioneAvvenuta}">
+				<p th:text="${registrazioneAvvenuta}" class="alert alert-info text-center"></p>
+			</div>
+		</div>
 		
 		<!-- LISTA FILM -->
 		<!-- Se ci sono film in programmazione li mostra -->

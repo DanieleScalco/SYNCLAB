@@ -1,33 +1,27 @@
 package com.synclab.cinemamultisala.persona;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.synclab.cinemamultisala.validation.FieldMatch;
-import com.synclab.cinemamultisala.validation.ValidEmail;
 
 
-
-@FieldMatch.List({
-    @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
-})
 public class CrmPersona {
 
-	@ValidEmail
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@Email(message = "Inserisci un indirizzo mail valido")
+	@NotBlank(message = "Inserisci la mail")
 	private String mail;
 	
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotBlank(message = "Inserisci la password")
+	@Size(min = 8, message = "La password deve contenere almeno 8 caratteri")
 	private String password;
 	
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotBlank(message = "Reinserisci la password")
+	@Size(min = 8, message = "La password deve contenere almeno 8 caratteri")
 	private String matchingPassword;
 
 	
-
 	public CrmPersona() {
 
 	}
@@ -55,5 +49,12 @@ public class CrmPersona {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+
+	@Override
+	public String toString() {
+		return "Mail: " + mail + ", password: " + password + ", matchingPassword: " + matchingPassword;
+	}
+	
+	
 
 }

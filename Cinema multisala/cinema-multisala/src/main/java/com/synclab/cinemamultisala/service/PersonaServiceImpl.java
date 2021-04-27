@@ -58,10 +58,12 @@ public class PersonaServiceImpl implements PersonaService{
 	}
 	
 	@Override
-	public void salvaPersona(CrmPersona crmPersona) {
+	public void registra(CrmPersona crmPersona) {
 		Persona persona = new Persona();
+		
+		String passwordCriptata = bCryptPasswordEncoder.encode(crmPersona.getPassword());
 		persona.setMail(crmPersona.getMail());
-		persona.setPassword(crmPersona.getPassword());
+		persona.setPassword(passwordCriptata);
 		
 		// Di default si viene registrati come utenti
 		persona.setRuoli(Arrays.asList(ruoloRepository.findRoleByName("ROLE_UTENTE")));
@@ -70,15 +72,17 @@ public class PersonaServiceImpl implements PersonaService{
 
 	}
 
-
 	@Override
 	public void eliminaPersona(String mail) {
 		personaRepository.deleteById(mail);		
 	}
 	
 	@Override
-	public Persona findByName(String name) {
-		return personaRepository.findByName(name);
+	public boolean esiste(String mail) {
+		if (mail != null)
+			return personaRepository.findById(mail).isPresent();
+		else
+			return false;
 	}
 	
 	@Override

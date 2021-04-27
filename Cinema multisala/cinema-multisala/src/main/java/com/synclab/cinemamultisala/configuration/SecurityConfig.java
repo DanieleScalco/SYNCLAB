@@ -32,7 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin()
 				.loginPage("/showLoginForm")
-				//.defaultSuccessUrl(defaultSuccessUrl)
 				.loginProcessingUrl("/autenticazione")
 				.permitAll()
 			.and()
@@ -48,14 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(authenticationProvider());
 	}
 	
-	//beans
-	//bcrypt bean definition
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	//authenticationProvider bean definition
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();

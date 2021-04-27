@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `cinema_multisala`.`persona` ;
 
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`persona` (
   `mail` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` CHAR(68) NOT NULL,
   PRIMARY KEY (`mail`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

@@ -11,12 +11,14 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synclab.cinemamultisala.entity.Film;
 import com.synclab.cinemamultisala.entity.FilmId;
@@ -43,12 +45,6 @@ public class HomeController {
 	@Autowired
 	private FilmService filmService;
 	
-	@Autowired
-	private PostoASedereService postoASedereService;
-	
-	@Autowired
-	private PrenotazioneService prenotazioneService;
-	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		
@@ -56,6 +52,7 @@ public class HomeController {
 		
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
+	
 	
 	@GetMapping("/home")
 	public String homePage(Model model) {
@@ -72,6 +69,7 @@ public class HomeController {
 		return "homepage";
 	}
 	
+	
 	@GetMapping("/showRegistrazioneForm")
 	public String showRegistrazioneForm(Model model) {
 		
@@ -81,35 +79,34 @@ public class HomeController {
 		return "form-registrazione";
 	}
 	
+	
 	@PostMapping("/processRegistrazioneForm")
-	public String processRegistrationForm(
-				@Valid @ModelAttribute("crmUser") CrmPersona persona, 
-				BindingResult theBindingResult, 
-				Model model) {
-		
+	public String processRegistrationForm(@Valid @ModelAttribute("persona") CrmPersona persona,
+											BindingResult theBindingResult, Model model, RedirectAttributes registrazioneAvvenuta) {
+				
 		String mail = persona.getMail();
 		
-		// form validation
+		// Controllo se utente già registrato
+		if (personaService.esiste(mail)) {
+			theBindingResult.addError(new FieldError("persona", "mail", "Account già registrato"));
+		}
+		
+		// Controllo se le due password coincidono
+		if (persona.getPassword() != null && persona.getMatchingPassword() != null) {
+			if (!persona.getPassword().equals(persona.getMatchingPassword()))
+				theBindingResult.addError(new FieldError("persona", "password", "Le due password devono coincidere"));
+		}
+		
 		if (theBindingResult.hasErrors()){
 			return "form-registrazione";
-	    }
-
-		/*
-		// check the database if user already exists
-        Persona existing = personaService.findByName(mail);
-        if (existing != null){
-        	model.addAttribute("crmUser", new CrmPersona());
-			model.addAttribute("erroreRegistrazione", "Mail già esistente");
-
-        	return "form-registrazione";
-        } else {
+	    } else {
 	        
 	        // create user account        						
-	        personaService.salvaPersona(persona);
-	        myLogger.info("Registrazione Avvenuta");
+	        personaService.registra(persona);
+	        registrazioneAvvenuta.addFlashAttribute("registrazioneAvvenuta", "Registrazione avvenuta con successo!");
         }
-        */
-        return "homepage";
+        
+        return "redirect:/homepage/home";
         
 	}
 	

@@ -15,10 +15,9 @@ public interface PersonaService extends UserDetailsService {
 	
 	public void salvaPersona(Persona persona);
 	
-	public void salvaPersona(CrmPersona persona);
+	public void registra(CrmPersona persona);
 
 	public void eliminaPersona(String mail);
 	
-	// prova
-	public Persona findByName(String name);
+	boolean esiste(String mail);
 }
