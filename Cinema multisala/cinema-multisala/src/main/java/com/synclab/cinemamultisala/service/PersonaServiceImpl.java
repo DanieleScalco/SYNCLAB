@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.synclab.cinemamultisala.controller.HomeController;
 import com.synclab.cinemamultisala.dao.PersonaRepository;
 import com.synclab.cinemamultisala.dao.RuoloRepository;
 import com.synclab.cinemamultisala.entity.Persona;
@@ -23,6 +25,8 @@ import com.synclab.cinemamultisala.persona.CrmPersona;
 
 @Service
 public class PersonaServiceImpl implements PersonaService{
+
+	private Logger myLogger = Logger.getLogger(PersonaServiceImpl.class.getName());
 
 	@Autowired
 	private PersonaRepository personaRepository;
@@ -87,8 +91,10 @@ public class PersonaServiceImpl implements PersonaService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-		Persona persona = personaRepository.findByName(mail);
+		Persona persona = personaRepository.findByMail(mail);
+		System.out.println(persona == null);////////
 		if (persona == null) {
+			System.out.println("eccezione lanciata");////////////
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
 		return new org.springframework.security.core.userdetails.User(persona.getMail(), persona.getPassword(),

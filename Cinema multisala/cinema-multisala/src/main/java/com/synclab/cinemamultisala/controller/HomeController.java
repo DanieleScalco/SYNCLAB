@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synclab.cinemamultisala.dao.PersonaRepository;
 import com.synclab.cinemamultisala.entity.Film;
 import com.synclab.cinemamultisala.entity.FilmId;
 import com.synclab.cinemamultisala.entity.IdPosto;
@@ -32,6 +33,7 @@ import com.synclab.cinemamultisala.service.PersonaService;
 import com.synclab.cinemamultisala.service.PostoASedereService;
 import com.synclab.cinemamultisala.service.PrenotazioneService;
 
+// Gestisce homepage, registrazione e login
 
 @Controller
 @RequestMapping("/homepage")
@@ -45,6 +47,9 @@ public class HomeController {
 	@Autowired
 	private FilmService filmService;
 	
+	@Autowired
+	private PersonaRepository personaRepository;///////
+	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		
@@ -56,6 +61,8 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String homePage(Model model) {
+		Persona persona = personaRepository.findByMail("prova@prova.it");
+		System.out.println(persona);///////////// problema non salva il ruolo
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
@@ -106,8 +113,15 @@ public class HomeController {
 	        registrazioneAvvenuta.addFlashAttribute("registrazioneAvvenuta", "Registrazione avvenuta con successo!");
         }
         
-        return "redirect:/homepage/home";
-        
+        return "redirect:/homepage/home";  
+	}
+	
+	@GetMapping("/login")
+	public String login(Model model) {
+		Persona persona = new Persona();
+		model.addAttribute("persona", persona);
+
+		return "form-login";
 	}
 	
 		

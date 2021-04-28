@@ -3,9 +3,9 @@ INSERT IGNORE INTO cinema_multisala.persona VALUES
 	('danielescalco@hotmail.it', 'password');
     
 INSERT IGNORE INTO cinema_multisala.ruolo VALUES
-	(1, 'ROLE_UTENTE'),
-	(2, 'ROLE_DIPENDENTE'),
-	(3, 'ROLE_AMMINISTRATORE');
+	(1, 'UTENTE'),
+	(2, 'DIPENDENTE'),
+	(3, 'AMMINISTRATORE');
 
 INSERT IGNORE INTO cinema_multisala.persona_ruolo VALUES
 	('danielescalco@hotmail.it', 3);

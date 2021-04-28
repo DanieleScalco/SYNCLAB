@@ -4,7 +4,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	lang="it">
 <head>
-	<title>Registrazione</title>
+	<title>Login</title>
 	<meta charset="utf-8">
 	<meta name="author" content="Daniele Scalco">
 	
@@ -30,30 +30,25 @@
 
 		<div class="row justify-content-center">
 			<div class="col col-md-5">
+			
 				
-				<form method="POST" th:action="@{/homepage/processRegistrazioneForm}" th:object="${persona}">
+				
+				<form method="POST" th:action="@{/login}">
 					
-					<h4 class="text-primary mb-3 text-center">Registrazione</h4>
+					<h4 class="text-primary mb-3 text-center">Login</h4>
 					<br>
 					
 					<div class="form-row py-1">
-						<input type="text" class="form-control" th:field="*{mail}" th:errorClass="is-invalid" placeholder="E-mail">
-						<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" th:class="invalid-feedback"></div>
+						<input type="text" class="form-control" placeholder="E-mail">
 					</div>
 					<div class="form-row py-1">
-						<input type="password" class="form-control" th:field="*{password}" th:errorClass="is-invalid" placeholder="Password">
-						<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:class="invalid-feedback"></div>
+						<input type="password" class="form-control" placeholder="Password">
 					</div>
 					<div class="form-row py-1">
-						<input type="password" class="form-control" th:field="*{matchingPassword}" th:errorClass="is-invalid" placeholder="Conferma password">
-						<div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" th:class="invalid-feedback"></div>
-
-					</div>
-					<div class="form-row py-1">
-						<button type="submit" class="btn btn-info btn-block">Registrati</button>
+						<button type="submit" class="btn btn-info btn-block">Login</button>
 					</div>
 				</form>
-				<p class="py-2 text-center">Se hai già un account effettua il <a th:href="@{/homepage/login}">login</a></p>
+				<p class="py-2 text-center">Non hai un account? <a th:href="@{/homepage/showRegistrazioneForm}">Registrati</a></p>
 			</div>
 		</div>
 		

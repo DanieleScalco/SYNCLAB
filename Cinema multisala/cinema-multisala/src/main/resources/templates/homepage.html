@@ -29,35 +29,33 @@
 		<!-- BARRA DI NAVIGAZIONE -->
 		
 		<div id="menu" class="d-flex font-weight-bold">
-				<ul class="nav mr-auto">
-				    <li class="nav-item">
-				      <a class="nav-link" href="#">PROGRAMMAZIONE</a>
-				    </li>
-				    <li class="nav-item">
-				      <a class="nav-link" href="#">AGGIUNGI FILM</a>
-				    </li>
-				</ul>
-			<ul class="nav">
+			<ul class="nav mr-auto">
+			    <li class="nav-item">
+			      <a class="nav-link" href="#">PROGRAMMAZIONE</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" href="#">AGGIUNGI FILM</a>
+			    </li>
+			</ul>
+			<!-- Messaggio di avvenuta registrazione (opzionale) -->
+			<div class="col col-md-4 mx-auto mb-n4 mt-n1" th:if="${registrazioneAvvenuta}">
+				<p th:text="${registrazioneAvvenuta}" class="alert alert-info text-center"></p>
+			</div>
+			<ul class="nav ml-auto">
 			    <li class="nav-item">
 			      <a class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link" th:href="@{/homepage/showLoginForm}">LOGIN</a>
+			      <a class="nav-link" th:href="@{/homepage/login}">LOGIN</a>
 			    </li>
 			    <li class="nav-item">
-			      <a class="nav-link" href="#" th:href="@{/homepage/logout}">LOGOUT</a>
+			      <a class="nav-link" th:href="@{/homepage/logout}">LOGOUT</a>
 			    </li>
 			</ul>
 		</div>
 		
 		<hr>
 		
-		<!-- Messaggio di avvenuta registrazione (opzionale) -->
-		<div class="row justify-content-center">
-			<div class="col col-md-4" th:if="${registrazioneAvvenuta}">
-				<p th:text="${registrazioneAvvenuta}" class="alert alert-info text-center"></p>
-			</div>
-		</div>
 		
 		<!-- LISTA FILM -->
 		<!-- Se ci sono film in programmazione li mostra -->
@@ -85,8 +83,7 @@
 		</div> 
 
 		
-		<hr>
-		<a th:href="@{/homepage/provadb}">Prova database</a>	
+			
 	</div>
 		
 </body>
