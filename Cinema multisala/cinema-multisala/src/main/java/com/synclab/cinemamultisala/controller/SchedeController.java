@@ -31,10 +31,11 @@ public class SchedeController {
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
+		// !!!! Problema plusDays non si visualizzano date nel mese dopo
 		
 		List<Film> listaFilm = filmService.getFilmFromDayToDay(titoloFilm, dataAttuale, dataAttualePiu7);
 
-		// Prendo il primo dei film giusto per avere i dati descrittivi
+		// Prendo il primo dei film giusto per avere i dati descrittivi (tutto eccetto data e ora)
 		Film film = listaFilm.get(0);
 		
 		// Ciclo su tutti i film per prendere tutti gli orari e i giorni
@@ -43,7 +44,8 @@ public class SchedeController {
 			Orario orarioTmp = new Orario(filmTmp.getFilmId().getData(), filmTmp.getFilmId().getOraInizio());
 			listaOrari.add(orarioTmp);
 		}
-		Orario orario = listaOrari.get(0);
+		myLogger.info("Lista orari: " + listaOrari);
+		
 		model.addAttribute("film", film);
 		model.addAttribute("listaOrari", listaOrari);
 		

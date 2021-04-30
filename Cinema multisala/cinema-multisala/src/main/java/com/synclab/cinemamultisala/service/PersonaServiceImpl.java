@@ -70,7 +70,7 @@ public class PersonaServiceImpl implements PersonaService{
 		persona.setPassword(passwordCriptata);
 		
 		// Di default si viene registrati come utenti
-		persona.setRuoli(Arrays.asList(ruoloRepository.findRoleByName("ROLE_UTENTE")));
+		persona.setRuoli(Arrays.asList(ruoloRepository.findRoleByName("UTENTE")));
 		
 		personaRepository.save(persona);
 
@@ -91,10 +91,20 @@ public class PersonaServiceImpl implements PersonaService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+		/*
+		 * Per stampare la stack trace e vedere tutti i metodi chiamanti
+		 * 
+		 * StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+		 * for (StackTraceElement elem: stackTraceElements) {
+		 * 		myLogger.info("Stack: " + elem);
+		 *	}
+		 */
+		
+		myLogger.info("Mail :" + mail);//////
 		Persona persona = personaRepository.findByMail(mail);
-		System.out.println(persona == null);////////
+		myLogger.info("Persona: " + persona);////////
+		
 		if (persona == null) {
-			System.out.println("eccezione lanciata");////////////
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
 		return new org.springframework.security.core.userdetails.User(persona.getMail(), persona.getPassword(),

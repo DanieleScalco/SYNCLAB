@@ -7,6 +7,6 @@ import com.synclab.cinemamultisala.entity.Persona;
 
 public interface PersonaRepository extends JpaRepository<Persona, String> {
 	
-	@Query(value="SELECT * FROM persona p WHERE p.mail = ?1", nativeQuery=true)
-	Persona findByMail(String mail);
+	@Query(value="SELECT * FROM Persona p WHERE p.mail = ?1", nativeQuery=true)
+	public Persona findByMail(String mail);
 }

@@ -11,7 +11,7 @@ import com.synclab.cinemamultisala.entity.IdPosto;
 import com.synclab.cinemamultisala.entity.PostoASedere;
 
 @Service
-public class PostoASedereImpl implements PostoASedereService {
+public class PostoASedereServiceImpl implements PostoASedereService {
 
 	@Autowired
 	PostoASedereRepository postoASedereRepository;

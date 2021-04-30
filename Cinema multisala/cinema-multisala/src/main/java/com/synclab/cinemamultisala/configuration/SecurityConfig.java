@@ -1,7 +1,5 @@
 package com.synclab.cinemamultisala.configuration;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.synclab.cinemamultisala.service.PersonaService;
 
@@ -22,35 +21,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     private PersonaService personaService;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-
-		http.authorizeRequests()
-			.antMatchers("/").permitAll()
-			.antMatchers("/homepage").permitAll()
-			.antMatchers("/scheda").permitAll()
-			.and()
-			.formLogin()
-				.loginPage("/login")
-				.permitAll()
-			.and()
-			.logout().permitAll()
-			.and()
-			.exceptionHandling()
-				.accessDeniedPage("/accesso-negato");
-
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(authenticationProvider());
-	}
-	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
@@ -58,6 +33,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.setPasswordEncoder(passwordEncoder());
 		return auth;
 	}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(authenticationProvider());
+	}
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		/*
+		 * Path possibili per antMatchers:
+		 * /**	matcha tutti i path (i doppi asterischi indicano il livello corrente e tutti quelli sotto)	
+		 */
+		http.authorizeRequests()
+			.antMatchers("/amministratore/*").hasAuthority("AMMINISTRATORE") // Si parte PER FORZA dal più ristretto:
+			.antMatchers("/dipendente/*").hasAnyAuthority("DIPENDENTE", "AMMINISTRATORE")
+			.antMatchers("/", "/homepage", "/scheda").permitAll()
+			.and()
+			.formLogin()
+				.loginPage("/homepage/login")
+				.usernameParameter("mail")		// Per specificare il nome del campo usato se diverso da "username"
+//				.passwordParameter(nomeParametroPasswordAlternativo) // Come sopra ma per "password"
+				.permitAll()
+			.and()
+			.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Per poter usare un link
+				.permitAll()
+			.and()
+			.exceptionHandling()
+				.accessDeniedPage("/accesso-negato");
+
+	}	
 	
 	
 

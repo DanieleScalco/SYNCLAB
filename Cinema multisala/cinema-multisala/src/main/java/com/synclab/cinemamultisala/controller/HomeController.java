@@ -46,10 +46,7 @@ public class HomeController {
 	
 	@Autowired
 	private FilmService filmService;
-	
-	@Autowired
-	private PersonaRepository personaRepository;///////
-	
+		
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		
@@ -61,11 +58,10 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String homePage(Model model) {
-		Persona persona = personaRepository.findByMail("prova@prova.it");
-		System.out.println(persona);///////////// problema non salva il ruolo
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
+		myLogger.info("Data attuale: " + dataAttuale + ", Data attuale + 7: " +dataAttualePiu7);
 		
 		// Prendiamo tutti i film disponibili di qui a 7 giorni
 		// Si considera che tutti i film in programmazione sono quelli dalla data attuale
@@ -90,7 +86,9 @@ public class HomeController {
 	@PostMapping("/processRegistrazioneForm")
 	public String processRegistrationForm(@Valid @ModelAttribute("persona") CrmPersona persona,
 											BindingResult theBindingResult, Model model, RedirectAttributes registrazioneAvvenuta) {
-				
+	// RedirectAttributes sono gli attributi passati al model quando si fa la redirect
+		
+		
 		String mail = persona.getMail();
 		
 		// Controllo se utente già registrato
@@ -108,7 +106,7 @@ public class HomeController {
 			return "form-registrazione";
 	    } else {
 	        
-	        // create user account        						
+	        // Salvataggio dell'utente nel db   						
 	        personaService.registra(persona);
 	        registrazioneAvvenuta.addFlashAttribute("registrazioneAvvenuta", "Registrazione avvenuta con successo!");
         }
@@ -117,11 +115,13 @@ public class HomeController {
 	}
 	
 	@GetMapping("/login")
-	public String login(Model model) {
-		Persona persona = new Persona();
-		model.addAttribute("persona", persona);
-
+	public String login() {
 		return "form-login";
+	}
+	
+	@GetMapping("/accesso-negato")
+	public String accessoNegato() {
+		return "accesso-negato";
 	}
 	
 		

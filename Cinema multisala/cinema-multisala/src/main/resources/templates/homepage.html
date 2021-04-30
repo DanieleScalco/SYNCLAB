@@ -2,6 +2,7 @@
 
 <!-- Per usare le thymeleaf expressions -->
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 	lang="it">
 <head>
 	<title>Homepage</title>
@@ -43,13 +44,13 @@
 			</div>
 			<ul class="nav ml-auto">
 			    <li class="nav-item">
-			      <a class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
+			    	<a class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
 			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" th:href="@{/homepage/login}">LOGIN</a>
+			    <li sec:authorize="isAnonymous()" class="nav-item">
+			    	<a class="nav-link" th:href="@{/homepage/login}">LOGIN</a>
 			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" th:href="@{/homepage/logout}">LOGOUT</a>
+			    <li sec:authorize="isAuthenticated()" class="nav-item">
+			    	<a class="nav-link" th:href="@{/logout}">LOGOUT</a>
 			    </li>
 			</ul>
 		</div>
@@ -57,7 +58,18 @@
 		<hr>
 		
 		
+		
+		
+		
+		<div sec:authorize="hasAuthority('AMMINISTRATORE')"><p>Admin</p></div>
+		<div sec:authorize="hasAuthority('DIPENDENTE')"><p>Dipendente</p></div>
+		<div sec:authorize="hasAuthority('UTENTE')"><p>Utente</p></div>
+		
+		
+		
+		
 		<!-- LISTA FILM -->
+		
 		<!-- Se ci sono film in programmazione li mostra -->
 		<div th:if="${!listaFilm.isEmpty()}">
 			<div class="jumbotron" th:each="film : ${listaFilm}">

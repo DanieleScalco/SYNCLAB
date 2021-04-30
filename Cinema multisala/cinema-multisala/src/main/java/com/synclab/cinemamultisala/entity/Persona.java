@@ -28,7 +28,8 @@ public class Persona {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="persona", cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Prenotazione> prenotazioni;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	// Per far andare la sicurezza ho dovuto mettere Eager
+	@ManyToMany(fetch = FetchType.EAGER, cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name = "persona_ruolo", 
 				joinColumns = @JoinColumn(name = "mail"), 
 				inverseJoinColumns = @JoinColumn(name = "id_ruolo"))

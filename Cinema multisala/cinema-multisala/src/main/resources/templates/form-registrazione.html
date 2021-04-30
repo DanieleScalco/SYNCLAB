@@ -37,7 +37,7 @@
 					<br>
 					
 					<div class="form-row py-1">
-						<input type="text" class="form-control" th:field="*{mail}" th:errorClass="is-invalid" placeholder="E-mail">
+						<input type="text" class="form-control" th:field="*{mail}" th:errorClass="is-invalid" placeholder="E-mail" autofocus="autofocus">
 						<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" th:class="invalid-feedback"></div>
 					</div>
 					<div class="form-row py-1">
