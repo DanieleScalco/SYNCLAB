@@ -100,9 +100,7 @@ public class PersonaServiceImpl implements PersonaService{
 		 *	}
 		 */
 		
-		myLogger.info("Mail :" + mail);//////
 		Persona persona = personaRepository.findByMail(mail);
-		myLogger.info("Persona: " + persona);////////
 		
 		if (persona == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");

@@ -21,13 +21,14 @@
 	<!--  Container che contiene tutto il body necessario per Bootstrap -->
 	<div class="container-fluid">
 		
+		<!-- TITOLO -->
 		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
-		
 		<hr>
 		<br>
 
 		
-
+		
+		<!-- FORM LOGIN -->
 		<div class="row justify-content-center">
 			<div class="col col-md-5">
 						
@@ -40,7 +41,7 @@
 						<p class="text-danger text-center">Mail o password errati<p>
 					</div>
 					<div th:if="${param.logout}">
-						<p class="text-warning text-center">Hai appena eseguito il logout<p>
+						<p class="text-success text-center">Hai appena eseguito il logout<p>
 					</div>					
 					
 					<div class="form-row py-1">

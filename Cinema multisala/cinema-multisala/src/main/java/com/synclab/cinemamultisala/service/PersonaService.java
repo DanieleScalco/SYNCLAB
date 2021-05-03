@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.synclab.cinemamultisala.entity.Persona;
 import com.synclab.cinemamultisala.persona.CrmPersona;
 
+// Estendere UserDetailsService è necessario per l'autenticazione
 public interface PersonaService extends UserDetailsService {
 	
 	public List<Persona> getPersone();

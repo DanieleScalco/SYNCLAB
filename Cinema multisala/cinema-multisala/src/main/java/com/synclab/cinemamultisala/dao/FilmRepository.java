@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.synclab.cinemamultisala.entity.Film;
 import com.synclab.cinemamultisala.entity.FilmId;
-import com.synclab.cinemamultisala.entity.Persona;
 
 public interface FilmRepository extends JpaRepository<Film, FilmId> {
 	

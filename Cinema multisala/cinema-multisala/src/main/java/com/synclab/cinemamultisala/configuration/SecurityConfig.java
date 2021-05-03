@@ -47,8 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * /**	matcha tutti i path (i doppi asterischi indicano il livello corrente e tutti quelli sotto)	
 		 */
 		http.authorizeRequests()
-			.antMatchers("/amministratore/*").hasAuthority("AMMINISTRATORE") // Si parte PER FORZA dal più ristretto:
-			.antMatchers("/dipendente/*").hasAnyAuthority("DIPENDENTE", "AMMINISTRATORE")
+			.antMatchers("/amministratore/**").hasAuthority("AMMINISTRATORE") // Si parte PER FORZA dal più ristretto:
+			.antMatchers("/dipendente/**").hasAnyAuthority("DIPENDENTE", "AMMINISTRATORE")
 			.antMatchers("/", "/homepage", "/scheda").permitAll()
 			.and()
 			.formLogin()
@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 			.and()
 			.exceptionHandling()
-				.accessDeniedPage("/accesso-negato");
+				.accessDeniedPage("/homepage/accesso-negato");
 
 	}	
 	

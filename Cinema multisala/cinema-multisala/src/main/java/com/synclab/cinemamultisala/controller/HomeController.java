@@ -22,16 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synclab.cinemamultisala.dao.PersonaRepository;
 import com.synclab.cinemamultisala.entity.Film;
-import com.synclab.cinemamultisala.entity.FilmId;
-import com.synclab.cinemamultisala.entity.IdPosto;
-import com.synclab.cinemamultisala.entity.Persona;
-import com.synclab.cinemamultisala.entity.PostoASedere;
-import com.synclab.cinemamultisala.entity.Prenotazione;
 import com.synclab.cinemamultisala.persona.CrmPersona;
 import com.synclab.cinemamultisala.service.FilmService;
 import com.synclab.cinemamultisala.service.PersonaService;
-import com.synclab.cinemamultisala.service.PostoASedereService;
-import com.synclab.cinemamultisala.service.PrenotazioneService;
+
 
 // Gestisce homepage, registrazione e login
 
@@ -51,7 +45,6 @@ public class HomeController {
 	public void initBinder(WebDataBinder dataBinder) {
 		
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-		
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
 	
@@ -61,12 +54,18 @@ public class HomeController {
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
-		myLogger.info("Data attuale: " + dataAttuale + ", Data attuale + 7: " +dataAttualePiu7);
+		myLogger.info("Data attuale: " + dataAttuale + ", Data attuale + 7 giorni: " +dataAttualePiu7);
 		
 		// Prendiamo tutti i film disponibili di qui a 7 giorni
 		// Si considera che tutti i film in programmazione sono quelli dalla data attuale
 		// a 7 giorni dopo
 		List<Film> listaFilm =  filmService.getFilmsFromDayToDay(dataAttuale, dataAttualePiu7);
+		String debugInfo = "";
+		for (Film f: listaFilm) {
+			debugInfo += f.getFilmId() + " - ";
+		}
+		myLogger.info(debugInfo);
+		
 		model.addAttribute("listaFilm", listaFilm);
 		
 		return "homepage";
@@ -93,6 +92,7 @@ public class HomeController {
 		
 		// Controllo se utente già registrato
 		if (personaService.esiste(mail)) {
+			// A quale ModelAttribute è riferito, a quale campo e che errore mostrare 
 			theBindingResult.addError(new FieldError("persona", "mail", "Account già registrato"));
 		}
 		

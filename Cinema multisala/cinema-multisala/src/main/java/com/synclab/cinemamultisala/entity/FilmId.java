@@ -7,6 +7,8 @@ import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /*
  * Documentazione:
  * Note that a composite key class has to fulfill some key requirements:
@@ -21,9 +23,12 @@ public class FilmId implements Serializable{
 	@Column(name="titolo")
 	private String titolo;
 	
+	// Annotazione necessaria per gestire gli input type "date" e "time"
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name="data")
 	private LocalDate data;
 	
+	@DateTimeFormat(pattern="HH:mm")
 	@Column(name="ora_inizio")
 	private LocalTime oraInizio;
 		

@@ -22,28 +22,32 @@
 	<!--  Container che contiene tutto il body necessario per Bootstrap -->
 	<div class="container-fluid">
 		
-		<h3 class="text-center text-primary">CINEMA MULTISALA</h3>
 		
+		
+		<!-- TITOLO -->
+		<h3 class="text-center text-primary">CINEMA MULTISALA</h3>
 		<hr>
+				
 		
 		
 		<!-- BARRA DI NAVIGAZIONE -->
-		
 		<div id="menu" class="d-flex font-weight-bold">
 			<ul class="nav mr-auto">
 			    <li class="nav-item">
 			      <a class="nav-link" href="#">PROGRAMMAZIONE</a>
 			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" href="#">AGGIUNGI FILM</a>
+			    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+			      <a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
 			    </li>
 			</ul>
+			
 			<!-- Messaggio di avvenuta registrazione (opzionale) -->
 			<div class="col col-md-4 mx-auto mb-n4 mt-n1" th:if="${registrazioneAvvenuta}">
 				<p th:text="${registrazioneAvvenuta}" class="alert alert-info text-center"></p>
 			</div>
+			
 			<ul class="nav ml-auto">
-			    <li class="nav-item">
+			    <li sec:authorize="isAnonymous()" class="nav-item">
 			    	<a class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
 			    </li>
 			    <li sec:authorize="isAnonymous()" class="nav-item">
@@ -54,41 +58,39 @@
 			    </li>
 			</ul>
 		</div>
-		
 		<hr>
 		
 		
-		
-		
-		
-		<div sec:authorize="hasAuthority('AMMINISTRATORE')"><p>Admin</p></div>
-		<div sec:authorize="hasAuthority('DIPENDENTE')"><p>Dipendente</p></div>
-		<div sec:authorize="hasAuthority('UTENTE')"><p>Utente</p></div>
-		
-		
-		
-		
+				
 		<!-- LISTA FILM -->
-		
 		<!-- Se ci sono film in programmazione li mostra -->
 		<div th:if="${!listaFilm.isEmpty()}">
-			<div class="jumbotron" th:each="film : ${listaFilm}">
-				<p>
-					<img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}"
-								th:class="'mx-auto d-block rounded'"
-								th:alt="'Immagine ' + ${film.filmId.titolo}"
-								th:width="320"
-								th:height="400">
-				</p>
-				<ul th:class="text-center" th:style="'list-style-type:none;'">
-					<li><h4 th:text="${film.filmId.titolo}"></h4></li>
-					<li><p th:text="'Regista: ' + ${film.regista}"></p></li>
-					<li><p th:text="'Cast: ' + ${film.cast}"></p></li>
-					<li><p><a th:href="@{/scheda/mostraFilm(titoloFilm=${film.filmId.titolo})}">Scheda Film</a></p></li>
-				</ul>	
+			<div class="jumbotron pt-3 pb-2 my-3" th:each="film : ${listaFilm}">
+				<div class="row">
+					<div class="col-md-4 my-auto mx-auto">
+						<p>
+							<img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}"
+										th:class="'mx-auto d-block rounded'"
+										th:alt="'Immagine ' + ${film.filmId.titolo}"
+										th:width="220"
+										th:height="288">
+						</p>
+					</div>
+					<div class="col-md-4 my-auto mx-auto">
+						<ul th:class="text-center" th:style="'list-style-type:none;'">
+							<li><h4 th:text="${film.filmId.titolo}"></h4></li>
+							<li><p th:text="'Regista: ' + ${film.regista}"></p></li>
+							<li><p th:text="'Cast: ' + ${film.cast}"></p></li>
+						</ul>	
+					</div>
+					<div class="col-md-2 my-auto mx-auto text-center">
+						<a th:href="@{/scheda/mostraFilm(titoloFilm=${film.filmId.titolo})}">Vai alla scheda del film</a>
+					</div>
+				</div>
 			</div>
 		</div>
-		<!-- Se non ci sono film in programmazione -->
+		
+		<!-- Se non ci sono film in programmazione scritta -->
 		<div th:if="${listaFilm.isEmpty()}">
 			<br><br>
 			<p th:text="'Nessun film in programmazione'" th:class="'display-4 text-center'"></p>			
@@ -97,6 +99,7 @@
 		
 			
 	</div>
+	<!-- Fine container -->
 		
 </body>
 </html>
