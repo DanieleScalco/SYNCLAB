@@ -1,6 +1,6 @@
 package com.synclab.cinemamultisala.controller;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synclab.cinemamultisala.dao.FilmRepository;
 import com.synclab.cinemamultisala.entity.Film;
-import com.synclab.cinemamultisala.entity.FilmId;
 
 @Controller
 @RequestMapping("/dipendente")
@@ -34,12 +36,23 @@ public class DipendenteController {
 	}
 	 
 	@PostMapping("/processFilm")
-	public String processFilm(@ModelAttribute("film") Film film, Model model) {
+	public String processFilm(@ModelAttribute("film") Film film, @RequestParam("img") MultipartFile file, Model model, RedirectAttributes ra) {
 		
-		myLogger.info("Film già esistente? " + filmRepository.existsById(film.getFilmId()));
-		myLogger.info("Data " + film.getFilmId().getData() + ", ora: " + film.getFilmId().getOraInizio());
-		myLogger.info("Immagine " + film.getImmagine());
-		// Aggiungere messaggio se film già esistente
-		return "form-aggiunta-film";
+		if (filmRepository.existsById(film.getFilmId())) {
+			ra.addFlashAttribute("filmGiaEsistente", "Film già presente nel database");
+		} else {
+			try {
+				film.setImmagine(file.getBytes());
+			} catch (IOException e) {
+				myLogger.info("Errore caricamento immagine");
+			}
+			filmRepository.save(film);
+			ra.addFlashAttribute("filmSalvato", "Film aggiunto correttamente!");
+		}
+
+		
+		
+		return "redirect:/dipendente/aggiungiFilm";
+		
 	}
 }

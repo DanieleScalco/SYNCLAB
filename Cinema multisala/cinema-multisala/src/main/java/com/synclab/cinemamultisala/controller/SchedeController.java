@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.synclab.cinemamultisala.entity.Film;
-import com.synclab.cinemamultisala.entity.FilmId;
 import com.synclab.cinemamultisala.entity.Orario;
 import com.synclab.cinemamultisala.service.FilmService;
 

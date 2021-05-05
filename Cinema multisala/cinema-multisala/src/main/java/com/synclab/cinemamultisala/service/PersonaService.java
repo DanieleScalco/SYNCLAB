@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.synclab.cinemamultisala.entity.Persona;
+import com.synclab.cinemamultisala.entity.Ruolo;
 import com.synclab.cinemamultisala.persona.CrmPersona;
 
 // Estendere UserDetailsService è necessario per l'autenticazione
@@ -21,4 +22,6 @@ public interface PersonaService extends UserDetailsService {
 	public void eliminaPersona(String mail);
 	
 	boolean esiste(String mail);
+	
+	public List<Ruolo> getRuoli();
 }

@@ -45,7 +45,7 @@ public class Ruolo {
 
 	@Override
 	public String toString() {
-		return "Id: " + id + ", nome ruolo, " + nomeRuolo;
+		return "Id: " + id + ", nome ruolo: " + nomeRuolo;
 	}
 	
 	

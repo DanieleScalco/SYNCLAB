@@ -58,6 +58,7 @@ public class PersonaServiceImpl implements PersonaService{
 
 	@Override
 	public void salvaPersona(Persona persona) {
+		persona.setPassword(bCryptPasswordEncoder.encode(persona.getPassword()));
 		personaRepository.save(persona);
 	}
 	
@@ -111,6 +112,10 @@ public class PersonaServiceImpl implements PersonaService{
 
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Ruolo> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getNomeRuolo())).collect(Collectors.toList());
+	}
+	
+	public List<Ruolo> getRuoli() {
+		return ruoloRepository.findAll();
 	}
 
 

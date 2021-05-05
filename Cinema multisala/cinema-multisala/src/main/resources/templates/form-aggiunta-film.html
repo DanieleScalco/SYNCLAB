@@ -32,8 +32,16 @@
 		<!-- FORM AGGIUNTA FILM -->
 		<div class="row justify-content-center">
 			<div class="col col-md-5">
+			
+				<div class="col text-center" th:if="${filmGiaEsistente}">
+					<p th:text="${filmGiaEsistente}" class="text-danger text-center"></p>
+				</div>
+				<div class="col text-center" th:if="${filmSalvato}">
+					<p th:text="${filmSalvato}" class="text-success"></p>
+				</div>
 				
-				<form method="POST" th:action="@{/dipendente/processFilm}" th:object="${film}">
+				
+				<form method="POST" th:action="@{/dipendente/processFilm}" enctype="multipart/form-data" th:object="${film}">
 					
 					<h5 class="text-primary mb-3 text-center">Aggiungi un film alla collezione</h5>
 					<br>
@@ -50,8 +58,11 @@
 					<div class="form-row py-1">
 						<textarea rows="5" class="form-control" th:field="*{descrizione}" placeholder="Aggiungi una descrizione" required="required"></textarea>
 					</div>
+					<div class="form-row my-auto">
+						<p>Inserisci l'immagine della locandina</p>
+					</div>
 					<div class="form-row py-1">
-						<input type="text" class="form-control" th:field="*{immagine}" placeholder="Immagine" required="required">
+						<input type="file" accept="image/*" name="img" required="required">
 					</div>
 					<div class="form-row py-1">
 						<input type="date" class="form-control" th:field="*{filmId.data}" required="required">

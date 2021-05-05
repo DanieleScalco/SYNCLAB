@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<!-- Per usare le thymeleaf expressions -->
+<html xmlns:th="http://www.thymeleaf.org"
+	lang="it">
+<head>
+	<title>Lista Utenti</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Daniele Scalco">
+	
+	<!-- Utilizzo di Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div class="container-fluid">
+		
+		<!-- TITOLO -->
+		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
+		<hr>
+		
+		
+		
+		<!-- LISTA UTENTI -->
+		<h3>Lista Utenti</h3>
+		<hr>
+		
+		<div class="col" th:if="${statoUtente}">
+			<p th:text="${statoUtente}" class="text-success text-center"></p>
+		</div>
+		
+		<a th:href="@{/amministratore/showFormForAdd}" class="btn btn-primary btn-sm mb-3">Aggiungi Utente</a>
+		
+		<table class="table table-bordered table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>#</th>
+					<th>Mail</th>
+					<th>Password</th>
+					<th>Ruoli</th>
+					<th>Azioni</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="persona, iterStat : ${persone}">
+					<td th:text="${iterStat.count}"/>
+					<td th:text="${persona.mail}"/>
+					<td th:text="${persona.password}"/>
+					<td>
+						<div th:each="ruolo : ${persona.ruoli}">
+							<p th:text="${ruolo.nomeRuolo}">
+						</div>
+					</td>
+					<td class="text-center align-middle">
+						<a th:href="@{/amministratore/showFormForUpdate(mail=${persona.mail})}" class="btn btn-info btn-sm mb-2">Aggiorna</a>
+						<br>
+						<a th:href="@{/amministratore/delete(mail=${persona.mail})}" class="btn btn-danger btn-sm"
+						   onclick="if (!(confirm('Sei sicuro di voler eliminare questo utente?'))) return false">Elimina</a>
+					</td>
+				</tr>
+			</tbody>
+			
+		</table>
+	</div>
+	
+</body>
+</html>

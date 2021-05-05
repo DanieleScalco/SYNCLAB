@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synclab.cinemamultisala.dao.PersonaRepository;
 import com.synclab.cinemamultisala.entity.Film;
 import com.synclab.cinemamultisala.persona.CrmPersona;
 import com.synclab.cinemamultisala.service.FilmService;
@@ -54,7 +53,6 @@ public class HomeController {
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
-		myLogger.info("Data attuale: " + dataAttuale + ", Data attuale + 7 giorni: " +dataAttualePiu7);
 		
 		// Prendiamo tutti i film disponibili di qui a 7 giorni
 		// Si considera che tutti i film in programmazione sono quelli dalla data attuale
@@ -64,7 +62,7 @@ public class HomeController {
 		for (Film f: listaFilm) {
 			debugInfo += f.getFilmId() + " - ";
 		}
-		myLogger.info(debugInfo);
+		myLogger.info("Film caricati: " + debugInfo);
 		
 		model.addAttribute("listaFilm", listaFilm);
 		

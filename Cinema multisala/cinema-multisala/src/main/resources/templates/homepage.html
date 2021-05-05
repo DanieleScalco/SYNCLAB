@@ -33,12 +33,15 @@
 		<!-- BARRA DI NAVIGAZIONE -->
 		<div id="menu" class="d-flex font-weight-bold">
 			<ul class="nav mr-auto">
-			    <li class="nav-item">
-			      <a class="nav-link" href="#">PROGRAMMAZIONE</a>
-			    </li>
-			    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
-			      <a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
-			    </li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">PROGRAMMAZIONE</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+					<a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasAuthority('AMMINISTRATORE')">
+					<a class="nav-link" th:href="@{/amministratore/listaPersone}">GESTIONE UTENTI</a>
+				</li>
 			</ul>
 			
 			<!-- Messaggio di avvenuta registrazione (opzionale) -->
