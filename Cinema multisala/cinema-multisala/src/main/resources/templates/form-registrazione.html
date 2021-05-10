@@ -48,7 +48,6 @@
 					<div class="form-row py-1">
 						<input type="password" class="form-control" th:field="*{matchingPassword}" th:errorClass="is-invalid" placeholder="Conferma password">
 						<div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" th:class="invalid-feedback"></div>
-
 					</div>
 					<div class="form-row py-1">
 						<button type="submit" class="btn btn-info btn-block">Registrati</button>

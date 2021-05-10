@@ -18,22 +18,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="prenotazione")
+@Table(name = "prenotazione")
 public class Prenotazione {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="mail_prenotazione")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "mail_prenotazione")
 	private Persona persona;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumns({@JoinColumn(name="film", referencedColumnName="titolo"),
-				  @JoinColumn(name="data", referencedColumnName="data"),
-				  @JoinColumn(name="orario", referencedColumnName="ora_inizio"),
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumns({@JoinColumn(name = "film", referencedColumnName = "titolo"),
+				  @JoinColumn(name = "data", referencedColumnName = "data"),
+				  @JoinColumn(name = "orario", referencedColumnName = "ora_inizio"),
 				})
 	private Film film;
 	
@@ -43,11 +43,11 @@ public class Prenotazione {
 	 * names for us. However, the strategy JPA uses won't always match the naming conventions we use. So, we
 	 * need the possibility to configure table and column names.
 	 */
-	@ManyToMany(fetch=FetchType.LAZY,
-			cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinTable(name="posti_prenotazione",
-			joinColumns=@JoinColumn(name="id_prenotazione"),
-			inverseJoinColumns={@JoinColumn(name="fila"), @JoinColumn(name="posto"), @JoinColumn(name="sala")})
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(name = "posti_prenotazione",
+			joinColumns = @JoinColumn(name = "id_prenotazione"),
+			inverseJoinColumns = {@JoinColumn(name = "fila"), @JoinColumn(name = "posto"), @JoinColumn(name = "sala")})
 	private List<PostoASedere> postiASedere;
 	
 	public Prenotazione() {

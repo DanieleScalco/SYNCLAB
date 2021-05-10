@@ -34,7 +34,7 @@
 		<div id="menu" class="d-flex font-weight-bold">
 			<ul class="nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="#">PROGRAMMAZIONE</a>
+					<a class="nav-link" th:href="@{/programmazione/mostraProgrammazione}">PROGRAMMAZIONE</a>
 				</li>
 				<li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
 					<a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>

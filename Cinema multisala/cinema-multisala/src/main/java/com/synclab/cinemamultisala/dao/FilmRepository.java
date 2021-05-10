@@ -3,7 +3,10 @@ package com.synclab.cinemamultisala.dao;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.synclab.cinemamultisala.entity.Film;
@@ -18,4 +21,10 @@ public interface FilmRepository extends JpaRepository<Film, FilmId> {
 	// Trova tutti i film con un certo titolo in programmazione questa settimana
 	@Query(value="SELECT * FROM Film f WHERE f.data >= ?2 AND f.data <= ?3 AND f.titolo = ?1", nativeQuery=true)
 	public List<Film> getFilmFromDayToDay(String titolo, LocalDate daData, LocalDate aData);
+
+	// Per modificare lo stato del database è necessario mettere @Modifying e mettere @Transactional non so perchè
+	// Come chiamare un campo di un @EmbeddedId
+	@Modifying
+	@Transactional
+	public void deleteByFilmIdTitolo(String titolo);
 }

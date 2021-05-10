@@ -5,7 +5,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 	lang="it">
 <head>
-	<title>Scheda Film</title>
+	<title>Programmazione</title>
 	<meta charset="utf-8">
 	<meta name="author" content="Daniele Scalco">
 	
@@ -53,9 +53,13 @@
 		<hr>
 		
 		
+		<div class="col text-center" th:if="${filmEliminato}">
+			<p th:text="${filmEliminato}" class="text-success text-center"></p>
+		</div>
 		
-		<!-- SCHEDA FILM -->
-		<div class="jumbotron pt-3 pb-2 my-3">
+		
+		<!-- PROGRAMMAZIONE -->
+		<div th:each="film, status : ${listaFilm}" class="jumbotron pt-3 pb-2 my-3">
 			<div class="row">
 				<div class="col col-md-5 my-auto mx-auto">
 					<p>
@@ -75,20 +79,26 @@
 					</ul>
 				</div>
 			</div>
+			
+			<!-- TABELLA ORARI -->
 			<div class="row justify-content-center mt-1">
 				<div class="col col-md-5">
 					<table th:class="'table table-bordered border-0 table-responsive'">
 						<tbody>
 							<tr >
 								<td th:class="'font-weight-bold'" th:text="Data"/>
-								<th:block th:each="orario : ${listaOrari}">
-									<td th:text="${orario.data.getDayOfMonth()} + '/' + ${orario.data.getMonthValue()}"/>
+								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
+									<th:block th:each="orario : ${listaOrariSingoloFilm}">
+										<td th:text="${orario.data.getDayOfMonth()} + '/' + ${orario.data.getMonthValue()}"/>
+									</th:block>
 								</th:block>
 							</tr>
 							<tr >
 								<td th:class="'font-weight-bold'" th:text="Ora"/>
-								<th:block th:each="orario : ${listaOrari}">
-									<td th:text="${orario.ora}"/>
+								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
+									<th:block th:each="orario : ${listaOrariSingoloFilm}">
+										<td th:text="${orario.ora}"/>
+									</th:block>
 								</th:block>
 							</tr>				
 						</tbody>	
@@ -96,7 +106,11 @@
 				</div>
 			</div>
 			<div class="row justify-content-center mb-3">
-				<a th:href="@{/prenota}">Prenota Ora</a>
+				<a th:class="'col col-md-2'" th:href="@{/prenotazione/prenota}">Prenota Ora</a>
+			</div>
+			<div sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')" class="row justify-content-center mb-3">
+				<a th:class="'col col-md-2'" th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina Film</a>
+				<a th:class="'col col-md-2'" th:href="@{/dipendente/modificaFilm(titolo=${film.filmId.titolo})}">Modifica Film</a>
 			</div>	
 		</div>
 

@@ -9,8 +9,8 @@ import javax.validation.constraints.Size;
 
 public class CrmPersona {
 
-	@Email(message = "Inserisci un indirizzo mail valido")
 	@NotBlank(message = "Inserisci la mail")
+	@Email(message = "Inserisci un indirizzo mail valido")
 	private String mail;
 	
 	@NotBlank(message = "Inserisci la password")

@@ -15,21 +15,21 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="persona")
+@Table(name = "persona")
 public class Persona {
 	
 	@Id
-	@Column(name="mail")
+	@Column(name = "mail")
 	private String mail;
 	
-	@Column(name="password")
+	@Column(name = "password")
 	private String password;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="persona", cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "persona", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Prenotazione> prenotazioni;
 	
 	// Per far andare la sicurezza ho dovuto mettere Eager
-	@ManyToMany(fetch = FetchType.EAGER, cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name = "persona_ruolo", 
 				joinColumns = @JoinColumn(name = "mail"), 
 				inverseJoinColumns = @JoinColumn(name = "id_ruolo"))

@@ -8,13 +8,13 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class IdPosto implements Serializable {
 
-	@Column(name="numero_fila")
+	@Column(name = "numero_fila")
 	private int numeroFila;
 	
-	@Column(name="numero_posto")
+	@Column(name = "numero_posto")
 	private int numeroPosto;
 	
-	@Column(name="numero_sala")
+	@Column(name = "numero_sala")
 	private int numeroSala;
 	
 	public IdPosto() {

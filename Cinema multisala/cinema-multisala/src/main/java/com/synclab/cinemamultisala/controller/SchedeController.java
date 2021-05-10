@@ -30,7 +30,6 @@ public class SchedeController {
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
-		// !!!! Problema plusDays non si visualizzano date nel mese dopo
 		
 		List<Film> listaFilm = filmService.getFilmFromDayToDay(titoloFilm, dataAttuale, dataAttualePiu7);
 

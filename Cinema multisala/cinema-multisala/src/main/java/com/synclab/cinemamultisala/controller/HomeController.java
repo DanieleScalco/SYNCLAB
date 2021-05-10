@@ -43,6 +43,7 @@ public class HomeController {
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		
+		// Elimina gli spazi bianchi multipli all'inizio e alla fine e converte in null se solo spazi bianchi
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
@@ -55,7 +56,7 @@ public class HomeController {
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
 		
 		// Prendiamo tutti i film disponibili di qui a 7 giorni
-		// Si considera che tutti i film in programmazione sono quelli dalla data attuale
+		// Si considera che tutti i film in programmazione siano quelli dalla data attuale
 		// a 7 giorni dopo
 		List<Film> listaFilm =  filmService.getFilmsFromDayToDay(dataAttuale, dataAttualePiu7);
 		String debugInfo = "";

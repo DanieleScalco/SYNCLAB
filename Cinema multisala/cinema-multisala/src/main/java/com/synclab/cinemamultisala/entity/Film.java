@@ -9,23 +9,24 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="film")
+@Table(name = "film")
 public class Film {
 
+	// Necessario per chiavi multiattributo
 	@EmbeddedId
 	private FilmId filmId;
 	
-	@Column(name="descrizione")
+	@Column(name = "descrizione")
 	private String descrizione;
 	
-	@Column(name="cast")
+	@Column(name = "cast")
 	private String cast;
 	
 	@Lob
-	@Column(name="immagine")
+	@Column(name = "immagine")
 	private byte[] immagine;
 	
-	@Column(name="regista")
+	@Column(name = "regista")
 	private String regista;
 	
 	public Film() {

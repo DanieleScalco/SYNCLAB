@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,16 @@ public class FilmServiceImpl implements FilmService {
 	
 	public List<Film> getFilmFromDayToDay(String titolo, LocalDate daData, LocalDate aData) {
 		return filmRepository.getFilmFromDayToDay(titolo, daData, aData);
+	}
+
+	@Override
+	public boolean existsById(FilmId filmId) {
+		return filmRepository.existsById(filmId);
+	}
+
+	@Override
+	public void eliminaFilm(String titolo) {
+		filmRepository.deleteByFilmIdTitolo(titolo);
 	}
 
 	

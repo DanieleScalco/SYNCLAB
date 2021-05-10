@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-		auth.setUserDetailsService(personaService);
+		auth.setUserDetailsService(personaService); // personaService extends UserDetailsService
 		auth.setPasswordEncoder(passwordEncoder());
 		return auth;
 	}
@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/amministratore/**").hasAuthority("AMMINISTRATORE") // Si parte PER FORZA dal più ristretto:
 			.antMatchers("/dipendente/**").hasAnyAuthority("DIPENDENTE", "AMMINISTRATORE")
-			.antMatchers("/", "/homepage", "/scheda").permitAll()
+			.antMatchers("/", "/homepage/**", "/scheda/**", "/programmazione/**").permitAll()
 			.and()
 			.formLogin()
 				.loginPage("/homepage/login")

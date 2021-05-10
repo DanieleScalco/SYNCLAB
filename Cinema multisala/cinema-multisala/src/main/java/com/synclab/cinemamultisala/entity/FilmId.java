@@ -20,12 +20,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Embeddable
 public class FilmId implements Serializable{
 
-	@Column(name="titolo")
+	@Column(name = "titolo")
 	private String titolo;
 	
 	// Annotazione necessaria per gestire gli input type "date" e "time"
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@Column(name="data")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "data")
 	private LocalDate data;
 	
 	@DateTimeFormat(pattern="HH:mm")

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.synclab.cinemamultisala.dao.FilmRepository;
 import com.synclab.cinemamultisala.entity.Film;
+import com.synclab.cinemamultisala.service.FilmService;
 
 @Controller
 @RequestMapping("/dipendente")
@@ -24,7 +24,7 @@ public class DipendenteController {
 	private Logger myLogger = Logger.getLogger(DipendenteController.class.getName());
 
 	@Autowired
-	FilmRepository filmRepository;
+	FilmService filmService;
 
 	@GetMapping("/aggiungiFilm")
 	public String aggiungiFilm(Model model) {
@@ -38,7 +38,7 @@ public class DipendenteController {
 	@PostMapping("/processFilm")
 	public String processFilm(@ModelAttribute("film") Film film, @RequestParam("img") MultipartFile file, Model model, RedirectAttributes ra) {
 		
-		if (filmRepository.existsById(film.getFilmId())) {
+		if (filmService.existsById(film.getFilmId())) {
 			ra.addFlashAttribute("filmGiaEsistente", "Film già presente nel database");
 		} else {
 			try {
@@ -46,13 +46,20 @@ public class DipendenteController {
 			} catch (IOException e) {
 				myLogger.info("Errore caricamento immagine");
 			}
-			filmRepository.save(film);
+			filmService.salvaFilm(film);;
 			ra.addFlashAttribute("filmSalvato", "Film aggiunto correttamente!");
 		}
-
-		
 		
 		return "redirect:/dipendente/aggiungiFilm";
 		
+	}
+	
+	@GetMapping("/eliminaFilm")
+	public String eliminaFilm(@RequestParam("titolo") String titolo, RedirectAttributes ra) {
+		
+		filmService.eliminaFilm(titolo);
+		ra.addFlashAttribute("filmEliminato", "Film eliminati dal database");
+		
+		return "redirect:/programmazione/mostraProgrammazione";
 	}
 }

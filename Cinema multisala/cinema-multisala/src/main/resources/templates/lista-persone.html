@@ -40,9 +40,8 @@
 				<tr>
 					<th>#</th>
 					<th>Mail</th>
-					<th>Password</th>
 					<th>Ruoli</th>
-					<th>Azioni</th>
+					<th class="text-center">Azioni</th>
 				</tr>
 			</thead>
 			
@@ -50,7 +49,6 @@
 				<tr th:each="persona, iterStat : ${persone}">
 					<td th:text="${iterStat.count}"/>
 					<td th:text="${persona.mail}"/>
-					<td th:text="${persona.password}"/>
 					<td>
 						<div th:each="ruolo : ${persona.ruoli}">
 							<p th:text="${ruolo.nomeRuolo}">

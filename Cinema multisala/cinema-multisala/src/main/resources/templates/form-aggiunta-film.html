@@ -40,7 +40,7 @@
 					<p th:text="${filmSalvato}" class="text-success"></p>
 				</div>
 				
-				
+				<!-- Enctype necessario per caricare il file -->
 				<form method="POST" th:action="@{/dipendente/processFilm}" enctype="multipart/form-data" th:object="${film}">
 					
 					<h5 class="text-primary mb-3 text-center">Aggiungi un film alla collezione</h5>

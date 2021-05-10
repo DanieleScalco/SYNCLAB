@@ -17,9 +17,13 @@ public interface FilmService {
 	public void salvaFilm(Film film);
 	
 	public void eliminaFilm(FilmId filmId);
+	
+	public void eliminaFilm(String titolo);
 		
 	public List<Film> getFilmsFromDayToDay(LocalDate daData, LocalDate aData);
 
 	public List<Film> getFilmFromDayToDay(String titolo, LocalDate daData, LocalDate aData);
+	
+	public boolean existsById(FilmId filmId);
 
 }
