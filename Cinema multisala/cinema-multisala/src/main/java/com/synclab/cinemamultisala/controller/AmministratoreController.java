@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,14 @@ public class AmministratoreController {
 
 	@Autowired
 	PersonaService personaService;	
+	
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+		
+		// Elimina gli spazi bianchi multipli all'inizio e alla fine e converte in null se solo spazi bianchi
+		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+	}
 	
 	@GetMapping("/listaPersone")
 	public String listaPersone(Model model) {

@@ -61,7 +61,7 @@ public class HomeController {
 		List<Film> listaFilm =  filmService.getFilmsFromDayToDay(dataAttuale, dataAttualePiu7);
 		String debugInfo = "";
 		for (Film f: listaFilm) {
-			debugInfo += f.getFilmId() + " - ";
+			debugInfo += f.getFilmId().getTitolo() + " - ";
 		}
 		myLogger.info("Film caricati: " + debugInfo);
 		

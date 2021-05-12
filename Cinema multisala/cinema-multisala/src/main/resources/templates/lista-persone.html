@@ -20,7 +20,9 @@
 	<div class="container-fluid">
 		
 		<!-- TITOLO -->
-		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
+		<h3 class="text-center text-primary">
+			<a th:href="@{/homepage/home}" th:title="'Torna alla Homepage'" class="text-decoration-none">CINEMA MULTISALA</a>
+		</h3>
 		<hr>
 		
 		
@@ -33,7 +35,7 @@
 			<p th:text="${statoUtente}" class="text-success text-center"></p>
 		</div>
 		
-		<a th:href="@{/amministratore/showFormForAdd}" class="btn btn-primary btn-sm mb-3">Aggiungi Utente</a>
+		<a th:href="@{/amministratore/showFormForAdd}" th:title="'Aggiungi un nuovo utente'" class="btn btn-primary btn-sm mb-3">Aggiungi Utente</a>
 		
 		<table class="table table-bordered table-striped">
 			<thead class="thead-dark">
@@ -55,9 +57,9 @@
 						</div>
 					</td>
 					<td class="text-center align-middle">
-						<a th:href="@{/amministratore/showFormForUpdate(mail=${persona.mail})}" class="btn btn-info btn-sm mb-2">Aggiorna</a>
+						<a th:href="@{/amministratore/showFormForUpdate(mail=${persona.mail})}" th:title="'Modifica dati utente'" class="btn btn-info btn-sm mb-2">Aggiorna</a>
 						<br>
-						<a th:href="@{/amministratore/delete(mail=${persona.mail})}" class="btn btn-danger btn-sm"
+						<a th:href="@{/amministratore/delete(mail=${persona.mail})}" th:title="'Elimina utente'" class="btn btn-danger btn-sm"
 						   onclick="if (!(confirm('Sei sicuro di voler eliminare questo utente?'))) return false">Elimina</a>
 					</td>
 				</tr>

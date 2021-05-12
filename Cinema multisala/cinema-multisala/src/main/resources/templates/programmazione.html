@@ -23,7 +23,9 @@
 	<div class="container-fluid">
 		
 		<!-- TITOLO -->
-		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
+		<h3 class="text-center text-primary" th:title="'Torna alla Homepage'">
+			<a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a>
+		</h3>
 		<hr>
 		
 		
@@ -36,6 +38,9 @@
 				    </li>
 				    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
 				      <a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
+				    </li>
+				    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+				      <a class="nav-link" th:href="@{/amministratore/listaPersone}">GESTIONE UTENTI</a>
 				    </li>
 				</ul>
 			<ul class="nav">
@@ -59,6 +64,10 @@
 		
 		
 		<!-- PROGRAMMAZIONE -->
+		<div th:if="${listaFilm.isEmpty()}">
+			<br><br>
+			<p th:text="'Nessun film in programmazione'" th:class="'display-4 text-center'"></p>			
+		</div>
 		<div th:each="film, status : ${listaFilm}" class="jumbotron pt-3 pb-2 my-3">
 			<div class="row">
 				<div class="col col-md-5 my-auto mx-auto">
@@ -67,7 +76,8 @@
 									th:class="'mx-auto d-block rounded'"
 									th:alt="'Immagine ' + ${film.filmId.titolo}"
 									th:width="264"
-									th:height="345">
+									th:height="345"
+									th:title="${film.filmId.titolo}">
 					</p>
 				</div>
 				<div class="col col-md-6 my-auto mx-auto">
@@ -83,21 +93,41 @@
 			<!-- TABELLA ORARI -->
 			<div class="row justify-content-center mt-1">
 				<div class="col col-md-5">
-					<table th:class="'table table-bordered border-0 table-responsive'">
+					<table th:class="'table table-sm table-borderless table-responsive text-center'">
 						<tbody>
-							<tr >
-								<td th:class="'font-weight-bold'" th:text="Data"/>
+							<tr class="my-2">
+								<td th:class="'font-weight-bold'" th:text="'Data:'"/>
 								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
 									<th:block th:each="orario : ${listaOrariSingoloFilm}">
 										<td th:text="${orario.data.getDayOfMonth()} + '/' + ${orario.data.getMonthValue()}"/>
 									</th:block>
 								</th:block>
 							</tr>
-							<tr >
-								<td th:class="'font-weight-bold'" th:text="Ora"/>
+							<tr>
+								<td th:class="'font-weight-bold'" th:text="'Ora:'"/>
 								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
 									<th:block th:each="orario : ${listaOrariSingoloFilm}">
 										<td th:text="${orario.ora}"/>
+									</th:block>
+								</th:block>
+							</tr>
+							<tr>
+								<td th:class="'font-weight-bold'" th:text="'Prenota:'"/>
+								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
+									<th:block th:each="orario : ${listaOrariSingoloFilm}">
+										<td><a class="btn btn-success btn-sm" th:title="'Prenota'"
+												th:href="@{/prenotazione/prenota(titolo=${film.filmId.titolo}, data=${orario.data}, ora=${orario.ora})}">x</a>
+										</td>
+									</th:block>
+								</th:block>
+							</tr>	
+							<tr sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+								<td th:class="'font-weight-bold'" th:text="'Elimina:'"/>
+								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
+									<th:block th:each="orario : ${listaOrariSingoloFilm}">
+										<td><a class="btn btn-danger btn-sm" th:title="'Cancella orario'"
+												th:href="@{/dipendente/eliminaOrario(titolo=${film.filmId.titolo}, data=${orario.data}, ora=${orario.ora})}">x</a>
+										</td>
 									</th:block>
 								</th:block>
 							</tr>				
@@ -105,12 +135,12 @@
 					</table>
 				</div>
 			</div>
-			<div class="row justify-content-center mb-3">
-				<a th:class="'col col-md-2'" th:href="@{/prenotazione/prenota}">Prenota Ora</a>
-			</div>
+	
 			<div sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')" class="row justify-content-center mb-3">
-				<a th:class="'col col-md-2'" th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina Film</a>
-				<a th:class="'col col-md-2'" th:href="@{/dipendente/modificaFilm(titolo=${film.filmId.titolo})}">Modifica Film</a>
+				<a th:class="'col col-md-2'" th:title="'Elimina film dal database'"
+					th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina Film</a>
+				<a th:class="'col col-md-2'" th:title="'Modifica dati del film'"
+					th:href="@{/dipendente/modificaFilm(titolo=${film.filmId.titolo})}">Modifica Film</a>
 			</div>	
 		</div>
 

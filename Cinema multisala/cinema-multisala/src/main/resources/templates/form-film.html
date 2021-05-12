@@ -23,7 +23,9 @@
 	<div class="container-fluid">
 		
 		<!-- TITOLO -->
-		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
+		<h3 class="text-center text-primary">
+			<a th:href="@{/homepage/home}" th:title="'Torna alla Homepage'" class="text-decoration-none">CINEMA MULTISALA</a>
+			</h3>
 		<hr>
 		<br>
 		
@@ -58,11 +60,14 @@
 					<div class="form-row py-1">
 						<textarea rows="5" class="form-control" th:field="*{descrizione}" placeholder="Aggiungi una descrizione" required="required"></textarea>
 					</div>
-					<div class="form-row my-auto">
-						<p>Inserisci l'immagine della locandina</p>
+					<div class="form-row mb-n3">
+						<p>Carica l'immagine della locandina</p>
 					</div>
 					<div class="form-row py-1">
-						<input type="file" accept="image/*" name="img" required="required">
+						<div id="immagine"></div>
+					</div>
+					<div class="form-row py-1">
+						<input type="file" id="inputImmagine" accept="image/*" name="img" required="required">
 					</div>
 					<div class="form-row py-1">
 						<input type="date" class="form-control" th:field="*{filmId.data}" required="required">
@@ -80,6 +85,27 @@
 		
 	</div>
 	<!-- Fine container -->
+	
+	<!-- Script per vedere l'immagine selezionata -->
+	<script>
+		const inputImmagine = document.getElementById("inputImmagine");
+		const immagine = document.getElementById("immagine");
+		
+		inputImmagine.addEventListener("change", function () {
+			const files = inputImmagine.files[0];
+			if (files) {
+				const fileReader = new FileReader();
+				fileReader.readAsDataURL(files);
+				fileReader.addEventListener("load", function () {
+					immagine.innerHTML = '<img src="' + this.result + '" />'; // Questo this???
+				});    
+			} else {
+				immagine.innerHTML = '';
+			}			
+		});
+		
+		
+	</script>
 		
 </body>
 </html>

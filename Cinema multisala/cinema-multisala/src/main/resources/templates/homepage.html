@@ -76,7 +76,8 @@
 										th:class="'mx-auto d-block rounded'"
 										th:alt="'Immagine ' + ${film.filmId.titolo}"
 										th:width="220"
-										th:height="288">
+										th:height="288"
+										th:title="${film.filmId.titolo}">
 						</p>
 					</div>
 					<div class="col-md-4 my-auto mx-auto">
@@ -87,13 +88,13 @@
 						</ul>	
 					</div>
 					<div class="col-md-2 my-auto mx-auto text-center">
-						<a th:href="@{/scheda/mostraFilm(titoloFilm=${film.filmId.titolo})}">Vai alla scheda del film</a>
+						<a th:title="'Visualizza la scheda del film'" th:href="@{/scheda/mostraFilm(titoloFilm=${film.filmId.titolo})}">Vai alla scheda del film</a>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<!-- Se non ci sono film in programmazione scritta -->
+		<!-- Se non ci sono film in programmazione -->
 		<div th:if="${listaFilm.isEmpty()}">
 			<br><br>
 			<p th:text="'Nessun film in programmazione'" th:class="'display-4 text-center'"></p>			
