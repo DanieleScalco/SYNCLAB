@@ -54,64 +54,100 @@
 		
 		
 		
-		<!-- SCHEDA FILM -->
-		<div class="jumbotron pt-3 pb-2 my-3">
-			<div class="row">
-				<div class="col col-md-5 my-auto mx-auto">
-					<p>
-						<img th:src="'data:image/jpeg;base64,' + ${film.imageFromByteToString()}"
+		<!-- FORM MODIFICA FILM -->	
+		<!-- Enctype necessario per caricare il file -->
+		<form method="POST" th:action="@{/dipendente/modificaFilm}" enctype="multipart/form-data">
+			
+			<h5 class="text-primary mb-3 text-center">Modifica Film</h5>
+			<input type="hidden" name="titolo" th:value="${titolo}">
+			<input type="hidden" name="regista" th:value="${regista}">
+			<input type="hidden" name="cast" th:value="${cast}">
+			<input type="hidden" name="descrizione" th:value="${descrizione}">
+			
+			<div class="row ml-5 mr-5">
+				<div class="col col-md-5 mx-auto my-auto">
+					<div class="form-row mb-n3">
+						<p>Immagine locandina</p>
+					</div>
+					<div class="form-row py-1">
+						<div id="immagine" th:data-immagine="${immagine}" th:data-titolo="${titolo}">
+							<img th:src="'data:image/jpeg;base64,' + ${immagine}"
 									th:class="'mx-auto d-block rounded'"
-									th:alt="'Immagine ' + ${film.filmId.titolo}"
+									th:alt="'Immagine ' + ${titolo}"
 									th:width="264"
 									th:height="345"
-									th:title="${film.filmId.titolo}">
-					</p>
+									th:title="${titolo}">
+						</div>
+					</div>
+					<div class="form-row py-1">
+						<input type="file" id="inputImmagine" accept="image/*" name="img">
+					</div>
 				</div>
-				<div class="col col-md-6 my-auto mx-auto">
-					<ul th:class="'mx-auto text-center'" th:style="'list-style-type:none;'">
-						<li><h4 th:text="${film.filmId.titolo}"></h4></li>
-						<li><p th:text="'Regista: ' + ${film.regista}"></p></li>
-						<li><p th:text="'Cast: ' + ${film.cast}"></p></li>
-						<li><p th:class="'mx-auto text-justify'" th:text="${film.descrizione}"></p></li>
-					</ul>
+				<div class="col col-md-6 mx-auto my-auto">
+					<div class="d-flex align-content-between">
+						<p class="text-center form-control font-weight-bold" style="border-style:none;">Titolo</p>
+						<div class="col col-md-10">
+							<input type="text" class="form-control" name="newTitolo" th:value="${titolo}" required="required">
+						</div>
+					</div>
+					<div class="d-flex align-content-between">
+						<p class="text-center form-control font-weight-bold" style="border-style:none;">Regista</p>
+						<div class="col col-md-10">
+							<input type="text" class="form-control" name="newRegista" th:value="${regista}" required="required">
+						</div>
+					</div>
+					<div class="d-flex align-content-between">
+						<p class="text-center form-control col col-md-2 font-weight-bold" style="border-style:none;">Cast</p>
+						<div class="col col-md-10">
+							<textarea rows="3" class="form-control mb-3" name="newCast" th:text="${cast}" required="required"></textarea>
+						</div>
+					</div>
+					<div class="d-flex align-content-between">
+						<p class="text-center form-control font-weight-bold" style="font-size:0.8em;border-style:none;">Descrizione</p>
+						<div class="col col-md-10">
+							<textarea rows="6" class="form-control" name="newDescrizione" th:text="${descrizione}" required="required"></textarea>
+						</div>
+					</div>
 				</div>
 			</div>
-			
-			<!-- TABELLA ORARI -->
-			<div class="row justify-content-center mt-1">
-				<div class="col col-md-5">
-					<table th:class="'table table-sm table-borderless table-responsive text-center'">
-						<tbody>
-							<tr >
-								<td th:class="'font-weight-bold'" th:text="Data"/>
-								<th:block th:each="orario : ${listaOrari}">
-									<td th:text="${orario.data.getDayOfMonth()} + '/' + ${orario.data.getMonthValue()}"/>
-								</th:block>
-							</tr>
-							<tr >
-								<td th:class="'font-weight-bold'" th:text="Ora"/>
-								<th:block th:each="orario : ${listaOrari}">
-									<td th:text="${orario.ora}"/>
-								</th:block>
-							</tr>
-							<tr >
-								<td th:class="'font-weight-bold'" th:text="Prenota"/>
-								<th:block th:each="orario : ${listaOrari}">
-									<td>
-										<a class="btn btn-success btn-sm" th:title="'Prenota'"
-												th:href="@{/prenotazione/prenota(titolo=${film.filmId.titolo}, data=${orario.data}, ora=${orario.ora})}">x</a>
-									</td>
-								</th:block>
-							</tr>
-						</tbody>	
-					</table>
+			<div class="col col-md-2 mx-auto">
+				<div class="form-row py-1 mb-5">
+					<button type="submit" class="btn btn-info btn-block">MODIFICA</button>
 				</div>
-			</div>	
-		</div>
+			</div>
+		</form>
+			
 
 		
 	</div>
 	<!-- Fine container -->
+	
+	<!-- Script per vedere l'immagine selezionata -->
+	<script>
+		
+		const inputImmagine = document.getElementById("inputImmagine");
+		const immagine = document.getElementById("immagine");
+		const stringImage = document.getElementById("immagine").getAttribute("data-immagine");
+		const titolo = document.getElementById("immagine").getAttribute("data-titolo");
+		
+		inputImmagine.addEventListener("change", function () {
+			const files = inputImmagine.files[0];
+			if (files) {
+				const fileReader = new FileReader();
+				fileReader.readAsDataURL(files);
+				fileReader.addEventListener("load", function () {
+					immagine.innerHTML = '<img src="' + this.result + '" width="264" height="345"' +
+										' class="mx-auto d-block rounded" alt="Immagine Locandina"' +
+										' title="Immagine Locandina"/>';
+				});    
+			} else {
+				immagine.innerHTML = '<img src="data:image/jpeg;base64,' + stringImage + '"' +
+									' class="mx-auto d-block rounded" alt="Immagine ' + titolo + '"' +
+									' width="264" height="345" title="Immagine ' + titolo + '" />';
+			}			
+		});
+		
+	</script>
 		
 </body>
 </html>

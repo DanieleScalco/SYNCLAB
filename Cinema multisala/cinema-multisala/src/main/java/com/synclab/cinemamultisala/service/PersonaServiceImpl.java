@@ -1,5 +1,6 @@
 package com.synclab.cinemamultisala.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -63,7 +64,7 @@ public class PersonaServiceImpl implements PersonaService{
 	}
 	
 	@Override
-	public void registra(CrmPersona crmPersona) {
+	public void registra(CrmPersona crmPersona, Collection<Ruolo> ruoli) {
 		Persona persona = new Persona();
 		
 		String passwordCriptata = bCryptPasswordEncoder.encode(crmPersona.getPassword());
@@ -71,7 +72,14 @@ public class PersonaServiceImpl implements PersonaService{
 		persona.setPassword(passwordCriptata);
 		
 		// Di default si viene registrati come utenti
-		persona.setRuoli(Arrays.asList(ruoloRepository.findRoleByName("UTENTE")));
+		if (ruoli == null || ruoli.isEmpty()) {
+			Ruolo ruoloUtente = ruoloRepository.findRoleByName("UTENTE");
+			myLogger.info("Ruolo: " + ruoloUtente);
+			if (ruoli == null)
+				ruoli = new ArrayList<Ruolo>();
+			ruoli.add(ruoloUtente);
+		}
+		persona.setRuoli(ruoli);
 		
 		personaRepository.save(persona);
 

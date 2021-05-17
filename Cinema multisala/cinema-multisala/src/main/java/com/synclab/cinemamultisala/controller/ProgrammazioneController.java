@@ -34,15 +34,11 @@ public class ProgrammazioneController {
 		// Si considera che tutti i film in programmazione siano quelli dalla data attuale
 		// a 7 giorni dopo
 		List<Film> listaSingoliFilm =  filmService.getFilmsFromDayToDay(dataAttuale, dataAttualePiu7);
-		String debugInfo = "";
 		List<String> listaTitoli = new ArrayList<String>();
 		
 		for (Film f: listaSingoliFilm) {
-			debugInfo += f.getFilmId() + " - ";
 			listaTitoli.add(f.getFilmId().getTitolo());
 		}
-		myLogger.info("Film caricati: " + debugInfo);
-		myLogger.info("Titoli caricati: " + listaTitoli);
 		
 		List<Film> films = new ArrayList<Film>();
 		List<List<Orario>> orari = new ArrayList<List<Orario>>();
@@ -58,7 +54,6 @@ public class ProgrammazioneController {
 				Orario orarioTmp = new Orario(filmTmp.getFilmId().getData(), filmTmp.getFilmId().getOraInizio());
 				listaOrari.add(orarioTmp);
 			}
-			myLogger.info("Lista orari: " + listaOrari);
 			
 			films.add(film);
 			orari.add(listaOrari);

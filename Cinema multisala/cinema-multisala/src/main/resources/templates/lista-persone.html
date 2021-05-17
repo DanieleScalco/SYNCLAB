@@ -31,42 +31,79 @@
 		<h3>Lista Utenti</h3>
 		<hr>
 		
-		<div class="col" th:if="${statoUtente}">
-			<p th:text="${statoUtente}" class="text-success text-center"></p>
+		<!-- Se non ci sono film in programmazione -->
+		<div th:if="${persone.isEmpty()}">
+			<br><br>
+			<h1 th:text="'Nessun utente registrato'" class="text-center"></h1>			
 		</div>
 		
-		<a th:href="@{/amministratore/showFormForAdd}" th:title="'Aggiungi un nuovo utente'" class="btn btn-primary btn-sm mb-3">Aggiungi Utente</a>
+		<div class="col" th:if="${utenteAggiunto}">
+			<p th:text="${utenteAggiunto}" class="text-success text-center"></p>
+		</div>
+		<div class="col" th:if="${ruoliModificati}">
+			<p th:text="${ruoliModificati}" class="text-success text-center"></p>
+		</div>
 		
-		<table class="table table-bordered table-striped">
+		<div class="col col-md-8 mx-auto mt-5">
+			<a th:href="@{/amministratore/showFormForAdd}" th:title="'Aggiungi un nuovo utente'" class="btn btn-primary btn-sm mb-3 ml-n2">Aggiungi Utente</a>
+		</div>
+		<table class="table table-bordered table-striped col col-md-8 mx-auto">
 			<thead class="thead-dark">
 				<tr>
-					<th>#</th>
-					<th>Mail</th>
-					<th>Ruoli</th>
-					<th class="text-center">Azioni</th>
+					<th width="10%" class="text-center">#</th>
+					<th width="30%">Mail</th>
+					<th width="30%">Ruoli</th>
+					<th width="30%" class="text-center">Azioni</th>
 				</tr>
 			</thead>
 			
 			<tbody>
 				<tr th:each="persona, iterStat : ${persone}">
-					<td th:text="${iterStat.count}"/>
-					<td th:text="${persona.mail}"/>
-					<td>
+					<td class="text-center align-middle" th:text="${iterStat.count}"/>
+					<td class="align-middle" th:text="${persona.mail}"/>
+					<td class="align-middle">
 						<div th:each="ruolo : ${persona.ruoli}">
 							<p th:text="${ruolo.nomeRuolo}">
 						</div>
 					</td>
 					<td class="text-center align-middle">
-						<a th:href="@{/amministratore/showFormForUpdate(mail=${persona.mail})}" th:title="'Modifica dati utente'" class="btn btn-info btn-sm mb-2">Aggiorna</a>
+						<a th:href="@{/amministratore/showFormForUpdate(mail=${persona.mail})}" th:title="'Modifica dati utente'"
+							class="btn btn-info btn-sm mb-2">Aggiorna</a>
 						<br>
-						<a th:href="@{/amministratore/delete(mail=${persona.mail})}" th:title="'Elimina utente'" class="btn btn-danger btn-sm"
-						   onclick="if (!(confirm('Sei sicuro di voler eliminare questo utente?'))) return false">Elimina</a>
+						<a th:href="@{/amministratore/delete(mail=${persona.mail})}" th:title="'Elimina utente'"
+							class="btn btn-danger btn-sm delete" th:data-mail="${persona.mail}">Elimina</a>
+							<!-- th:data-nomeAttributo serve per tenere delle variabili -->
 					</td>
 				</tr>
 			</tbody>
 			
 		</table>
 	</div>
+	
+	<script th:inline="javascript">
+/*<![CDATA[*/
+
+		var deleteLinks = document.querySelectorAll('.delete');
+		
+		
+		for (var i = 0; i < deleteLinks.length; i++) {
+			// Event è un parametro che si può prendere in una funzione quando accade un evento nella pagina
+			deleteLinks[i].addEventListener('click', function(event) {
+							
+				var choice = confirm("Sei sicuro di voler eliminare " + this.getAttribute("data-mail") + "?");
+				
+				// Se si clicca ok torna true e quindi si chiama il path del link, altrimenti si interrompe il link
+				if (choice) {
+					// Non è necessario, basta if (choice == false) event.preventDefault();
+					window.location.href = this.getAttribute('href');
+				} else {
+					event.preventDefault(); // Evita di porta a compimento l'evento
+				}
+			});
+		}
+  
+/*]]>*/
+</script>
 	
 </body>
 </html>

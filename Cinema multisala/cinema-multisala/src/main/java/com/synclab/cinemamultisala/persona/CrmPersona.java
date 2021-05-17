@@ -2,7 +2,6 @@ package com.synclab.cinemamultisala.persona;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
@@ -21,7 +20,6 @@ public class CrmPersona {
 	@Size(min = 8, message = "La password deve contenere almeno 8 caratteri")
 	private String matchingPassword;
 
-	
 	public CrmPersona() {
 
 	}

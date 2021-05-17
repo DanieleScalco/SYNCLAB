@@ -28,35 +28,60 @@
 		<hr>
 		<br>
 
-		
+
+		<div class="col" th:if="${ruoliRichiesti}">
+			<p th:text="${ruoliRichiesti}" class="text-danger text-center"></p>
+		</div>
 		
 		<!-- FORM UTENTE -->
 		<div class="row justify-content-center">
 			<div class="col col-md-5">
 						
 				<form method="POST" th:action="@{/amministratore/salvaUtente}" th:object="${persona}">
+					
+					<h4 class="text-primary mb-3 text-center">Creazione nuovo utente</h4>
 					<br>					
+					    
 					<div class="form-row py-1">
-						<input type="text" th:field="*{mail}" class="form-control" placeholder="E-mail" autofocus="autofocus">
+						<input type="text" class="form-control" th:field="*{mail}" th:errorClass="is-invalid" placeholder="E-mail" autofocus="autofocus">
+						<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" th:class="invalid-feedback"></div>
 					</div>
 					<div class="form-row py-1">
-						<input type="password" th:field="*{password}" class="form-control" placeholder="Password">
+						<input type="password" class="form-control" th:field="*{password}" th:errorClass="is-invalid" placeholder="Password">
+						<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:class="invalid-feedback"></div>
 					</div>
 					<div class="form-row py-1">
+						<input type="password" class="form-control" th:field="*{matchingPassword}" th:errorClass="is-invalid" placeholder="Conferma password">
+						<div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" th:class="invalid-feedback"></div>
+					</div>
+					<div class="form-row mt-1" th:if="${#fields.hasGlobalErrors()}">
+					  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:rgba(220,53,69,255);font-size:small;margin">...</p>
+					</div>
+					<div class="form-row">
 						<p>Seleziona i ruoli:</p>
 						<ul style="list-style-type:none;">
-							<li th:each="ruolo : ${ruoli}">
-									<input type="checkbox" th:field="*{ruoli}" th:value="${ruolo.id}" th:text="' ' + ${ruolo.nomeRuolo}">
+							<li>
+								<input type="checkbox" name="ruoli" value="UTENTE">
+								<label>UTENTE</label>
+							</li>
+							<li>
+								<input type="checkbox" name="ruoli" value="DIPENDENTE">
+								<label>DIPENDENTE</label>
+							</li>
+							<li>
+								<input type="checkbox" name="ruoli" value="AMMINISTRATORE">
+								<label>AMMINISTRATORE</label>
 							</li>
 						</ul>
 					</div>
 					<div class="form-row py-1">
-						<button type="submit" class="btn btn-info btn-block">Aggiungi Utente</button>
+						<button id="submit" type="submit" class="btn btn-info btn-block">Applica modifiche</button>
 					</div>
 				</form>
 			</div>
 		</div>
 		
 	</div>
+	
 </body>
 </html>

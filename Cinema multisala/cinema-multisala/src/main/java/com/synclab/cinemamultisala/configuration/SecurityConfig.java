@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/amministratore/**").hasAuthority("AMMINISTRATORE") // Si parte PER FORZA dal più ristretto:
 			.antMatchers("/dipendente/**").hasAnyAuthority("DIPENDENTE", "AMMINISTRATORE")
+			.antMatchers("/prenotazione/**").hasAuthority("UTENTE")
 			.antMatchers("/", "/homepage/**", "/scheda/**", "/programmazione/**").permitAll()
 			.and()
 			.formLogin()

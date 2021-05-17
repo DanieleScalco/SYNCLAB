@@ -59,11 +59,6 @@ public class HomeController {
 		// Si considera che tutti i film in programmazione siano quelli dalla data attuale
 		// a 7 giorni dopo
 		List<Film> listaFilm =  filmService.getFilmsFromDayToDay(dataAttuale, dataAttualePiu7);
-		String debugInfo = "";
-		for (Film f: listaFilm) {
-			debugInfo += f.getFilmId().getTitolo() + " - ";
-		}
-		myLogger.info("Film caricati: " + debugInfo);
 		
 		model.addAttribute("listaFilm", listaFilm);
 		
@@ -83,7 +78,7 @@ public class HomeController {
 	
 	@PostMapping("/processRegistrazioneForm")
 	public String processRegistrationForm(@Valid @ModelAttribute("persona") CrmPersona persona,
-											BindingResult theBindingResult, Model model, RedirectAttributes registrazioneAvvenuta) {
+											BindingResult theBindingResult, RedirectAttributes registrazioneAvvenuta) {
 	// RedirectAttributes sono gli attributi passati al model quando si fa la redirect
 		
 		
@@ -97,8 +92,10 @@ public class HomeController {
 		
 		// Controllo se le due password coincidono
 		if (persona.getPassword() != null && persona.getMatchingPassword() != null) {
-			if (!persona.getPassword().equals(persona.getMatchingPassword()))
+			if (!persona.getPassword().equals(persona.getMatchingPassword())) {
 				theBindingResult.addError(new FieldError("persona", "password", "Le due password devono coincidere"));
+				theBindingResult.addError(new FieldError("persona", "matchingPassword", "Le due password devono coincidere"));
+			}
 		}
 		
 		if (theBindingResult.hasErrors()){
@@ -106,7 +103,7 @@ public class HomeController {
 	    } else {
 	        
 	        // Salvataggio dell'utente nel db   						
-	        personaService.registra(persona);
+	        personaService.registra(persona, null);
 	        registrazioneAvvenuta.addFlashAttribute("registrazioneAvvenuta", "Registrazione avvenuta con successo!");
         }
         

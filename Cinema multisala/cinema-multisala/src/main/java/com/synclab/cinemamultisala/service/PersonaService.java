@@ -1,5 +1,6 @@
 package com.synclab.cinemamultisala.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,7 @@ public interface PersonaService extends UserDetailsService {
 	
 	public void salvaPersona(Persona persona);
 	
-	public void registra(CrmPersona persona);
+	public void registra(CrmPersona persona, Collection<Ruolo> ruoli);
 
 	public void eliminaPersona(String mail);
 	

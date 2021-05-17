@@ -31,52 +31,31 @@
 		
 		
 		
-		<!-- FORM AGGIUNTA FILM -->
+		<!-- FORM AGGIUNTA ORARIO -->
 		<div class="row justify-content-center">
 			<div class="col col-md-5">
-			
-				<div class="col text-center" th:if="${filmGiaEsistente}">
-					<p th:text="${filmGiaEsistente}" class="text-danger text-center"></p>
-				</div>
-				<div class="col text-center" th:if="${filmSalvato}">
-					<p th:text="${filmSalvato}" class="text-success"></p>
-				</div>
 				
 				<!-- Enctype necessario per caricare il file -->
-				<form method="POST" th:action="@{/dipendente/processFilm}" enctype="multipart/form-data" th:object="${film}">
+				<form method="POST" th:action="@{/dipendente/aggiungiOrario}">
 					
-					<h5 class="text-primary mb-3 text-center">Aggiungi un film alla collezione</h5>
+					<h5 class="text-primary mb-3 text-center" th:text="'Aggiungi un orario per ' + ${titolo}"></h5>
+					<br>
 					<br>
 					
+					<div class="col text-center" th:if="${dataAggiunta}">
+						<p th:text="${dataAggiunta}" class="text-success text-center"></p>
+					</div>
+					
+					<input type="hidden" name="titolo" th:value="${titolo}">
+					
 					<div class="form-row py-1">
-						<input type="text" class="form-control" th:field="*{filmId.titolo}" placeholder="Titolo" autofocus="autofocus" required="required">
+						<input type="date" class="form-control col col-md-5 mx-auto" name="data" required="required">
 					</div>
 					<div class="form-row py-1">
-						<input type="text" class="form-control" th:field="*{regista}" placeholder="Regista" required="required">
+						<input type="time" class="form-control col col-md-5 mx-auto" name="ora" required="required">
 					</div>
 					<div class="form-row py-1">
-						<input type="text" class="form-control" th:field="*{cast}" placeholder="Cast" required="required">
-					</div>
-					<div class="form-row py-1">
-						<textarea rows="5" class="form-control" th:field="*{descrizione}" placeholder="Aggiungi una descrizione" required="required"></textarea>
-					</div>
-					<div class="form-row mb-n3">
-						<p>Carica l'immagine della locandina</p>
-					</div>
-					<div class="form-row py-1">
-						<div id="immagine"></div>
-					</div>
-					<div class="form-row py-1">
-						<input type="file" id="inputImmagine" accept="image/*" name="img" required="required">
-					</div>
-					<div class="form-row py-1">
-						<input type="date" class="form-control" th:field="*{filmId.data}" required="required">
-					</div>
-					<div class="form-row py-1">
-						<input type="time" class="form-control" th:field="*{filmId.oraInizio}" required="required">
-					</div>
-					<div class="form-row py-1">
-						<button type="submit" class="btn btn-info btn-block">Aggiungi</button>
+						<button type="submit" class="btn btn-info btn-block col col-md-3 mx-auto">Aggiungi orario</button>
 					</div>
 				</form>
 			</div>

@@ -39,7 +39,7 @@
 				    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
 				      <a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
 				    </li>
-				    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+				    <li class="nav-item" sec:authorize="hasAuthority('AMMINISTRATORE')">
 				      <a class="nav-link" th:href="@{/amministratore/listaPersone}">GESTIONE UTENTI</a>
 				    </li>
 				</ul>
@@ -61,6 +61,9 @@
 		<div class="col text-center" th:if="${filmEliminato}">
 			<p th:text="${filmEliminato}" class="text-success text-center"></p>
 		</div>
+		<div class="col text-center" th:if="${filmModificato}">
+			<p th:text="${filmModificato}" class="text-success text-center"></p>
+		</div>
 		
 		
 		<!-- PROGRAMMAZIONE -->
@@ -68,7 +71,7 @@
 			<br><br>
 			<p th:text="'Nessun film in programmazione'" th:class="'display-4 text-center'"></p>			
 		</div>
-		<div th:each="film, status : ${listaFilm}" class="jumbotron pt-3 pb-2 my-3">
+		<div th:each="film, status : ${listaFilm}" class="jumbotron pt-4 pb-2 my-3">
 			<div class="row">
 				<div class="col col-md-5 my-auto mx-auto">
 					<p>
@@ -111,7 +114,7 @@
 									</th:block>
 								</th:block>
 							</tr>
-							<tr>
+							<tr sec:authorize="hasAuthority('UTENTE')">
 								<td th:class="'font-weight-bold'" th:text="'Prenota:'"/>
 								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
 									<th:block th:each="orario : ${listaOrariSingoloFilm}">
@@ -135,13 +138,26 @@
 					</table>
 				</div>
 			</div>
-	
-			<div sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')" class="row justify-content-center mb-3">
-				<a th:class="'col col-md-2'" th:title="'Elimina film dal database'"
-					th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina Film</a>
-				<a th:class="'col col-md-2'" th:title="'Modifica dati del film'"
-					th:href="@{/dipendente/modificaFilm(titolo=${film.filmId.titolo})}">Modifica Film</a>
-			</div>	
+			
+			<!-- Controlla se utente -->
+			<div class="col col-md-3 mx-auto text-center mt-n2 mb-2" sec:authorize="isAnonymous()">
+				<a th:href="@{/homepage/login}" title="Login">Effettua il login per prenotare</a>
+			</div>
+			<div class="col col-md-3 mx-auto text-center mt-n2 mb-2" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+				<p class="text-warning bg-light">Solo gli "UTENTI" possono prenotare</p>
+			</div>
+			
+			<!-- Modifica/elimina -->
+			<div sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')" class="col col-md-6 mx-auto mb-2">
+				<div class="row">
+					<a class="col col-md-2 text-center btn btn-danger btn-sm mx-auto" th:title="'Elimina film dal database'"
+						th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina Film</a>
+					<a class="col col-md-3 text-center btn btn-success btn-sm mx-auto" th:title="'Aggiungi orario'"
+						th:href="@{/dipendente/formOrario(titolo=${film.filmId.titolo})}">Aggiungi orario</a>
+					<a class="col col-md-2 text-center btn btn-warning btn-sm mx-auto" th:title="'Modifica dati del film'"
+						th:href="@{/dipendente/formModificaFilm(titolo=${film.filmId.titolo})}">Modifica Film</a>
+				</div>
+			</div>
 		</div>
 
 		

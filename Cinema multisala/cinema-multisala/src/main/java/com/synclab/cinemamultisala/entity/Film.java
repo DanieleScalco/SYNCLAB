@@ -1,5 +1,7 @@
 package com.synclab.cinemamultisala.entity;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Base64;
 
 import javax.persistence.Column;
@@ -40,6 +42,14 @@ public class Film {
 		this.immagine = immagine;
 		this.regista = regista;
 	}
+	
+	public Film(String titolo, LocalDate data, LocalTime ora, String descrizione, String cast, byte[] immagine, String regista) {
+		this(new FilmId(titolo, data, ora), descrizione, cast, immagine, regista);
+	}
+	
+	public Film(Film film){
+		this(film.getFilmId(), film.getDescrizione(), film.getCast(), film.getImmagine(), film.getRegista());
+	} 
 
 	public FilmId getFilmId() {
 		return filmId;

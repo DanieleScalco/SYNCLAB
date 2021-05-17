@@ -1,7 +1,8 @@
 
 INSERT IGNORE INTO cinema_multisala.persona VALUES
 	('danielescalco@hotmail.it', '$2a$10$aObQVr9LHzrlAehp7vzvMe23wtx1Ge67QnAyx8MZ68EJZGR/CmuEq'),
-	('dipendente@dipendente.it', '$2a$10$jDzLejqEYXbXqtWdk3KrieGDo/IUR2TJyhFTTDkZzzzunigQ19KJW');
+	('dipendente@dipendente.it', '$2a$10$jDzLejqEYXbXqtWdk3KrieGDo/IUR2TJyhFTTDkZzzzunigQ19KJW'),
+	('utente@utente.it', '$2a$10$aObQVr9LHzrlAehp7vzvMe23wtx1Ge67QnAyx8MZ68EJZGR/CmuEq');
     
 INSERT IGNORE INTO cinema_multisala.ruolo VALUES
 	(1, 'UTENTE'),
@@ -10,7 +11,8 @@ INSERT IGNORE INTO cinema_multisala.ruolo VALUES
 
 INSERT IGNORE INTO cinema_multisala.persona_ruolo VALUES
 	('danielescalco@hotmail.it', 3),
-	('dipendente@dipendente.it', 2);
+	('dipendente@dipendente.it', 2),
+	('utente@utente.it', 1);
 
 INSERT IGNORE INTO cinema_multisala.film VALUES
     ('Avatar', CURRENT_DATE(), '21:30:00', 'L\'ex marine Jake Sully è stato reclutato per una missione sul pianeta Pandora con lo scopo di recuperare risorse naturali in esaurimento sulla Terra. Inaspettatamente si ritrova a voler proteggere il mondo magico al quale si sente stranamente legato.', 'Sam Worthington, Zoe Saldana, Stephen Lang, Michelle Rodriguez, Sigourney Weaver', LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Data\\Uploads\\Avatar.jpg') , 'James Cameron'),

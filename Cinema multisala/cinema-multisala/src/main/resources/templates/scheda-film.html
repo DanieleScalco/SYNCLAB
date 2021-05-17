@@ -55,7 +55,7 @@
 		
 		
 		<!-- SCHEDA FILM -->
-		<div class="jumbotron pt-3 pb-2 my-3">
+		<div class="jumbotron pt-4 pb-2 my-3">
 			<div class="row">
 				<div class="col col-md-5 my-auto mx-auto">
 					<p>
@@ -82,19 +82,19 @@
 				<div class="col col-md-5">
 					<table th:class="'table table-sm table-borderless table-responsive text-center'">
 						<tbody>
-							<tr >
+							<tr>
 								<td th:class="'font-weight-bold'" th:text="Data"/>
 								<th:block th:each="orario : ${listaOrari}">
 									<td th:text="${orario.data.getDayOfMonth()} + '/' + ${orario.data.getMonthValue()}"/>
 								</th:block>
 							</tr>
-							<tr >
+							<tr>
 								<td th:class="'font-weight-bold'" th:text="Ora"/>
 								<th:block th:each="orario : ${listaOrari}">
 									<td th:text="${orario.ora}"/>
 								</th:block>
 							</tr>
-							<tr >
+							<tr sec:authorize="hasAuthority('UTENTE')">
 								<td th:class="'font-weight-bold'" th:text="Prenota"/>
 								<th:block th:each="orario : ${listaOrari}">
 									<td>
@@ -107,6 +107,12 @@
 					</table>
 				</div>
 			</div>	
+			<div class="col col-md-3 mx-auto text-center" sec:authorize="isAnonymous()">
+				<a th:href="@{/homepage/login}" title="Login">Effettua il login per prenotare</a>
+			</div>
+			<div class="col col-md-3 mx-auto text-center" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+				<p class="text-warning bg-light">Solo gli "UTENTI" possono prenotare</p>
+			</div>
 		</div>
 
 		
