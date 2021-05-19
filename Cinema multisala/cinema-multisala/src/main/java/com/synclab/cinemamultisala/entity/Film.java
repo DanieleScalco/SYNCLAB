@@ -4,10 +4,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Base64;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +35,10 @@ public class Film {
 	
 	@Column(name = "regista")
 	private String regista;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "sala")
+	private Sala sala;
 	
 	public Film() {
 		
@@ -99,10 +108,18 @@ public class Film {
 		return stringa;
 	}
 
+	public Sala getSala() {
+		return sala;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
 	@Override
 	public String toString() {
 		return filmId.toString() + ", descrizione: " + descrizione + ", cast: " + cast + ", immagine: " +
-				immagine + ", regista: " + regista;
+				immagine + ", regista: " + regista + ", sala: " + sala;
 	}
 	
 	

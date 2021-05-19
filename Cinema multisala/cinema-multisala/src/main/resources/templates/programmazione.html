@@ -93,12 +93,12 @@
 				</div>
 			</div>
 			
-			<!-- TABELLA ORARI -->
+			<!-- TABELLA ORARI, SALE, AZIONI -->
 			<div class="row justify-content-center mt-1">
 				<div class="col col-md-5">
 					<table th:class="'table table-sm table-borderless table-responsive text-center'">
 						<tbody>
-							<tr class="my-2">
+							<tr>
 								<td th:class="'font-weight-bold'" th:text="'Data:'"/>
 								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
 									<th:block th:each="orario : ${listaOrariSingoloFilm}">
@@ -111,6 +111,14 @@
 								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
 									<th:block th:each="orario : ${listaOrariSingoloFilm}">
 										<td th:text="${orario.ora}"/>
+									</th:block>
+								</th:block>
+							</tr>
+							<tr>
+								<td th:class="'font-weight-bold'" th:text="'Sala'"/>
+								<th:block th:with="listaOrariSingoloFilm=${listaOrari.get(status.index)}">
+									<th:block th:each="orario : ${listaOrariSingoloFilm}">
+										<td th:text="${orario.sala}"/>
 									</th:block>
 								</th:block>
 							</tr>

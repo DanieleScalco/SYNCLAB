@@ -41,6 +41,9 @@
 				<div class="col text-center" th:if="${filmSalvato}">
 					<p th:text="${filmSalvato}" class="text-success"></p>
 				</div>
+				<div class="col mx-auto text-center" th:if="${problemaOrario}">
+					<p th:each="p, iter : ${problemaOrario}" th:class="${iter.index} == 2? 'text-danger' : 'text-danger mt-n3'" th:text="${p}"></p>
+				</div>
 				
 				<!-- Enctype necessario per caricare il file -->
 				<form method="POST" th:action="@{/dipendente/processFilm}" enctype="multipart/form-data" th:object="${film}">
@@ -74,6 +77,12 @@
 					</div>
 					<div class="form-row py-1">
 						<input type="time" class="form-control" th:field="*{filmId.oraInizio}" required="required">
+					</div>
+					<div class="form-row py-1">
+						<p class="mr-3">Seleziona la sala</p>
+						<select th:field="*{sala}">
+							<option th:each="s : ${listaSale}" th:value="${s.id}" th:text="${s.numeroSala}">
+						</select>
 					</div>
 					<div class="form-row py-1">
 						<button type="submit" class="btn btn-info btn-block">Aggiungi</button>

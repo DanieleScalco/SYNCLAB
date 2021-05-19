@@ -77,7 +77,7 @@
 				</div>
 			</div>
 			
-			<!-- TABELLA ORARI -->
+			<!-- TABELLA ORARI, SALE, PRENOTA -->
 			<div class="row justify-content-center mt-1">
 				<div class="col col-md-5">
 					<table th:class="'table table-sm table-borderless table-responsive text-center'">
@@ -92,6 +92,12 @@
 								<td th:class="'font-weight-bold'" th:text="Ora"/>
 								<th:block th:each="orario : ${listaOrari}">
 									<td th:text="${orario.ora}"/>
+								</th:block>
+							</tr>
+							<tr>
+								<td th:class="'font-weight-bold'" th:text="Sala"/>
+								<th:block th:each="orario : ${listaOrari}">
+									<td th:text="${orario.sala}"/>
 								</th:block>
 							</tr>
 							<tr sec:authorize="hasAuthority('UTENTE')">

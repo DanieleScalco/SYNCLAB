@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,7 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synclab.cinemamultisala.entity.Film;
 import com.synclab.cinemamultisala.entity.FilmId;
-import com.synclab.cinemamultisala.entity.Orario;
+import com.synclab.cinemamultisala.entity.OrarioSala;
+import com.synclab.cinemamultisala.entity.Sala;
 import com.synclab.cinemamultisala.service.FilmService;
 
 @Controller
@@ -50,22 +52,57 @@ public class DipendenteController {
 		Film film = new Film();
 		model.addAttribute("film", film);
 		
+		List<Sala> listaSale = filmService.getSale();
+		model.addAttribute("listaSale", listaSale);
+		
 		return "form-film";
 	}
 	 
 	@PostMapping("/processFilm")
 	public String processFilm(@ModelAttribute("film") Film film, @RequestParam("img") MultipartFile file, Model model, RedirectAttributes ra) {
-				
+		
+		boolean filmDaAggiungere = true;
+		
 		if (filmService.existsById(film.getFilmId())) {
-			ra.addFlashAttribute("filmGiaEsistente", "Film già presente nel database");
+			ra.addFlashAttribute("filmGiaEsistente", "Film già presente nel database in quell'orario");
 		} else {
-			try {
-				film.setImmagine(file.getBytes());
-			} catch (IOException e) {
-				myLogger.info("Errore caricamento immagine");
+			
+			// Controllo i film presenti nella stessa sala
+			List<Film> filmInSala = filmService.getFilmInSala(film.getSala().getNumeroSala());
+			String debug = "";
+
+			for (Film f : filmInSala)
+				debug += f.getFilmId() + " - ";
+			myLogger.info("Film in sala: " + debug);
+			
+			// Controllo che l'orario che si vuole aggiungere disti di almeno due ore da quelli già presenti
+			for (Film f : filmInSala) {
+				
+				// Se hanno la stessa data controlla gli orari
+				if (f.getFilmId().getData().equals(film.getFilmId().getData())) {
+					
+					long differenzaInOre = f.getFilmId().getOraInizio().until(film.getFilmId().getOraInizio(), ChronoUnit.HOURS);
+					myLogger.info("ora 1: " + f.getFilmId().getOraInizio() + ", ora 2: " + film.getFilmId().getOraInizio() + ", differenza in ore: " + differenzaInOre);
+					
+					if (Math.abs(differenzaInOre) < 2) {
+						List<String> problemaOrario = new ArrayList<>();
+						problemaOrario.add("Impossibile aggiungere il film, ci devono essere almeno due ore di distacco tra un film e l'altro nella stessa sala");
+						problemaOrario.add("Cambia orario oppure la sala");
+						ra.addFlashAttribute("problemaOrario", problemaOrario);
+						filmDaAggiungere = false;
+					}
+				}
 			}
-			filmService.salvaFilm(film);;
-			ra.addFlashAttribute("filmSalvato", "Film aggiunto correttamente!");
+			
+			if (filmDaAggiungere) {
+				try {
+					film.setImmagine(file.getBytes());
+				} catch (IOException e) {
+					myLogger.info("Errore caricamento immagine");
+				}
+				filmService.salvaFilm(film);;
+				ra.addFlashAttribute("filmSalvato", "Film aggiunto correttamente!");
+			}
 		}
 		
 		return "redirect:/dipendente/aggiungiFilm";
@@ -111,13 +148,13 @@ public class DipendenteController {
 		model.addAttribute("descrizione", films.get(0).getDescrizione());
 		model.addAttribute("immagine", films.get(0).imageFromByteToString());
 		
-		List<Orario> orari = new ArrayList<Orario>();
+		List<OrarioSala> orari = new ArrayList<OrarioSala>();
 		for (Film f : films) {
-			orari.add(new Orario(f.getFilmId().getData(), f.getFilmId().getOraInizio()));
+			orari.add(new OrarioSala(f.getFilmId().getData(), f.getFilmId().getOraInizio(), f.getSala().getNumeroSala()));
 		}
 		
 		String orariString = "";
-		for (Orario tmpOrario: orari) {
+		for (OrarioSala tmpOrario: orari) {
 			orariString += tmpOrario + " ";
 		}
 		
@@ -211,6 +248,9 @@ public class DipendenteController {
 	
 	@PostMapping("/aggiungiOrario")
 	public String aggiungiOrario(@RequestParam("titolo") String titolo, @RequestParam("data") String data, @RequestParam("ora") String ora, RedirectAttributes ra) {
+		
+		// TODO mettere sala e controllo orario per l'aggiunta
+		// Cambiare sala in modifica e relativo controllo
 		
 		DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");

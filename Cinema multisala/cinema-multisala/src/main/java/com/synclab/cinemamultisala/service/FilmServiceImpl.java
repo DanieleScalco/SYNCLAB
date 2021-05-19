@@ -11,14 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synclab.cinemamultisala.dao.FilmRepository;
+import com.synclab.cinemamultisala.dao.SalaRepository;
 import com.synclab.cinemamultisala.entity.Film;
 import com.synclab.cinemamultisala.entity.FilmId;
+import com.synclab.cinemamultisala.entity.Sala;
 
 @Service
 public class FilmServiceImpl implements FilmService {
 
 	@Autowired
 	private FilmRepository filmRepository;
+	
+	@Autowired
+	private SalaRepository salaRepository;
 	
 	@Override
 	public List<Film> getFilms() {
@@ -65,6 +70,26 @@ public class FilmServiceImpl implements FilmService {
 	@Override
 	public void eliminaFilm(String titolo) {
 		filmRepository.deleteByFilmIdTitolo(titolo);
+	}
+	
+	@Override
+	public Sala getSala(int numeroSala) {
+		return salaRepository.findSalaByNumeroSala(numeroSala);
+	}
+	
+	@Override
+	public List<Sala> getSale() {
+		return salaRepository.findAll();
+	}
+	
+	@Override
+	public List<Film> getFilmInSala(int numeroSala) {
+		List<Sala> sale = salaRepository.findAll();
+		Sala sala = null;
+		for (Sala s : sale)
+			if (s.getNumeroSala() == numeroSala)
+				sala = s;
+		return filmRepository.getFilmInSala(sala.getId());
 	}
 
 	

@@ -4,14 +4,24 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 // Classe di supporto per vedere tutti gli orari di un film in programmazione
-public class Orario {
+public class OrarioSala {
 	
 	private LocalDate data;
 	private LocalTime ora;
+	private int sala;
 	
-	public Orario(LocalDate data, LocalTime ora) {
+	public OrarioSala(LocalDate data, LocalTime ora, int sala) {
 		this.data = data;
 		this.ora = ora;
+		this.sala = sala;
+	}
+
+	public int getSala() {
+		return sala;
+	}
+
+	public void setSala(int sala) {
+		this.sala = sala;
 	}
 
 	public LocalDate getData() {
@@ -32,7 +42,7 @@ public class Orario {
 
 	@Override
 	public String toString() {
-		return "Data: " + data + ", ora: " + ora;
+		return "Data: " + data + ", ora: " + ora + ", sala: " + sala;
 	}
 	
 	

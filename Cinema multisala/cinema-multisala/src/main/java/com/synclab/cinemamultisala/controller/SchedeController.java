@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.synclab.cinemamultisala.entity.Film;
-import com.synclab.cinemamultisala.entity.Orario;
+import com.synclab.cinemamultisala.entity.OrarioSala;
 import com.synclab.cinemamultisala.service.FilmService;
 
 @Controller
@@ -37,9 +37,9 @@ public class SchedeController {
 		Film film = listaFilm.get(0);
 		
 		// Ciclo su tutti i film per prendere tutti gli orari e i giorni
-		List<Orario> listaOrari = new ArrayList<Orario>();
+		List<OrarioSala> listaOrari = new ArrayList<OrarioSala>();
 		for (Film filmTmp: listaFilm) {
-			Orario orarioTmp = new Orario(filmTmp.getFilmId().getData(), filmTmp.getFilmId().getOraInizio());
+			OrarioSala orarioTmp = new OrarioSala(filmTmp.getFilmId().getData(), filmTmp.getFilmId().getOraInizio(), filmTmp.getSala().getNumeroSala());
 			listaOrari.add(orarioTmp);
 		}
 		myLogger.info("Lista orari: " + listaOrari);
