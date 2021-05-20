@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -59,7 +61,7 @@ public class DipendenteController {
 	}
 	 
 	@PostMapping("/processFilm")
-	public String processFilm(@ModelAttribute("film") Film film, @RequestParam("img") MultipartFile file, Model model, RedirectAttributes ra) {
+	public String processFilm(@ModelAttribute("film") Film film, @RequestParam("img") MultipartFile file, Model model, RedirectAttributes ra, BindingResult bindingResult) {
 		
 		boolean filmDaAggiungere = true;
 		
@@ -67,41 +69,25 @@ public class DipendenteController {
 			ra.addFlashAttribute("filmGiaEsistente", "Film già presente nel database in quell'orario");
 		} else {
 			
-			// Controllo i film presenti nella stessa sala
-			List<Film> filmInSala = filmService.getFilmInSala(film.getSala().getNumeroSala());
-			String debug = "";
+			filmDaAggiungere = possibileInserireFilmInSala(film, film.getSala().getNumeroSala());
 
-			for (Film f : filmInSala)
-				debug += f.getFilmId() + " - ";
-			myLogger.info("Film in sala: " + debug);
-			
-			// Controllo che l'orario che si vuole aggiungere disti di almeno due ore da quelli già presenti
-			for (Film f : filmInSala) {
-				
-				// Se hanno la stessa data controlla gli orari
-				if (f.getFilmId().getData().equals(film.getFilmId().getData())) {
-					
-					long differenzaInOre = f.getFilmId().getOraInizio().until(film.getFilmId().getOraInizio(), ChronoUnit.HOURS);
-					myLogger.info("ora 1: " + f.getFilmId().getOraInizio() + ", ora 2: " + film.getFilmId().getOraInizio() + ", differenza in ore: " + differenzaInOre);
-					
-					if (Math.abs(differenzaInOre) < 2) {
-						List<String> problemaOrario = new ArrayList<>();
-						problemaOrario.add("Impossibile aggiungere il film, ci devono essere almeno due ore di distacco tra un film e l'altro nella stessa sala");
-						problemaOrario.add("Cambia orario oppure la sala");
-						ra.addFlashAttribute("problemaOrario", problemaOrario);
-						filmDaAggiungere = false;
-					}
-				}
-			}
-			
 			if (filmDaAggiungere) {
+				
 				try {
 					film.setImmagine(file.getBytes());
 				} catch (IOException e) {
 					myLogger.info("Errore caricamento immagine");
 				}
+				
 				filmService.salvaFilm(film);;
 				ra.addFlashAttribute("filmSalvato", "Film aggiunto correttamente!");
+				
+			} else {
+				
+				List<String> problemaOrario = new ArrayList<>();
+				problemaOrario.add("Impossibile aggiungere il film, ci devono essere almeno due ore di distacco tra un film e l'altro nella stessa sala");
+				problemaOrario.add("Cambia orario oppure la sala");
+				ra.addFlashAttribute("problemaOrario", problemaOrario);
 			}
 		}
 		
@@ -172,14 +158,6 @@ public class DipendenteController {
 				
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
-		/*
-		myLogger.info("titolo: " + titolo);
-		myLogger.info("newTitolo: " + newTitolo);
-		myLogger.info("cast: " + cast);
-		myLogger.info("newCast: " + newCast);
-		myLogger.info("descrizione: " + descrizione);
-		myLogger.info("newDescrizione: " + newDescrizione);
-		*/
 		
 		// Attualmente contiene i film non aggiornati, andando avanti terrà i dati sempre più aggiornati
 		List<Film> listaFilm = filmService.getFilmFromDayToDay(titolo, dataAttuale, dataAttualePiu7);
@@ -189,10 +167,11 @@ public class DipendenteController {
 		if (!titolo.equals(newTitolo)) {
 			for (Film film : listaFilm) {
 				Film filmAggiornato = new Film(newTitolo, film.getFilmId().getData(),film.getFilmId().getOraInizio(),
-												descrizione, cast, film.getImmagine(), regista);
+												descrizione, cast, film.getImmagine(), regista, film.getSala());
 				filmService.eliminaFilm(film.getFilmId());
 				filmService.salvaFilm(filmAggiornato);
 			}
+			// Recupero i film col nuovo titolo appena salvati
 			listaFilm = filmService.getFilmFromDayToDay(newTitolo, dataAttuale, dataAttualePiu7);
 		}
 		
@@ -243,19 +222,22 @@ public class DipendenteController {
 		
 		model.addAttribute("titolo", titolo);
 		
+		List<Sala> listaSale = filmService.getSale();
+		model.addAttribute("listaSale", listaSale);
+		
 		return "form-orario";
 	}
 	
 	@PostMapping("/aggiungiOrario")
-	public String aggiungiOrario(@RequestParam("titolo") String titolo, @RequestParam("data") String data, @RequestParam("ora") String ora, RedirectAttributes ra) {
-		
-		// TODO mettere sala e controllo orario per l'aggiunta
-		// Cambiare sala in modifica e relativo controllo
+	public String aggiungiOrario(@RequestParam("titolo") String titolo, @RequestParam("data") String data,
+								@RequestParam("ora") String ora, @RequestParam("sala") int numeroSala,  RedirectAttributes ra) {
 		
 		DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter formatterOra = DateTimeFormatter.ofPattern("HH:mm");
 		LocalDate date = LocalDate.parse(data, formatterData);
 		LocalTime time = LocalTime.parse(ora, formatterOra);
+		
+		Sala sala = filmService.getSala(numeroSala);
 		
 		LocalDate dataAttuale = LocalDate.now();
 		LocalDate dataAttualePiu7 = dataAttuale.plusDays(7);
@@ -264,15 +246,47 @@ public class DipendenteController {
 		Film nuovoFilm = new Film(film);
 		nuovoFilm.getFilmId().setData(date);
 		nuovoFilm.getFilmId().setOraInizio(time);
+		nuovoFilm.setSala(sala);
 		
-		filmService.salvaFilm(nuovoFilm);
+		
+		boolean filmDaAggiungere = possibileInserireFilmInSala(nuovoFilm, numeroSala);
+		myLogger.info("Film da aggiungere: " + filmDaAggiungere);
+		
+		if (filmDaAggiungere) {
+			filmService.salvaFilm(nuovoFilm);
+			ra.addFlashAttribute("dataAggiunta", "Orario aggiunto correttamente");
+		} else {
+			List<String> problemaOrario = new ArrayList<>();
+			problemaOrario.add("Impossibile aggiungere il film, ci devono essere almeno due ore di distacco tra un film e l'altro nella stessa sala");
+			problemaOrario.add("Cambia orario oppure la sala");
+			ra.addFlashAttribute("problemaOrario", problemaOrario);
+		}
 		
 		// Non funziona passare come flashAttribute
 		ra.addAttribute("titolo", titolo);
 		
-		ra.addFlashAttribute("dataAggiunta", "Data aggiunta correttamente");
-		
-		
 		return "redirect:/dipendente/formOrario";
+	}
+	
+	public boolean possibileInserireFilmInSala(Film film, int numeroSala) {
+		
+		// Controllo i film presenti nella stessa sala
+		List<Film> filmInSala = filmService.getFilmInSala(numeroSala);
+		
+		// Controllo che l'orario che si vuole aggiungere disti di almeno due ore da quelli già presenti
+		for (Film f : filmInSala) {
+			
+			// Se hanno la stessa data controlla gli orari
+			if (f.getFilmId().getData().equals(film.getFilmId().getData())) {
+				
+				long differenzaInOre = f.getFilmId().getOraInizio().until(film.getFilmId().getOraInizio(), ChronoUnit.HOURS);
+				
+				if (Math.abs(differenzaInOre) < 2) {
+					return false;
+				} 
+			}
+		}
+		
+		return true;
 	}
 }

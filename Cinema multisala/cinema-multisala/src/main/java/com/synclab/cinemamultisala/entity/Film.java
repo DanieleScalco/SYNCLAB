@@ -44,20 +44,21 @@ public class Film {
 		
 	}
 
-	public Film(FilmId filmId, String descrizione, String cast, byte[] immagine, String regista) {
+	public Film(FilmId filmId, String descrizione, String cast, byte[] immagine, String regista, Sala sala) {
 		this.filmId = filmId;
 		this.descrizione = descrizione;
 		this.cast = cast;
 		this.immagine = immagine;
 		this.regista = regista;
+		this.sala = sala;
 	}
 	
-	public Film(String titolo, LocalDate data, LocalTime ora, String descrizione, String cast, byte[] immagine, String regista) {
-		this(new FilmId(titolo, data, ora), descrizione, cast, immagine, regista);
+	public Film(String titolo, LocalDate data, LocalTime ora, String descrizione, String cast, byte[] immagine, String regista, Sala sala) {
+		this(new FilmId(titolo, data, ora), descrizione, cast, immagine, regista, sala);
 	}
 	
 	public Film(Film film){
-		this(film.getFilmId(), film.getDescrizione(), film.getCast(), film.getImmagine(), film.getRegista());
+		this(film.getFilmId(), film.getDescrizione(), film.getCast(), film.getImmagine(), film.getRegista(), film.getSala());
 	} 
 
 	public FilmId getFilmId() {

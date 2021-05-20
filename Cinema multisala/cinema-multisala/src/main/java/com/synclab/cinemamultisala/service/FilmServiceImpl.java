@@ -84,11 +84,14 @@ public class FilmServiceImpl implements FilmService {
 	
 	@Override
 	public List<Film> getFilmInSala(int numeroSala) {
+		
 		List<Sala> sale = salaRepository.findAll();
 		Sala sala = null;
+		
 		for (Sala s : sale)
 			if (s.getNumeroSala() == numeroSala)
 				sala = s;
+		
 		return filmRepository.getFilmInSala(sala.getId());
 	}
 

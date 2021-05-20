@@ -45,6 +45,9 @@
 					<div class="col text-center" th:if="${dataAggiunta}">
 						<p th:text="${dataAggiunta}" class="text-success text-center"></p>
 					</div>
+					<div class="text-center col col-md-10 mx-auto" th:if="${problemaOrario}">
+						<p th:each="p, iter : ${problemaOrario}" th:class="${iter.index} == 2? 'text-danger' : 'text-danger mt-n3'" th:text="${p}"></p>
+					</div>
 					
 					<input type="hidden" name="titolo" th:value="${titolo}">
 					
@@ -54,11 +57,22 @@
 					<div class="form-row py-1">
 						<input type="time" class="form-control col col-md-5 mx-auto" name="ora" required="required">
 					</div>
-					<div class="form-row py-1">
+					<div class="form-row py-1 form-control border-0 col col-md-5 mx-auto">
+						<p class="mr-3 ml-n2">Seleziona la sala</p>
+						<select name="sala">
+							<option th:each="s : ${listaSale}" th:value="${s.numeroSala}" th:text="${s.numeroSala}">
+						</select>
+					</div>
+					<div class="form-row py-1 mt-4">
 						<button type="submit" class="btn btn-info btn-block col col-md-3 mx-auto">Aggiungi orario</button>
 					</div>
 				</form>
 			</div>
+		</div>
+		
+		<br>
+		<div class="col col-md-6 border mx-auto text-center">
+			<a th:href="@{/programmazione/mostraProgrammazione}">Ritorna alla programmazione</a>
 		</div>
 
 		
