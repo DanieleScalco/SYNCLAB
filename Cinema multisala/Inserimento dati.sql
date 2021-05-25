@@ -45,3 +45,5 @@ INSERT IGNORE INTO cinema_multisala.posto_a_sedere VALUES
 	(3, 'A', 2),
 	(3, 'B', 1),
 	(3, 'B', 2);
+    
+

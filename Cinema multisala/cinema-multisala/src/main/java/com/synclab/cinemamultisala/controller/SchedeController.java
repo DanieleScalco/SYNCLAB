@@ -42,7 +42,6 @@ public class SchedeController {
 			OrarioSala orarioTmp = new OrarioSala(filmTmp.getFilmId().getData(), filmTmp.getFilmId().getOraInizio(), filmTmp.getSala().getNumeroSala());
 			listaOrari.add(orarioTmp);
 		}
-		myLogger.info("Lista orari: " + listaOrari);
 		
 		model.addAttribute("film", film);
 		model.addAttribute("listaOrari", listaOrari);

@@ -104,13 +104,13 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `cinema_multisala`.`posto_a_sedere` ;
 
 CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posto_a_sedere` (
-  `numero_sala` INT NOT NULL,
+  `sala` INT NOT NULL,
   `fila` VARCHAR(45) NOT NULL,
   `numero_posto` INT NOT NULL,
-  PRIMARY KEY (`numero_sala`, `fila`, `numero_posto`),
-  INDEX `fk_sala_idx` (`numero_sala` ASC) VISIBLE,
+  PRIMARY KEY (`sala`, `fila`, `numero_posto`),
+  INDEX `fk_sala_idx` (`sala` ASC) VISIBLE,
   CONSTRAINT `fk_sala_posto`
-    FOREIGN KEY (`numero_sala`)
+    FOREIGN KEY (`sala`)
     REFERENCES `cinema_multisala`.`sala` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -153,11 +153,11 @@ CREATE TABLE IF NOT EXISTS `cinema_multisala`.`posti_prenotazione` (
   `sala` INT NOT NULL,
   `fila` VARCHAR(45) NOT NULL,
   `posto` INT NOT NULL,
-  PRIMARY KEY (`id_prenotazione`),
+  PRIMARY KEY (`id_prenotazione`, `sala`, `fila`, `posto`),
   INDEX `fk_posto_idx` (`sala` ASC, `fila` ASC, `posto` ASC) VISIBLE,
   CONSTRAINT `fk_posto`
     FOREIGN KEY (`sala` , `fila` , `posto`)
-    REFERENCES `cinema_multisala`.`posto_a_sedere` (`numero_sala` , `fila` , `numero_posto`),
+    REFERENCES `cinema_multisala`.`posto_a_sedere` (`sala` , `fila` , `numero_posto`),
   CONSTRAINT `fk_prenotazione`
     FOREIGN KEY (`id_prenotazione`)
     REFERENCES `cinema_multisala`.`prenotazione` (`id`))

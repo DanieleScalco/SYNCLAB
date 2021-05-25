@@ -1,5 +1,8 @@
 package com.synclab.cinemamultisala.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +46,21 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 	public void eliminaPrenotazione(int id) {
 		prenotazioneRepository.deleteById(id);
 	}
+	
+	@Override
+	public List<Prenotazione> getPrenotazioniInSala(int numeroSala, LocalDate data, LocalTime ora) {
+		
+		List<Prenotazione> prenotazioni = prenotazioneRepository.findAll();
+		List<Prenotazione> prenotazioniInSala = new ArrayList<Prenotazione>();
+		
+		for (Prenotazione p: prenotazioni) {
+			if (p.isInSala(numeroSala) && p.getFilm().getFilmId().getData().equals(data) && p.getFilm().getFilmId().getOraInizio().equals(ora))
+				prenotazioniInSala.add(p);
+		}
+		
+		return prenotazioniInSala;
+	}
+	
+	
 
 }

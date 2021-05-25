@@ -53,6 +53,15 @@ public class Prenotazione {
 	public Prenotazione() {
 		
 	}
+	
+	
+	public Prenotazione(Persona persona, Film film, List<PostoASedere> postiASedere) {
+		this.persona = persona;
+		this.film = film;
+		this.postiASedere = postiASedere;
+	}
+
+
 
 	public List<PostoASedere> getPostiASedere() {
 		return postiASedere;
@@ -95,11 +104,20 @@ public class Prenotazione {
 
 	@Override
 	public String toString() {
-		String toString = "Id: " + id + ", persona: " + persona + ", film: " + film + ", postiASedere: ";
+		String toString = "Id: " + id + ", persona: " + persona.getMail() + ", film: " + film.getFilmId() + ", postiASedere: ";
 		for(PostoASedere posto: postiASedere) {
-			toString += posto;
+			toString += posto + ", ";
 		}
 		return toString;
+	}
+	
+	public boolean isInSala(int numeroSala) {
+		
+		for (PostoASedere p : postiASedere) {
+			if (p.getIdPosto().getNumeroSala() == numeroSala)
+				return true;
+		}
+		return false;
 	}
 	
 	

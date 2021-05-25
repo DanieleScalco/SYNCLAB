@@ -105,7 +105,7 @@
 								<th:block th:each="orario : ${listaOrari}">
 									<td>
 										<a class="btn btn-success btn-sm" th:title="'Prenota'"
-												th:href="@{/prenotazione/prenota(titolo=${film.filmId.titolo}, data=${orario.data}, ora=${orario.ora})}">x</a>
+												th:href="@{/prenotazione/prenota(titolo=${film.filmId.titolo}, data=${orario.data}, ora=${orario.ora}, numeroSala=${orario.sala})}">x</a>
 									</td>
 								</th:block>
 							</tr>

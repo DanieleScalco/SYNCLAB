@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<!-- Per usare le thymeleaf expressions -->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	lang="it">
+<head>
+	<title>Scheda Film</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Daniele Scalco">
+	
+	<!-- Utilizzo di Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+	<!--  Container che contiene tutto il body necessario per Bootstrap -->
+	<div class="container-fluid">
+		
+		<!-- TITOLO -->
+		<h3 class="text-center text-primary"> <a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a></h3>
+		<hr>
+		
+		
+		<!-- BARRA DI NAVIGAZIONE -->
+		<div id="menu" class="d-flex font-weight-bold">
+				<ul class="nav mr-auto">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/programmazione/mostraProgrammazione}">PROGRAMMAZIONE</a>
+				    </li>
+				    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+				      <a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
+				    </li>
+				</ul>
+			<ul class="nav">
+			    <li class="nav-item">
+			      <a sec:authorize="isAnonymous()" class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
+			    </li>
+			    <li class="nav-item">
+			      <a sec:authorize="isAnonymous()" class="nav-link" th:href="@{/homepage/login}">LOGIN</a>
+			    </li>
+			    <li sec:authorize="isAuthenticated()" class="nav-item">
+			      <a class="nav-link" th:href="@{/logout}">LOGOUT</a>
+			    </li>
+			</ul>
+		</div>
+		<hr>
+		
+		<!-- ESITO PRENOTAZIONE -->
+		<div>
+			<!-- DATI PRENOTAZIONE -->
+			<div class="col col-md-4 mx-auto">
+				<p class="text-success text-center"th:text="'La prenotazione per il film &quot' + ${prenotazione.film.filmId.titolo} + '&quot è avvenuta correttamente!'"></p>
+				<br>
+				<p>Riepilogo dati:</p>
+				<ul class="mt-n3">
+					<li th:text="'Mail prenotazione: ' + ${prenotazione.persona.mail}"></li>
+					<li th:text="'Data: ' + ${prenotazione.film.filmId.data} + ' ' + ${prenotazione.film.filmId.oraInizio}"></li>
+					<li th:text="'Sala: ' + ${prenotazione.film.sala.numeroSala}"></li>
+					<li th:text="'Totale posti prenotati: ' + ${prenotazione.postiASedere.size()}"></li>
+					<li>Posti:
+						<p th:each="posto : ${prenotazione.postiASedere}" class="d-inline" th:text="${postoStat.count} == 1 ? ${posto.idPosto.fila} + '' + ${posto.idPosto.numeroPosto} : ' - ' + ${posto.idPosto.fila} + '' + ${posto.idPosto.numeroPosto}"></p>
+					</li>
+				</ul>
+				<br>
+			</div>
+			
+			<!-- BOTTONE TORNA ALL'HOMEPAGE -->
+			<div class="col col-md-2 mx-auto">
+				<a class="btn btn-primary" th:href="@{/homepage/home}">Torna alla Homepage</a>
+			</div>
+		</div>
+
+		
+	</div>
+	<!-- Fine container -->
+		
+</body>
+</html>

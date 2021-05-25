@@ -83,8 +83,10 @@
 	<script th:inline="javascript">
 /*<![CDATA[*/
 
+           
 		var deleteLinks = document.querySelectorAll('.delete');
-		
+		// La prima e l'ultima riga dello script servono per usare gli attributi del model con thymeleaf (in questo caso inutile)
+		// E bisogna usare th:inline="javascript"
 		
 		for (var i = 0; i < deleteLinks.length; i++) {
 			// Event è un parametro che si può prendere in una funzione quando accade un evento nella pagina

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<!-- Per usare le thymeleaf expressions -->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	lang="it">
+<head>
+	<title>Programmazione</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Daniele Scalco">
+	
+	<!-- Utilizzo di Bootstrap -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+	<!--  Container che contiene tutto il body necessario per Bootstrap -->
+	<div class="container-fluid">
+		
+		<!-- TITOLO -->
+		<h3 class="text-center text-primary" th:title="'Torna alla Homepage'">
+			<a th:href="@{/homepage/home}" class="text-decoration-none">CINEMA MULTISALA</a>
+		</h3>
+		<hr>
+		
+		
+		
+		<!-- BARRA DI NAVIGAZIONE -->
+		<div id="menu" class="d-flex font-weight-bold">
+				<ul class="nav mr-auto">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/programmazione/mostraProgrammazione}">PROGRAMMAZIONE</a>
+				    </li>
+				    <li class="nav-item" sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')">
+				      <a class="nav-link" th:href="@{/dipendente/aggiungiFilm}">AGGIUNGI FILM</a>
+				    </li>
+				    <li class="nav-item" sec:authorize="hasAuthority('AMMINISTRATORE')">
+				      <a class="nav-link" th:href="@{/amministratore/listaPersone}">GESTIONE UTENTI</a>
+				    </li>
+				</ul>
+			<ul class="nav">
+			    <li class="nav-item">
+			      <a sec:authorize="isAnonymous()" class="nav-link" th:href="@{/homepage/showRegistrazioneForm}">REGISTRAZIONE</a>
+			    </li>
+			    <li class="nav-item">
+			      <a sec:authorize="isAnonymous()" class="nav-link" th:href="@{/homepage/login}">LOGIN</a>
+			    </li>
+			    <li sec:authorize="isAuthenticated()" class="nav-item">
+			      <a class="nav-link" th:href="@{/logout}">LOGOUT</a>
+			    </li>
+			</ul>
+		</div>	
+		<hr>
+		
+		<div class="text-center">
+			<h1 th:text="'Sala ' + ${numeroSala} + ' - ' + ${titolo}"></h1>
+			<p th:text="'Data: ' + ${data} + ', ora: ' + ${ora}"/>
+		</div>
+		
+		<!-- LEGENDA -->
+		<div class="col col-md-6 mx-auto mt-3 mb-1">
+			<div class="row mx-auto justify-content-center">
+					
+					<ul class="list-group list-group-horizontal">
+						<li class="list-group-item border-0 font-weight-bold mr-n3"><p>Legenda:</p></li>
+						<li class="list-group-item border-0 d-flex">
+							<p class="mr-2">Occupato</p>
+							<button class="mt-1 btn btn-sm btn-circle btn-danger text-danger mr-n3 legenda" style="height:50%;" title="Posto occupato"></button>
+						</li>
+						<li class="list-group-item border-0 d-flex">
+							<p class="mr-2">Libero</p>
+							<button class="mt-1 btn btn-sm btn-success text-success mr-n3 legenda" style="height:50%;" title="Posto libero"></button>
+						</li>
+						<li class="list-group-item border-0 d-flex">
+							<p class="mr-2">Selezionato</p>
+							<button class=" mt-1 btn btn-sm btn-warning text-warning mr-n3 legenda" style="height:50%;" title="Posto selezionato"></button>
+						</li>
+					</ul>
+			</div>
+		</div>
+					
+		<!-- POSTI A SEDERE -->
+		<div class="row">
+			<div class="col">
+				<table class="mx-auto">
+					<tr>
+						<td>
+							<p class="my-auto font-weight-bold mr-2">A</p>
+						</td>
+						<td>
+							<button id="A1" class="btn btn-lg my-1 mx-1" onclick="selezionaPosto()" th:classappend="${A1} ? 'btn-danger' : 'btn-success'">1</button>
+						</td>
+						<td>
+							<button id="A2" class="btn btn-lg my-1 mx-1" onclick="selezionaPosto()" th:classappend="${A2} ? btn-danger : 'btn-success'">2</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class="my-auto font-weight-bold">B</p>
+						</td>
+						<td>
+							<button id="B1" class="btn btn-lg my-1 mx-1" onclick="selezionaPosto()" th:classappend="${B1} ? btn-danger : 'btn-success'">1</button>
+						</td>
+						<td>
+							<button id="B2" class="btn btn-lg my-1 mx-1" onclick="selezionaPosto()" th:classappend="${B2} ? btn-danger : 'btn-success'">2</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<br>
+		<div class="col col-md-1 mx-auto text-center">
+			<button id="prenota" class="btn btn-primary" onclick="prenota()" th:href="@{/prenotazione/esitoPrenotazione}">Prenota</button>
+		</div>
+		
+	</div>
+	<!-- Fine container -->
+	
+	<script th:inline="javascript">
+		
+/*<![CDATA[*/
+
+        // Cambia i colori quando si selezionano i posti/avviso per posto occupato
+		function selezionaPosto() {
+			
+			// Controllo la classe bootstrap e la modifico
+			var classiOggetto = event.srcElement.classList;
+			if (classiOggetto.contains("btn-danger"))
+				alert("Posto già prenotato!");
+			else if (classiOggetto.contains("btn-success")) {
+				event.srcElement.classList.remove("btn-success");
+				event.srcElement.classList.add("btn-warning");
+			} else {
+				event.srcElement.classList.remove("btn-warning");
+				event.srcElement.classList.add("btn-success");
+			}
+			
+		}
+		
+		function prenota() {
+			
+			var posti = document.getElementsByClassName("btn-warning");
+			var titolo = /*[[${titolo}]]*/ 'nessunTitolo';
+			var data = /*[[${data}]]*/ 'nessunaData';
+			var ora = /*[[${ora}]]*/ 'nessunOra';
+			var numeroSala = /*[[${numeroSala}]]*/ 'nessunaSala';
+			
+			if (posti.length <= 1)
+				
+				// Se nessun posto avviso
+				alert("Devi selezionare almeno un posto per procedere con la prenotazione");
+			else {
+				
+				// Se dei posti sono selezionati bisogna aggiungerli all'url
+				var url = event.srcElement.getAttribute("href") + "?";
+				
+				// Si parte da 1 per saltare la legenda
+				for (var i = 1; i < posti.length; i++) {
+					if (i !== 1)
+						url += "&";
+					url += "posti=" + posti[i].id;
+				}
+				
+				// Aggiunta titolo, data, ora, numero sala
+				url += "&" + "titolo=" + titolo;
+				url += "&" + "data=" + data;
+				url += "&" + "ora=" + ora;
+				url += "&" + "numeroSala=" + numeroSala;
+
+				window.location.href = url;
+			}
+		}
+		
+/*]]>*/
+	</script>
+		
+</body>
+</html>

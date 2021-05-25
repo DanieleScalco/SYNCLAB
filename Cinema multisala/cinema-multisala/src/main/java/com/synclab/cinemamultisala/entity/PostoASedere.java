@@ -18,23 +18,9 @@ public class PostoASedere {
 	@EmbeddedId
 	private IdPosto idPosto;
 	
-	@ManyToMany(fetch = FetchType.LAZY,
-			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinTable(name = "posti_prenotazione",
-			joinColumns = {@JoinColumn(name = "fila"), @JoinColumn(name = "posto"), @JoinColumn(name = "sala")},
-			inverseJoinColumns = @JoinColumn(name = "id_prenotazione"))
-	private List<Prenotazione> prenotazioniAssociate;
 	
 	public PostoASedere() {
 
-	}
-
-	public List<Prenotazione> getPrenotazioniAssociate() {
-		return prenotazioniAssociate;
-	}
-
-	public void setPrenotazioniAssociate(List<Prenotazione> prenotazioniAssociate) {
-		this.prenotazioniAssociate = prenotazioniAssociate;
 	}
 
 	public PostoASedere(IdPosto idPosto) {

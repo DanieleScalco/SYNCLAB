@@ -8,32 +8,32 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class IdPosto implements Serializable {
 
-	@Column(name = "numero_fila")
-	private int numeroFila;
+	@Column(name = "fila")
+	private String fila;
 	
 	@Column(name = "numero_posto")
 	private int numeroPosto;
 	
-	@Column(name = "numero_sala")
-	private int numeroSala;
+	@Column(name = "sala")
+	private int sala;
 	
 	public IdPosto() {
 		
 	}
 
-	public IdPosto(int numeroFila, int numeroPosto, int numeroSala) {
-		this.numeroFila = numeroFila;
+	public IdPosto(String fila, int numeroPosto, int sala) {
+		this.fila = fila;
 		this.numeroPosto = numeroPosto;
-		this.numeroSala = numeroSala;
+		this.sala = sala;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + numeroFila;
+		result = prime * result + ((fila == null) ? 0 : fila.hashCode());
 		result = prime * result + numeroPosto;
-		result = prime * result + numeroSala;
+		result = prime * result + sala;
 		return result;
 	}
 
@@ -46,21 +46,24 @@ public class IdPosto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		IdPosto other = (IdPosto) obj;
-		if (numeroFila != other.numeroFila)
+		if (fila == null) {
+			if (other.fila != null)
+				return false;
+		} else if (!fila.equals(other.fila))
 			return false;
 		if (numeroPosto != other.numeroPosto)
 			return false;
-		if (numeroSala != other.numeroSala)
+		if (sala != other.sala)
 			return false;
 		return true;
 	}
 
-	public int getNumeroFila() {
-		return numeroFila;
+	public String getFila() {
+		return fila;
 	}
 
-	public void setNumeroFila(int numeroFila) {
-		this.numeroFila = numeroFila;
+	public void setFila(String fila) {
+		this.fila = fila;
 	}
 
 	public int getNumeroPosto() {
@@ -72,16 +75,16 @@ public class IdPosto implements Serializable {
 	}
 
 	public int getNumeroSala() {
-		return numeroSala;
+		return sala;
 	}
 
-	public void setNumeroSala(int numeroSala) {
-		this.numeroSala = numeroSala;
+	public void setNumeroSala(int sala) {
+		this.sala = sala;
 	}
 
 	@Override
 	public String toString() {
-		return "Numero fila: " + numeroFila + ", numero posto: " + numeroPosto + ", numero sala: " + numeroSala;
+		return "Fila: " + fila + ", numero posto: " + numeroPosto + ", id sala: " + sala;
 	}
 	
 	
