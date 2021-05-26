@@ -25,7 +25,8 @@ public class Persona {
 	@Column(name = "password")
 	private String password;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "persona", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	// CascadeType.Remove rimuove le prenotazioni se la persona viene eliminata
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "persona", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private List<Prenotazione> prenotazioni;
 	
 	// Per far andare la sicurezza ho dovuto mettere Eager
