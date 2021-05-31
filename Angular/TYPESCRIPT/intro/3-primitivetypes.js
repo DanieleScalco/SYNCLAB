@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // TYPESCRIPT verifica i tipi
 // Valori booleani
 var isFinished;
@@ -11,6 +12,9 @@ age = 50;
 // Array
 var array;
 array = [1, 2];
+// Si possono passare pure oggetti generici (es: T)
+var array2 = ["Hello", "World"];
+console.log(array2);
 // Object
 var obj;
 obj = {

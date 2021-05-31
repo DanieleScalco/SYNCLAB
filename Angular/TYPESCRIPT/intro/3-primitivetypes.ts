@@ -1,3 +1,5 @@
+export {};
+
 // TYPESCRIPT verifica i tipi
 
 // Valori booleani
@@ -14,6 +16,10 @@ age = 50;
 // Array
 let array: number[];
 array = [1, 2];
+
+// Si possono passare pure oggetti generici (es: T)
+let array2: Array<string> = ["Hello", "World"];
+console.log(array2);
 
 // Object
 let obj: object;
