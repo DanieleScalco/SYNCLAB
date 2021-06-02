@@ -37,5 +37,6 @@ interface IUser3 {
 	firstname: string,
 	address?: string,
 	[propName: string]: any	// Necessario quando si ricevono oggetti con più proprietà
-							// Si usa per evitare gli errori quando si ritirano oggetti da altre parti e questi magari vengono aggiornati
+							// Si usa per evitare gli errori quando si ritirano oggetti
+							// da altre parti e questi magari vengono aggiornati con nuovi attributi
 }

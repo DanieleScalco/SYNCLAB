@@ -20,7 +20,7 @@ function func(x: string, y: number) : void {
 
 }
 
-let myFunc2 : (x:string, y: number) => void;
+let myFunc2 : (x: string, y: number) => void;
 // Abbiamo assegnato come tipo una funzione con due parametri string/number (il nome dei parametri non deve coincidere)
 // e tipo di ritorno void
 

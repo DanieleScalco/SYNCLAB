@@ -3,6 +3,7 @@ package com.synclab.cinemamultisala.entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Base64;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -39,6 +41,11 @@ public class Film {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "sala")
 	private Sala sala;
+	
+	// Le prenotazioni non servono, ma è stato aggiunto perchè altrimenti dava errore
+	// se si elimina un film con delle prenotazioni associate
+	@OneToMany(mappedBy = "film", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	private List<Prenotazione> prenotazioni;
 	
 	public Film() {
 		
