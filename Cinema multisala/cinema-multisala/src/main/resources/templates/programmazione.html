@@ -159,11 +159,11 @@
 			<div sec:authorize="hasAnyAuthority('DIPENDENTE', 'AMMINISTRATORE')" class="col col-md-6 mx-auto mb-2">
 				<div class="row">
 					<a class="col col-md-2 text-center btn btn-danger btn-sm mx-auto" th:title="'Elimina film dal database'"
-						th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina Film</a>
+						th:href="@{/dipendente/eliminaFilm(titolo=${film.filmId.titolo})}">Elimina film</a>
 					<a class="col col-md-3 text-center btn btn-success btn-sm mx-auto" th:title="'Aggiungi orario'"
 						th:href="@{/dipendente/formOrario(titolo=${film.filmId.titolo})}">Aggiungi orario</a>
 					<a class="col col-md-2 text-center btn btn-warning btn-sm mx-auto" th:title="'Modifica dati del film'"
-						th:href="@{/dipendente/formModificaFilm(titolo=${film.filmId.titolo})}">Modifica Film</a>
+						th:href="@{/dipendente/formModificaFilm(titolo=${film.filmId.titolo})}">Modifica film</a>
 				</div>
 			</div>
 		</div>

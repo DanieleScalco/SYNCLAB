@@ -31,17 +31,19 @@
 		<h3>Lista Utenti</h3>
 		<hr>
 		
-		<!-- Se non ci sono film in programmazione -->
+		<!-- Se non ci sono persone registrate -->
 		<div th:if="${persone.isEmpty()}">
 			<br><br>
 			<h1 th:text="'Nessun utente registrato'" class="text-center"></h1>			
 		</div>
-		
 		<div class="col" th:if="${utenteAggiunto}">
 			<p th:text="${utenteAggiunto}" class="text-success text-center"></p>
 		</div>
 		<div class="col" th:if="${ruoliModificati}">
 			<p th:text="${ruoliModificati}" class="text-success text-center"></p>
+		</div>
+		<div class="col" th:if="${statoUtente}">
+			<p th:text="${statoUtente}" class="text-success text-center"></p>
 		</div>
 		
 		<div class="col col-md-8 mx-auto mt-5">
