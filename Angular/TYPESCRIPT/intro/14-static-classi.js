@@ -15,6 +15,7 @@ var MathCalc = /** @class */ (function () {
     return MathCalc;
 }());
 var calc = new MathCalc();
+// calc.PI	Non si può fare, PI è proprietà della classe, non del singolo oggetto
 console.log(MathCalc.PI);
 console.log(MathCalc.calcCirclePerimeter(2));
 console.log('120 euro sono ' + calc.calcEuroToDollar(120) + ' dollars');

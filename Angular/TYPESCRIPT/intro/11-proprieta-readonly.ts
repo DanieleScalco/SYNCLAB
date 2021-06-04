@@ -7,7 +7,7 @@ class Car {
 	readonly version: string = '1.1'	
 
 	// Si possono mettere degli attributi nel costruttore con i modificatori
-	// Verranno automaticamente assegnati alla classe
+	// Verranno automaticamente assegnati alla classe se non già presenti come attributi
 	constructor(version: string, protected name: string, public color: string) {
 		this.version = version
 	}

@@ -14,6 +14,7 @@ var MyLogger = /** @class */ (function () {
 var MyMailLogger = /** @class */ (function () {
     function MyMailLogger() {
     }
+    // Componente presa da MyLogger
     MyMailLogger.prototype.log = function () {
     };
     MyMailLogger.prototype.generateId = function () {

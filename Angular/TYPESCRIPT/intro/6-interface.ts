@@ -40,3 +40,8 @@ interface IUser3 {
 							// Si usa per evitare gli errori quando si ritirano oggetti
 							// da altre parti e questi magari vengono aggiornati con nuovi attributi
 }
+
+let user3 : IUser3;
+// Gli dò un campo in più e lo accetta
+user3 = {lastname: 'Scalco', firstname: 'Daniele', address: 'Via Udine, 1', pelato: false};
+console.log(user3);

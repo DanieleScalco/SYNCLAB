@@ -10,6 +10,7 @@ class User {
 	get name() {
 		return this._name;
 	}
+
 }
 
 let user = new User();

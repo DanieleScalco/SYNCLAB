@@ -36,11 +36,12 @@ var ConsoleLogger = /** @class */ (function (_super) {
     ConsoleLogger.prototype.getMessage = function () {
         throw new Error("Method not implemented.");
     };
+    // Override metodo astratto
     ConsoleLogger.prototype.log = function (msg) {
         console.log(msg);
     };
     return ConsoleLogger;
 }(Logger));
-var Clog = new ConsoleLogger();
-Clog.log('Logging to console');
-console.log(Clog.genereteId());
+var CLog = new ConsoleLogger();
+CLog.log('Logging to console');
+console.log(CLog.genereteId());

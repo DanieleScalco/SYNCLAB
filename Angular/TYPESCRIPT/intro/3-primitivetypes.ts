@@ -1,13 +1,14 @@
 export {};
 
 // TYPESCRIPT verifica i tipi
+// let è una variabile che vale solo all'interno dello scope a differenza di var
 
 // Valori booleani
 var isFinished: boolean;
 
 // Valori stringhe
-let myname: string; // Di default si ha una variabile dell'oggetto globale chiamata "name"
-myname = '5';
+let myName: string; // Di default si ha una variabile dell'oggetto globale chiamata "name"
+myName = '5';
 
 // Valori numerici
 let age: number;

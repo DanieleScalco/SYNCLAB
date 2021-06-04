@@ -14,3 +14,7 @@ function showUser2(user) {
     console.log(user.firstname + ', ' + user.lastname);
 }
 showUser2({ lastname: 'Arias', firstname: 'Hidran' });
+var user3;
+// Gli dò un campo in più e lo accetta
+user3 = { lastname: 'Scalco', firstname: 'Daniele', address: 'Via Udine, 1', pelato: false };
+console.log(user3);

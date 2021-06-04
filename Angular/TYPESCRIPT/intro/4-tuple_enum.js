@@ -9,7 +9,7 @@ function showData(params) {
 showData(parameters);
 // Enumerazioni, per convenzione scritte in maiuscolo
 // Guardare file.js per vedere come sono fatte
-// Vengono enumerate da zero a sei di default
+// Vengono enumerate partendo da zero di default
 var DAYS;
 (function (DAYS) {
     DAYS[DAYS["MON"] = 1] = "MON";
@@ -30,12 +30,12 @@ console.log(DAYS.SAT); // Se MON = 1, si ottiene 6
 console.log(DAYS[6]);
 console.log('Venerdì è un giorno lavorativo? ' + isWorkingDay(DAYS.FRI));
 console.log('Sabato è un giorno lavorativo? ' + isWorkingDay(DAYS.SAT));
-console.log('Posso passare chiave. ' + isWorkingDay(DAYS.SAT));
-console.log('Oppure indice. ' + isWorkingDay(7));
+console.log('Posso passare la chiave. ' + isWorkingDay(DAYS.SAT));
+console.log('Oppure l\'indice. ' + isWorkingDay(7));
 console.log('Ma l\'indice può essere fuori!!!. ' + isWorkingDay(50) + '\nIl tipo sarà ' + DAYS[50]);
 // E possibile aggiungere in seguito altri elementi all'enum
 (function (DAYS) {
     DAYS[DAYS["OTT"] = 8] = "OTT";
     DAYS[DAYS["NON"] = 9] = "NON";
 })(DAYS || (DAYS = {}));
-console.log(DAYS[1]);
+console.log('\n' + DAYS[1]);

@@ -1,6 +1,7 @@
 export {};
 
 class MyLogger {
+
 	log(msg: string) : void {
 		console.log(msg);
 	}
@@ -18,8 +19,10 @@ interface MyLog extends MyLogger {
 
 class MyMailLogger implements MyLog {
 	
+	// Componente esclusiva di MyLog
 	email: string;
 	
+	// Componente presa da MyLogger
 	log() {
 
 	}

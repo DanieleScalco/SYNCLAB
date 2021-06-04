@@ -27,6 +27,7 @@ class Lesson {
 class VideoLesson extends Lesson {
 
 	// this.title non è visibile poichè nella superclasse è privato
+	
 	setDescription(description: string) {
 		this.description = description;
 	}

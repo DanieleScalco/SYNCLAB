@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // E' la versione utilizzata da Angular
 var Car = /** @class */ (function () {
     // Si possono mettere degli attributi nel costruttore con i modificatori
-    // Verranno automaticamente assegnati alla classe
+    // Verranno automaticamente assegnati alla classe se non già presenti come attributi
     function Car(version, name, color) {
         this.name = name;
         this.color = color;

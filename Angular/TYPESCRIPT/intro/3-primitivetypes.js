@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // TYPESCRIPT verifica i tipi
+// let è una variabile che vale solo all'interno dello scope a differenza di var
 // Valori booleani
 var isFinished;
 // Valori stringhe
-var myname; // Di default si ha una variabile dell'oggetto globale chiamata "name"
-myname = '5';
+var myName; // Di default si ha una variabile dell'oggetto globale chiamata "name"
+myName = '5';
 // Valori numerici
 var age;
 age = 50;

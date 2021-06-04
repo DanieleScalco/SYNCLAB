@@ -2,7 +2,7 @@ export {};
 
 // Le tuple sono array di dati con tipi di dati conosciuti e la quantità non cambia
 
-let parameters:[string, number];
+let parameters: [string, number];
 
 parameters = ['Hidran', 45];
 
@@ -15,7 +15,7 @@ showData(parameters);
 // Enumerazioni, per convenzione scritte in maiuscolo
 // Guardare file.js per vedere come sono fatte
 
-// Vengono enumerate da zero a sei di default
+// Vengono enumerate partendo da zero di default
 enum DAYS {
 	MON = 1,	// Se si vuole modificare il valore di inizio
 	TUE,
@@ -26,7 +26,7 @@ enum DAYS {
 	SUN
 }
 
-function isWorkingDay( day : DAYS) {
+function isWorkingDay(day : DAYS) {
 	if (day === DAYS.SUN || day === DAYS.SAT)
 		return true;
 	else
@@ -37,14 +37,14 @@ console.log(DAYS.SAT); // Se MON = 1, si ottiene 6
 console.log(DAYS[6]);
 console.log('Venerdì è un giorno lavorativo? ' + isWorkingDay(DAYS.FRI));
 console.log('Sabato è un giorno lavorativo? ' + isWorkingDay(DAYS.SAT));
-console.log('Posso passare chiave. ' + isWorkingDay(DAYS.SAT));
-console.log('Oppure indice. ' + isWorkingDay(7));
+console.log('Posso passare la chiave. ' + isWorkingDay(DAYS.SAT));
+console.log('Oppure l\'indice. ' + isWorkingDay(7));
 console.log('Ma l\'indice può essere fuori!!!. ' + isWorkingDay(50) + '\nIl tipo sarà ' + DAYS[50]);
 
 // E possibile aggiungere in seguito altri elementi all'enum
 enum DAYS {
-	OTT = 8,	// Mettere indice giusto per evitare la sovrascrizione
+	OTT = 8,	// Mettere indice giusto altrimenti si ha la sovrascrizione
 	NON
 }
 
-console.log(DAYS[1]);
+console.log('\n' + DAYS[1]);

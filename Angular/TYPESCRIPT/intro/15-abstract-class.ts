@@ -32,12 +32,13 @@ class ConsoleLogger extends Logger implements Log {
 		throw new Error("Method not implemented.");
 	}
 
+	// Override metodo astratto
 	log(msg: string): void {
 		console.log(msg)
 	}
 
 }
 
-let Clog = new ConsoleLogger();
-Clog.log('Logging to console');
-console.log(Clog.genereteId());
+let CLog = new ConsoleLogger();
+CLog.log('Logging to console');
+console.log(CLog.genereteId());
