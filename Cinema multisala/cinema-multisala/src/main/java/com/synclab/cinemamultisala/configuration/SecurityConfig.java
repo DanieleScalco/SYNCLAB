@@ -42,10 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		/*
-		 * Path possibili per antMatchers:
-		 * /**	matcha tutti i path (i doppi asterischi indicano il livello corrente e tutti quelli sotto)	
-		 */
+		// /**	matcha tutti i path (i doppi asterischi indicano il livello corrente e tutti quelli sotto)	
+
 		http.authorizeRequests()
 			.antMatchers("/amministratore/**").hasAuthority("AMMINISTRATORE") // Si parte PER FORZA dal più ristretto:
 			.antMatchers("/dipendente/**").hasAnyAuthority("DIPENDENTE", "AMMINISTRATORE")
