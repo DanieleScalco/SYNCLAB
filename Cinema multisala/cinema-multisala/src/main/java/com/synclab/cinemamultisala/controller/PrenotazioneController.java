@@ -65,7 +65,6 @@ public class PrenotazioneController {
 		List<Prenotazione> prenotazioni = prenotazioneService.getPrenotazioniInSala(numeroSala, localDate, localTime);
 		
 		for (Prenotazione p : prenotazioni) {
-			myLogger.info("Prenotazione: " + p);
 			List<PostoASedere> posti = p.getPostiASedere();
 			for (PostoASedere tmpPosto: posti) {
 				if (tmpPosto.getIdPosto().getFila().equals("A") && tmpPosto.getIdPosto().getNumeroPosto() == 1)
@@ -97,7 +96,6 @@ public class PrenotazioneController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String mail = authentication.getName();
 		Persona persona = personaService.getPersona(mail);
-		myLogger.info("Mail: " + persona.getMail());
 		
 		DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(data, formatterData);
@@ -105,7 +103,6 @@ public class PrenotazioneController {
         LocalTime localTime = LocalTime.parse(ora, formatterOra);
         
 		Film film = filmService.getFilm(new FilmId(titolo, localDate, localTime));
-		myLogger.info("Film:" + film.getFilmId());
 		
 		List<PostoASedere> postiASedere = new ArrayList<PostoASedere>();
 		for (int i = 0; i < posti.length; i++) {
@@ -114,12 +111,10 @@ public class PrenotazioneController {
 			int sala = Integer.parseInt(numeroSala);
 			PostoASedere posto = postoASedereService.getPosto(new IdPosto(fila, numeroPosto, sala));
 			postiASedere.add(posto);
-			myLogger.info("Posto: " + posto);
 		}
 		
 		Prenotazione prenotazione = new Prenotazione(persona, film, postiASedere);
 		model.addAttribute("prenotazione", prenotazione);
-		myLogger.info("Prenotazione: " + prenotazione);
 		
 		prenotazioneService.salvaPrenotazione(prenotazione);
 		

@@ -144,7 +144,6 @@ public class DipendenteController {
 			orariString += tmpOrario + " ";
 		}
 		
-		myLogger.info("Orari: " + orariString);
 		
 		return "modifica-film";
 	}
@@ -250,7 +249,6 @@ public class DipendenteController {
 		
 		
 		boolean filmDaAggiungere = possibileInserireFilmInSala(nuovoFilm, numeroSala);
-		myLogger.info("Film da aggiungere: " + filmDaAggiungere);
 		
 		if (filmDaAggiungere) {
 			filmService.salvaFilm(nuovoFilm);
