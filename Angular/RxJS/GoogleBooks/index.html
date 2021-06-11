@@ -70,7 +70,8 @@
     
       <form class="d-flex">
         <input id="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button onClick="searchButtonClicked()" class="btn btn-outline-success" type="button">Search</button>
+        &nbsp;<button onClick="document.querySelector('#search').value='';cleanBooks()" class="btn btn-outline-info" type="button">Clear</button>
       </form>
     </div>
   </div>
@@ -82,7 +83,7 @@
 
   <div class="album py-5 bg-light">
     <div class="container">
-
+      <h1>BOOKS FOUND <span id="found">0</span></h1>
       <div id="books" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
         
         

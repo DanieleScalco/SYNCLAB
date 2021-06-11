@@ -2,12 +2,13 @@
 // File typescript che genererà dinamicamente il javascript nella cartella js
 // tsc --watch index.ts --out js/script.js
 function getBooks(bookTitle) {
-    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
     var from = rxjs.from; // Anche se typescript non riconosce l'oggetto rxjs l'html usando il js lo vedrà
-    var _a = rxjs.operators, map = _a.map, switchMap = _a.switchMap, tap = _a.tap;
+    var _a = rxjs.operators, map = _a.map, switchMap = _a.switchMap, tap = _a.tap, filter = _a.filter;
+    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
     var p = fetch(apiUrl + bookTitle).then(function (res) { return res.json(); });
-    from(p)
-        .pipe(switchMap(function (data) { return from(data.items || []); }), // Se si fanno troppe richieste non restituisce nulla, quindi bisogna gestire
+    return from(p) // Ritorniamo l'observable
+        .pipe(tap(function (data) { return showTotal(data.items.length); }), switchMap(function (data) { return from(data.items || []); }), // Se si fanno troppe richieste non restituisce nulla, quindi bisogna gestire
+    filter(function (ele) { return ele.volumeInfo.imageLinks !== undefined; }), // Non prendo i libri senza immagine
     map(function (ele) {
         var book = {
             title: ele.volumeInfo.title,
@@ -17,12 +18,15 @@ function getBooks(bookTitle) {
             thumbnail: ele.volumeInfo.imageLinks.thumbnail
         };
         return book;
-    })
-    //tap((book: Book) => console.log(book))
-    )
-        .subscribe(function (book) { return displayBook(book); });
+    }), tap(function (book) { return console.log(book); }));
 }
-var i = 0;
+function showTotal(totalItems) {
+    var found = document.querySelector('#found');
+    // Controllo che l'elemento esista
+    if (found) {
+        found.innerHTML = totalItems.toString(); // Svuoto il contenuto
+    }
+}
 function displayBook(book) {
     // Con la notazione ${oggetto} posso accedere ai dati di un oggetto
     // ${book.description || ''} se non c'è la descrizione lascia vuoto
@@ -36,12 +40,33 @@ function displayBook(book) {
     if (books) {
         books.appendChild(div);
     }
-    //Logging
-    console.log(book);
+}
+function cleanBooks() {
+    var books = document.querySelector('#books');
+    // Controllo che l'elemento esista
+    if (books) {
+        books.innerHTML = ''; // Svuoto il contenuto
+    }
 }
 function searchBooks() {
     var searchEle = document.querySelector('#search');
+    var fromEvent = rxjs.fromEvent; // Import fromEvent che crea un observable da un evento
+    var _a = rxjs.operators, filter = _a.filter, map = _a.map, switchMap = _a.switchMap, debounceTime = _a.debounceTime, tap = _a.tap;
     if (searchEle) {
+        // Diciamo quale elemento trasformare in un observable e che evento considerare
+        fromEvent(searchEle, 'keyup')
+            .pipe(map(function (ele) { return ele.target.value; }), // ele è un event, ma metto any per evitare errori
+        filter(function (ele) { return ele.length > 2; }), debounceTime(1000), // Impostiamo un delay di 1s
+        tap(function () { return cleanBooks(); }), switchMap(function (ele) { return getBooks(ele); }) // Cambiamo da stream di stringhe a quello di libri
+        )
+            .subscribe(function (book) { return displayBook(book); });
     }
 }
-getBooks('game of 3 thrones');
+function searchButtonClicked() {
+    var books = document.querySelector('#search');
+    // Controllo che l'elemento esista
+    if (books) {
+        getBooks(books.value).subscribe(function (book) { return displayBook(book); });
+    }
+}
+searchBooks();

@@ -3,7 +3,7 @@
 
 declare const rxjs: any; // Per non dare errori su rxjs
 
-
+// Interfacce varie degli elementi che si ottengono con AJAX
 interface GoogleBook {
 	totalItems: number
 	kind: string
@@ -13,11 +13,6 @@ interface GoogleBook {
 interface BookThumbnails {
 	smallThumbnail: string
 	thumbnail: string
-}
-
-interface BookItem {
-	volumeInfo: VolumeInfo
-	id: string
 }
 
 interface VolumeInfo {
@@ -37,19 +32,25 @@ interface Book {
 	authors: []
 	categories: []
 	thumbnail: string
+}
 
+interface BookItem {
+	volumeInfo: VolumeInfo
+	id: string
 }
 
 function getBooks(bookTitle: string) {
-	const apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
 	const { from } = rxjs;	// Anche se typescript non riconosce l'oggetto rxjs l'html usando il js lo vedrà
-	const { map, switchMap, tap} = rxjs.operators;
+	const { map, switchMap, tap, filter} = rxjs.operators;
+	const apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
 
 	const p = fetch(apiUrl + bookTitle).then(res => res.json());
 
-	from(p)
+	return from(p)	// Ritorniamo l'observable
 		.pipe(
+			tap((data: GoogleBook) => showTotal(data.items.length)),
 			switchMap((data: GoogleBook) => from(data.items || [])), // Se si fanno troppe richieste non restituisce nulla, quindi bisogna gestire
+			filter((ele: BookItem) => ele.volumeInfo.imageLinks !== undefined), // Non prendo i libri senza immagine
 			map((ele: BookItem) => {
 				const book: Book = {
 					title: ele.volumeInfo.title,
@@ -59,13 +60,20 @@ function getBooks(bookTitle: string) {
 					thumbnail: ele.volumeInfo.imageLinks.thumbnail
 				};
 				return book;
-			})
-			//tap((book: Book) => console.log(book))
+			}),
+			tap((book: Book) => console.log(book))
 
 		)
-		.subscribe((book: Book) => displayBook(book));
 }
-let i = 0;
+
+function showTotal(totalItems: number) {
+	const found = document.querySelector('#found');
+	// Controllo che l'elemento esista
+	if (found) {
+		found.innerHTML = totalItems.toString()	;	// Svuoto il contenuto
+	}
+}
+
 function displayBook(book: Book) {
 	
 	// Con la notazione ${oggetto} posso accedere ai dati di un oggetto
@@ -98,17 +106,44 @@ function displayBook(book: Book) {
 	if (books) {
 		books.appendChild(div);
 	}
-
-	//Logging
-	console.log(book);
 	
+}
+
+function cleanBooks() {
+	const books = document.querySelector('#books');
+	// Controllo che l'elemento esista
+	if (books) {
+		books.innerHTML = '';	// Svuoto il contenuto
+	}
 }
 
 function searchBooks() {
 	const searchEle = document.querySelector('#search');
+	const { fromEvent } = rxjs; // Import fromEvent che crea un observable da un evento
+	const { filter, map, switchMap, debounceTime, tap } = rxjs.operators;
+
 	if (searchEle) {
-		
+		// Diciamo quale elemento trasformare in un observable e che evento considerare
+		fromEvent(searchEle, 'keyup')
+			.pipe(
+				map((ele: any) => ele.target.value),	// ele è un event, ma metto any per evitare errori
+				filter((ele: string) => ele.length > 2),
+				debounceTime(1000),	// Impostiamo un delay di 1s
+				tap(() => cleanBooks()),
+				switchMap((ele: string) => getBooks(ele)) // Cambiamo da stream di stringhe a quello di libri
+			)
+			.subscribe((book: Book) => displayBook(book));
+
 	}
 }
-getBooks('game of 3 thrones');
+
+function searchButtonClicked() {
+	const books: any = document.querySelector('#search');
+	// Controllo che l'elemento esista
+	if (books) {
+		getBooks(books.value).subscribe((book: Book) => displayBook(book))
+	}
+}
+
+searchBooks();
 
