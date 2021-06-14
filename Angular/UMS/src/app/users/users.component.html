@@ -1,0 +1,28 @@
+<table>
+	<caption>{{title}}</caption>
+	<tr>
+		<th>Nome</th>
+		<th>Cognome</th>
+		<th>Codice fiscale</th>
+		<th>E-mail</th>
+		<th>Telefono</th>
+		<th>Provincia</th>
+		<th>Age</th>
+	</tr>
+	<!-- *ngFor è una direttiva per ciclare. Bisogna creare una variabile per ogni elemento -->
+	<tr *ngFor="let user of users">
+		<td>{{user.name}}</td>
+		<td>{{user.lastname}}</td>
+		<td>{{user.fiscalcode}}</td>
+		<td>{{user.email}}</td>
+		<td>{{user.phone}}</td>
+		<td>{{user.province}}</td>
+		<td>{{user.age}}</td>
+	</tr>
+</table>
+
+<br>
+<p>Pipe di json degli users</p>
+<!-- Si utilizza una pipe (spiegata successivamente).
+	'|' indica prendi ciò che c'è a sinistra e applicagli la funzione a destra -->
+{{users | json}}
