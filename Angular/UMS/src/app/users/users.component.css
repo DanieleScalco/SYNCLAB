@@ -1,3 +1,6 @@
+/*
+	Il css di un componente appartiene solo ad esso e non ai figli
+*/
 table {
 	border: 1px solid #c0c0c0;
 }

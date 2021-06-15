@@ -1,4 +1,6 @@
-import { Component } from "@angular/core";
+import { User } from './../interfaces/user';
+import { UserService } from '../services/user.service';
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 
 /*
 	Per ogni component è utile creare una cartella dedicata contenente:
@@ -6,9 +8,13 @@ import { Component } from "@angular/core";
 	-.html
 	-.css
 	Nome dei file dei component: nome.component.estensione
+
+	Un componente è una direttiva con il template
 */
 
 // Una volta creato il componente bisogna dichiararlo nell'app.module.ts
+
+// E' meglio seprarare i dati dal componente
 
 // Bisogna impostare un decoratore per ogni component
 @Component({
@@ -17,35 +23,26 @@ import { Component } from "@angular/core";
 	templateUrl: './users.component.html',
 	styleUrls: ['./users.component.css']	// Lista di fogli di stile da applicare al component
 })
-export class UsersComponent {	// Si usa lo stesso nome del file
-	title = 'Users';	// Le variabili di un componente sono accessibili nel template di un coponente
-	users = [	// Array di oggetti JSON (Javascript Object Notation)
-		{
-			name: 'Hidran1',
-			lastname: 'Arias',
-			email: 'hidran@gmail.com',
-			fiscalcode: 'ABCDEFG12345',
-			province: 'Torino',
-			phone: '123456789',
-			age: 47
-		},
-		{
-			name: 'Hidran3',
-			lastname: 'Arias',
-			email: 'hidran@gmail.com',
-			fiscalcode: 'ABCDEFG12345',
-			province: 'Torino',
-			phone: '123456789',
-			age: 47
-		},
-		{
-			name: 'Hidran3',
-			lastname: 'Arias',
-			email: 'hidran@gmail.com',
-			fiscalcode: 'ABCDEFG12345',
-			province: 'Torino',
-			phone: '123456789',
-			age: 47
-		}
-	]
+export class UsersComponent implements OnInit {	// Si usa lo stesso nome del file
+	title = 'Users';	// Le variabili di un componente sono accessibili nel template del coponente tramite {{nomeVariabile}}
+	users: User[] = [];
+	@Output() updateUser = new EventEmitter<User>(); // Si può specificare il parametro in output dell'event
+
+	// Dependency injection e in automatico crea una variabile col nome del parametro (se ha una visibilità)
+	constructor (private service: UserService) {
+
+	}
+
+	// Metodo chiamato quando la classe viene istanziata
+	ngOnInit(): void {
+		this.users = this.service.getUsers();		
+	}
+
+	onDeleteUser(user: User) {
+		this.service.deleteUser(user);
+	}
+
+	onSelectUser(user: User) {
+		this.updateUser.emit(user);
+	}
 }

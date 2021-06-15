@@ -1,2 +1,10 @@
 <h1>User Management System</h1>
-<app-users></app-users> <!-- Ogni componente dev'essere dichiarato nell'app.module.ts-->
+<div class="main">
+	<div class="users">
+		<app-users (updateUser)="updateUser($event)"></app-users> <!-- Ogni componente dev'essere dichiarato nell'app.module.ts-->
+	</div>
+	<!-- Direttiva che permette di mostrare l'elemento se la condizione è vera -->
+	<div class="userDetail" *ngIf="userSelected">
+		<app-user-detail></app-user-detail>
+	</div>
+</div>
