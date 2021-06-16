@@ -1,0 +1,12 @@
+<td>{{user.name}}</td>
+<td>{{user.lastname}}</td>
+<td>{{user.fiscalcode}}</td>
+<td>{{user.email}}</td>
+<td>{{user.phone}}</td>
+<td>{{user.province}}</td>
+<td>{{user.age}}</td>
+<td>
+	<!-- (click) è come si mappa un evento angular (si toglie 'on' e si mettono le tonde) -->
+	<button class="update" (click)="updateUser()">UPDATE</button>
+	<button class="delete" (click)="deleteUser()">DELETE</button>
+</td>

@@ -1,0 +1,26 @@
+<table>
+	<caption>{{title}}</caption>
+	<tr>
+		<th>Nome</th>
+		<th>Cognome</th>
+		<th>Codice fiscale</th>
+		<th>E-mail</th>
+		<th>Telefono</th>
+		<th>Provincia</th>
+		<th>Age</th>
+		<th>Actions</th>
+	</tr>
+	<!-- *ngFor è una direttiva per ciclare. Bisogna creare una variabile per ogni elemento passo l'input in 'user-data' -->
+	<tr app-user *ngFor="let user of users" [user-data]="user"
+		(onDeleteUser)="onDeleteUser($event)" (onSelectUser)="onSelectUser($event)">
+		<!-- Utilizzo un componente figlio e gli passo un parametro (il figlio deve avere una variabile per contenerlo)
+		con (onDeleteUser) catcho l'evento generato dal figlio e chiamo una funzione per gestirlo  -->
+	</tr>
+</table>
+
+<hr>
+<p>Pipe di json degli users</p>
+
+<!-- Si utilizza una pipe (spiegata successivamente).
+	'|' indica prendi ciò che c'è a sinistra e applicagli la funzione a destra -->
+{{users | json}}

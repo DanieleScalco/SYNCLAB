@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RxJS DEMO</title>
+	
+	<script src="https://unpkg.com/rxjs@7.1.0/dist/bundles/rxjs.umd.min.js"></script>
+	<!-- Per usare rxjs: src preso da https://github.com/ReactiveX/rxjs prendendo il link sotto CDN-->
+	
+	<script>
+		
+		//console.log(rxjs); per vedere l'oggetto rxjs
+		
+		const { range, from } = rxjs; // Tutte le funzioni che creano un observer si prendono da rxjs
+		const { map, filter } = rxjs.operators; // Gli operatori si prendono da rxjs.operator
+
+		// Stream: 1 - 2 - 3 - 4 - 5 - ... - 200
+		range(1, 200)
+		.pipe(
+			filter(x => x % 2 === 1),	// Con filter si filtrano i dati dello stream (in questo caso si prendono i numeri dispari)
+			map(x => x + x)	// Agisce sul risultato di filter, sommando il numero a sè stesso
+		)
+		.subscribe(x => console.log(x)); // si applica sul risultato
+
+		from([1, 3 , 5]).subscribe(x => console.log(x));
+		
+		// From() e range() creano degli observable
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
