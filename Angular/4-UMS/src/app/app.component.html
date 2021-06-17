@@ -1,11 +1,12 @@
 <h1>User Management System</h1>
+<a href="#" (click)="newUser()">New User</a>
 <div class="main">
 	<div class="users">
 		<!-- Ogni componente dev'essere dichiarato nell'app.module.ts-->
 		<app-users (updateUser)="updateUser($event)"></app-users>
 	</div>
 	<!-- *ngIf: direttiva che permette di mostrare l'elemento se la condizione è vera -->
-	<div class="userDetail" *ngIf="userSelected">
+	<div class="userDetail" *ngIf="showForm">
 		<!-- Se userSelected non è nullo mostro l'user-detail component e gli passo in input l'userSelected -->
 		<app-user-detail [user]="userSelected"></app-user-detail>
 	</div>

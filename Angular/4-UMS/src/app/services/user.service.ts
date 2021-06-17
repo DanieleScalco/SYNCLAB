@@ -59,5 +59,9 @@ export class UserService {
 		if (idx !== -1)
 			this.users[idx] = user;
 	}
+
+	createUser(user: UserInterface) {
+		this.users.splice(0, 0, user);
+	}
 	
 }

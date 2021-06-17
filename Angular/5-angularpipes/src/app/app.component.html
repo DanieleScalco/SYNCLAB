@@ -1,0 +1,9 @@
+<!-- Per una lista delle pipe disponibili: https://angular.io/api/common#pipes 
+	si chiamano col loro nome senza il 'Pipe' alla fine. Si possono concatenare più pipes -->
+<div style="text-align: center;">
+	<h1>{{title | uppercase | titlecase}}</h1>
+	{{ 'HIDRAN' | lowercase}}
+	<p>I have {{45.50 | currency:'EUR':'symbol':'1.2-2':'it-IT'}}</p>
+	<p>I was born {{ birthday | date : 'fullDate' : '+2'  : 'it-IT'}}</p>
+	<p>{{ 'The sense of life' | ucfirst }}</p>
+</div>
