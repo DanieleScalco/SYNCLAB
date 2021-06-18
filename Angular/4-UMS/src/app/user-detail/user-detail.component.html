@@ -1,39 +1,39 @@
 <!-- con #f contiene la variabile del form con tutti i suoi dati -->
-<form class="userForm" #f="ngForm">  {{f.form.value | json}} 
+<form #f="ngForm">  <!-- {{f.form.value | json}} -->
 	<input type="hidden" name="id" [(ngModel)]="user.id">
 	<div class="form-group">
 		<label for="firstname">First Name</label>
 		<!-- [] indicano il valore in input, () indicano il valore in output -->
 		<!-- [()] fa modifica l'user nella tabella perché gli oggetti sono passati per riferimento, sono lo stesso oggetto -->
 		<!-- Solo [] one-way data-binding -->
-		<input [(ngModel)]="user.name" name="firstname" id="firstname">
+		<input [(ngModel)]="user.name" class="form-control" name="firstname" id="firstname">
 	</div>
 	<div class="form-group">
 		<label for="lastname">Last Name</label>
-		<input [(ngModel)]="user.lastname" name="lastname" id="lastname">
+		<input [(ngModel)]="user.lastname" class="form-control" name="lastname" id="lastname">
 	</div>
 	<div class="form-group">
 		<label for="fiscalcode">Fiscal code</label>
-		<input [(ngModel)]="user.fiscalcode" name="fiscalcode" id="fiscalcode">
+		<input [(ngModel)]="user.fiscalcode" class="form-control" name="fiscalcode" id="fiscalcode">
 	</div>
 	<div class="form-group">
 		<label for="email">Email</label>
-		<input [(ngModel)]="user.email" type="email" name="email" id="email">
+		<input [(ngModel)]="user.email" type="email" class="form-control" name="email" id="email">
 	</div>
 	<div class="form-group">
 		<label for="phone">Phone</label>
-		<input [(ngModel)]="user.phone" name="phone" id="phone">
+		<input [(ngModel)]="user.phone" class="form-control" name="phone" id="phone">
 	</div>
 	<div class="form-group">
 		<label for="age">Age</label>
-		<input [(ngModel)]="user.age" type="number" name="age" id="age">
+		<input [(ngModel)]="user.age" type="number" class="form-control" name="age" id="age">
 	</div>
 	<div class="form-group">
 		<label for="province">Province</label>
-		<input [(ngModel)]="user.province" name="province" id="province">
+		<input [(ngModel)]="user.province" class="form-control" name="province" id="province">
 	</div>
 	<div class="form-group form-footer">
-		<button class="reset" (click)="resetForm(f.form)">RESET FORM</button>
-		<button class="btn-save" (click)="saveUser()">SAVE</button>
+		<button class="btn btn-outline-secondary" (click)="resetForm(f.form)">RESET</button>
+		<button class="btn btn-success" (click)="saveUser()">SAVE</button>
 	</div>
 </form>

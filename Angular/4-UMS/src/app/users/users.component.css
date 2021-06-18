@@ -1,21 +1,3 @@
 /*
 	Il css di un componente appartiene solo ad esso e non ai figli
 */
-table {
-	border: 1px solid #c0c0c0;
-}
-
-th, td {
-	padding: 5px;
-	border: 1px solid white;
-}
-
-th {
-	background: #000;
-	color: green;
-}
-
-td {
-	background: silver;
-	color: red;
-}

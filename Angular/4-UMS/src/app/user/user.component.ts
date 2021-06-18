@@ -2,6 +2,9 @@ import { UserService } from '../services/user.service';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Output } from '@angular/core';
 import { User } from '../classes/user';
+// Importare le icone che si vogliono dal corretto(!) package
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   // inputs: ['user: user-data'], // per dichiarare una variabile input o lo si fa qua o nella classe con @Input
@@ -17,10 +20,15 @@ export class UserComponent implements OnInit {
   @Output('onDeleteUser') userDeleted = new EventEmitter();  // Output è un decoratore per un evento in output
   @Output('onSelectUser') userSelected = new EventEmitter<User>(); // L'evento viene rilevato dal genitore
 
-  constructor(private userService: UserService) { }
+  // Creo attributi che contengono le icone
+  updateIcon = faPencilAlt;
+  deleteIcon = faTrashAlt;
+
+  // Route necessario per navigare
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    
+  
   }
 
   deleteUser() {
@@ -29,6 +37,11 @@ export class UserComponent implements OnInit {
   }
 
   updateUser() {
+
+    // Fa navigare in un'altra rotta
+    this.router.navigate(['users', this.user.id, 'edit']);
+
+    // Non credo serva più
     this.userSelected.emit(this.user);
   }
 }

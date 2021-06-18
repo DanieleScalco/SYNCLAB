@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Form, FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../classes/user';
 import { UserService } from '../services/user.service';
 
@@ -21,10 +22,23 @@ export class UserDetailComponent implements OnInit {
     return this._user;
   }
   
-  constructor(private userService: UserService) { }
+  // ActivatedRoute è un servizio del routerModule per sapere la rotta attuale, Router serve per cambiare la rotta
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {
+    
+  }
 
   ngOnInit(): void {
-    
+    this.user = new User();
+
+    this.route.params.subscribe(
+      (params) => {
+        if (!params.id) {
+          return;
+        }
+        // Con + si fa il cast a number
+        this.user = this.userService.getUser(+params.id);
+      }
+    );
   }
 
   saveUser() {
@@ -36,6 +50,8 @@ export class UserDetailComponent implements OnInit {
     } else {
       this.userService.createUser(userCopia);
     }
+
+    this.router.navigate(['users']);
   }
 
   resetForm(form: any) {
