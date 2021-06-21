@@ -7,12 +7,16 @@
 <td>{{user.age}}</td>
 <td>
 	<div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-3">
 			<!-- (click) è come si mappa un evento angular (si toglie 'on' e si mettono le tonde) -->
-			<button class="btn btn-primary btn-sm" (click)="updateUser()"><fa-icon [icon]="updateIcon" size="2x"></fa-icon></button>
+			<button class="btn btn-primary btn-sm px-3" (click)="showUserDetail()"><fa-icon [icon]="infoIcon" fixed="true" size="2x"></fa-icon></button>
 		</div>
-		<div class="col-sm-6">
-			<button class="btn btn-danger btn-sm" (click)="deleteUser()"><fa-icon [icon]="deleteIcon" size="2x"></fa-icon></button>
+		<div class="col-sm-3">
+			<!-- (click) è come si mappa un evento angular (si toglie 'on' e si mettono le tonde) -->
+			<button class="btn btn-primary btn-sm" (click)="updateUser()"><fa-icon [icon]="updateIcon" fixed="true"size="2x"></fa-icon></button>
+		</div>
+		<div class="col-sm-3">
+			<button class="btn btn-danger btn-sm" (click)="deleteUser()"><fa-icon [icon]="deleteIcon" fixed="true" size="2x"></fa-icon></button>
 		</div>
 	</div>
 </td>

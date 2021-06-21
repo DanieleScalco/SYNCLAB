@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Output } from '@angular/core';
 import { User } from '../classes/user';
 // Importare le icone che si vogliono dal corretto(!) package
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrashAlt, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,6 +23,7 @@ export class UserComponent implements OnInit {
   // Creo attributi che contengono le icone
   updateIcon = faPencilAlt;
   deleteIcon = faTrashAlt;
+  infoIcon = faInfo;
 
   // Route necessario per navigare
   constructor(private userService: UserService, private router: Router) { }
@@ -43,5 +44,9 @@ export class UserComponent implements OnInit {
 
     // Non credo serva più
     this.userSelected.emit(this.user);
+  }
+
+  showUserDetail() {
+    this.router.navigate(['users', this.user.id]);
   }
 }

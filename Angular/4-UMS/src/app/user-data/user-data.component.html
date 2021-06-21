@@ -1,3 +1,39 @@
-<p>
+<!-- <p>
 	{{ user | json }}
-</p>
+</p> -->
+<h2>{{title}}</h2>
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<td>{{user.name}}</td>
+	</tr>
+	<tr>
+		<th>Lastname</th>
+		<td>{{user.lastname}}</td>
+	</tr>
+	<tr>
+		<th>Fiscalcode</th>
+		<td>{{user.fiscalcode}}</td>
+	</tr>
+	<tr>
+		<th>Email</th>
+		<td>{{user.email}}</td>
+	</tr>
+	<tr>
+		<th>Phone</th>
+		<td>{{user.phone}}</td>
+	</tr>
+	<tr>
+		<th>Province</th>
+		<td>{{user.province}}</td>
+	</tr>
+	<tr>
+		<th>Age</th>
+		<td>{{user.age}}</td>
+	</tr>
+</table>
+<tfoot>
+	<tr>
+		<td colspan="2"><button (click)="backToUsers()" class="btn btn-primary">BACK</button></td>
+	</tr>
+</tfoot>

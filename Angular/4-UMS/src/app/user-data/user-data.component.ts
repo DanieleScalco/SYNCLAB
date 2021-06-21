@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../classes/user';
 import { UserService } from '../services/user.service';
 
@@ -11,15 +11,21 @@ import { UserService } from '../services/user.service';
 export class UserDataComponent implements OnInit {
 
   public user: User;
+  public title: string = 'User Detail';
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
+    this.user = new User();
     this.route.params.subscribe(
       (p) => {
         this.user = this.userService.getUser(+p.id);  // Necessario + per cast a numero
       }
     );
+  }
+
+  backToUsers() {
+    this.router.navigate(['users']);
   }
 
 }

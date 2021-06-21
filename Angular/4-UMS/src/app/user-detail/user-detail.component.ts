@@ -67,4 +67,8 @@ export class UserDetailComponent implements OnInit {
     }
   }
 
+  backToUsers() {
+    this.router.navigate(['users']);
+  }
+
 }
