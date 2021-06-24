@@ -28,7 +28,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = new User();
+    this.user = new User(); // meglio inizializzare il dato poichè la chiamata è asincrona
 
     this.route.params.subscribe(
       (params) => {
@@ -36,22 +36,35 @@ export class UserDetailComponent implements OnInit {
           return;
         }
         // Con + si fa il cast a number
-        this.user = this.userService.getUser(+params.id);
+        this.userService.getUser(+params.id).subscribe(
+          res => {
+            this.user = res.data;
+          }
+        );
       }
     );
   }
 
   saveUser() {
-    const userCopia: User = Object.assign({}, this.user);
+    //const userCopia: User = Object.assign({}, this.user);
 
     if (this.user.id > 0) {
       // L'utente è già esistente e lo devo soltanto modificare
-      this.userService.updateUser(userCopia);
+      this.userService.updateUser(/*userCopia*/this.user).subscribe(
+        res => {
+          if (res.success) {
+            alert(res.message);
+            this.router.navigate(['users']);
+          } else {
+            alert(res.message);
+          }
+        }
+      );
     } else {
-      this.userService.createUser(userCopia);
+      this.userService.createUser(/*userCopia*/this.user);
     }
 
-    this.router.navigate(['users']);
+    //this.router.navigate(['users']);
   }
 
   resetForm(form: any) {

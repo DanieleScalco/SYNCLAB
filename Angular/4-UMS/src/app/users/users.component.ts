@@ -36,7 +36,11 @@ export class UsersComponent implements OnInit {	// Si usa lo stesso nome del fil
 
 	// Metodo chiamato quando la classe viene istanziata
 	ngOnInit(): void {
-		this.users = this.service.getUsers();		
+		this.service.getUsers().subscribe(
+			(res: any) => {
+				this.users = res['data'];	// o res.data
+			}
+		);		
 	}
 
 	onDeleteUser(user: User) {

@@ -1,60 +1,53 @@
+import { HttpClient } from '@angular/common/http';
 import { UserInterface } from './../interfaces/userInterface';
 // NomeServizioSingolare.service.ts (se più parole usare '-')
 
 import { Injectable } from "@angular/core";
 import { User } from "../classes/user";
+import { Observable } from 'rxjs';
+
+// Iterface per l'ottenimento dei dati dal progetto laravel
+interface UsersResponse {
+	data: User[];
+	message: string;
+	success: boolean;
+}
+
+interface UserResponse {
+	data: User;
+	message: string;
+	success: boolean;
+}
 
 // Decoratore che indica ad Angular che questo servizio può avere dipendenze ed essere inittato
 @Injectable()
 export class UserService {
   
-	users: Array<User> = [	// Array di oggetti JSON (Javascript Object Notation)
-		{
-			id: 1,
-			name: 'Hidran1',
-			lastname: 'Arias1',
-			email: 'hidran@gmail.com',
-			fiscalcode: 'ABCDEFG12345',
-			province: 'Torino',
-			phone: '123456789',
-			age: 47
-		},
-		{
-			id: 2,
-			name: 'Hidran2',
-			lastname: 'Arias2',
-			email: 'hidran@gmail.com',
-			fiscalcode: 'ABCDEFG12345',
-			province: 'Torino',
-			phone: '123456789',
-			age: 47
-		},
-		{
-			id: 3,
-			name: 'Hidran3',
-			lastname: 'Arias3',
-			email: 'hidran@gmail.com',
-			fiscalcode: 'ABCDEFG12345',
-			province: 'Torino',
-			phone: '123456789',
-			age: 47
-		}
-	];
+	// Array di oggetti JSON (Javascript Object Notation)
+	users: Array<User> = [];
+	private APIURL = 'http://localhost:8000/api/users';
 	
-	constructor() {
+	// Per fare richieste bisogna dichiarare HttpCLientModule
+	constructor(private http: HttpClient) {
 
 	}
 	
-	getUsers() {
-		return this.users;
+	// Ottengo gli users dall'API
+	getUsers(): any {
+		return this.http.get<UsersResponse>(this.APIURL);
 	}
 
-	getUser(id: number): User {
+	getUser(id: number) {
+		
+		return this.http.get<UserResponse>(this.APIURL + '/' + id);
+		/*
+		Metodo per prendere l'user quando si usava un array hardcoded e non l'api
 		let user = this.users.find(user => user.id === id);
 		if (user)
 			return user;
 		else
 			throw new Error('Id utente non trovato');
+		*/
 	}
 
 	deleteUser(user: User) {
@@ -64,9 +57,13 @@ export class UserService {
 	}
 
 	updateUser(user: UserInterface) {
+		return this.http.patch<UserResponse>(this.APIURL + '/' + user.id, user);
+		/*
+		Vecchio metodo prima dell'api
 		const idx = this.users.findIndex((v) => v.id === user.id); // Ritorna il primo elemento che rispetta la condizione
 		if (idx !== -1)
 			this.users[idx] = user;
+		*/
 	}
 
 	createUser(user: UserInterface) {

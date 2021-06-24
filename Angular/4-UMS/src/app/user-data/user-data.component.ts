@@ -19,7 +19,11 @@ export class UserDataComponent implements OnInit {
     this.user = new User();
     this.route.params.subscribe(
       (p) => {
-        this.user = this.userService.getUser(+p.id);  // Necessario + per cast a numero
+        this.userService.getUser(+p.id).subscribe(
+          res => {
+            this.user = res.data;
+          }
+        );  // Necessario + per cast a numero
       }
     );
   }

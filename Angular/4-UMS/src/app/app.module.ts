@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavComponent } from './nav/nav.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UserDataComponent } from './user-data/user-data.component'; // Per usare le rotte
+import { HttpClientModule } from '@angular/common/http';
 
 // Elenco di rotte
 const routes: Routes = [
@@ -50,7 +51,8 @@ const routes: Routes = [
     FormsModule,  // Necessaria per le direttive per il mapping delle form
     FontAwesomeModule, // Da mettere per usare Font Awesome
     // Per usare le rotte (da passare come parametro). forRoot() indica come radice, forChild() come sottorotte
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   providers: [
     UserService
