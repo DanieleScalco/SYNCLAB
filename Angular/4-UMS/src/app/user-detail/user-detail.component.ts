@@ -30,38 +30,57 @@ export class UserDetailComponent implements OnInit {
   ngOnInit(): void {
     this.user = new User(); // meglio inizializzare il dato poichè la chiamata è asincrona
 
-    this.route.params.subscribe(
+    this.route.paramMap.subscribe(
       (params) => {
-        if (!params.id) {
+        if (!params.get('id')) {
           return;
+        } 
+        
+        let idUserS;
+        let idUserN: number;
+        idUserS = params.get('id');
+        if (idUserS) {
+          idUserN = +idUserS; // Con + si fa il cast a number
+          this.userService.getUser(idUserN).subscribe(
+            res => {
+              this.user = res.data;
+            }
+          );
         }
-        // Con + si fa il cast a number
-        this.userService.getUser(+params.id).subscribe(
-          res => {
-            this.user = res.data;
-          }
-        );
       }
     );
   }
 
+  updateUser() {
+    // L'utente è già esistente e lo devo soltanto modificare
+    this.userService.updateUser(/*userCopia*/this.user).subscribe(
+      res => {
+        alert(res.message);
+        if (res.success) {
+          this.router.navigate(['users']);
+        }
+      }
+    );
+  }
+
+  createUser() {
+    this.userService.createUser(/*userCopia*/this.user).subscribe(
+      res => {
+        alert(res.message);
+        if (res.success) {
+          this.router.navigate(['users']);
+        }
+      }
+    );
+  }
+  
   saveUser() {
     //const userCopia: User = Object.assign({}, this.user);
 
     if (this.user.id > 0) {
-      // L'utente è già esistente e lo devo soltanto modificare
-      this.userService.updateUser(/*userCopia*/this.user).subscribe(
-        res => {
-          if (res.success) {
-            alert(res.message);
-            this.router.navigate(['users']);
-          } else {
-            alert(res.message);
-          }
-        }
-      );
+      this.updateUser();
     } else {
-      this.userService.createUser(/*userCopia*/this.user);
+      this.createUser();
     }
 
     //this.router.navigate(['users']);

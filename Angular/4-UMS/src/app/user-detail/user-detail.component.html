@@ -1,40 +1,79 @@
 <!-- con #f contiene la variabile del form con tutti i suoi dati -->
 <form #f="ngForm">  <!-- {{f.form.value | json}} -->
 	<input type="hidden" name="id" [(ngModel)]="user.id">
-	<div class="form-group">
-		<label for="firstname">First Name</label>
-		<!-- [] indicano il valore in input, () indicano il valore in output -->
-		<!-- [()] fa modifica l'user nella tabella perché gli oggetti sono passati per riferimento, sono lo stesso oggetto -->
-		<!-- Solo [] one-way data-binding -->
-		<input [(ngModel)]="user.name" class="form-control" name="firstname" id="firstname">
+	
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label for="firstname">First Name</label>
+			<!-- [] indicano il valore in input, () indicano il valore in output
+				 [()] fa modifica l'user nella tabella perché gli oggetti sono passati per riferimento, sono lo stesso oggetto
+				 Solo [] one-way data-binding
+				 Con #firstname="ngModel" assegno il campo ad una variabile di nome firstname
+				 required e minlength sono due funzioni per la validazione
+				 firstname.dirty controlla che il campo non sia stato modificato e .touched controlla se è stato toccato o meno
+			-->
+			<input required minlength="3" pattern="[a-zA-Z\s.]*" #firstname="ngModel" [(ngModel)]="user.name" class="form-control" name="firstname" id="firstname">
+			<div class="alert-danger" *ngIf="firstname.dirty && firstname.touched && firstname.invalid && firstname.errors && firstname.errors.required">
+				The field first name is required
+			</div>
+			<div class="alert-danger" *ngIf="firstname.dirty && firstname.touched && firstname.invalid && firstname.errors && firstname.errors.minlength">
+				The min length is {{firstname.errors.minlength.requiredLength}} chars
+			</div>
+			<div class="alert-danger" *ngIf="firstname.dirty && firstname.touched && firstname.invalid && firstname.errors && firstname.errors.pattern">
+				Il nome può contenere solo lettere, spazi e punti
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label for="lastname">Last Name</label>
+			<input required minlength="3" pattern="[a-zA-Z\s.]*" #lastname="ngModel" [(ngModel)]="user.lastname" class="form-control" name="lastname" id="lastname">
+			<div class="alert-danger" *ngIf="lastname.dirty && lastname.touched && lastname.invalid && lastname.errors && lastname.errors.required">
+				The field first name is required
+			</div>
+			<div class="alert-danger" *ngIf="lastname.dirty && lastname.touched && lastname.invalid && lastname.errors && lastname.errors.minlength">
+				The min length is {{lastname.errors.minlength.requiredLength}} chars
+			</div>
+			<div class="alert-danger" *ngIf="lastname.dirty && lastname.touched && lastname.invalid && lastname.errors && lastname.errors.pattern">
+				Il nome può contenere solo lettere, spazi e punti
+			</div>
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="lastname">Last Name</label>
-		<input [(ngModel)]="user.lastname" class="form-control" name="lastname" id="lastname">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label for="fiscalcode">Fiscal code</label>
+			<input [(ngModel)]="user.fiscalcode" class="form-control" name="fiscalcode" id="fiscalcode">
+		</div>
+		<div class="form-group col-sm-6">
+			<label for="email">Email</label>
+			<input [(ngModel)]="user.email" type="email" class="form-control" name="email" id="email">
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="fiscalcode">Fiscal code</label>
-		<input [(ngModel)]="user.fiscalcode" class="form-control" name="fiscalcode" id="fiscalcode">
+	<div class="row">
+		<div class="form-group col-sm-6">
+			<label for="phone">Phone</label>
+			<input [(ngModel)]="user.phone" class="form-control" name="phone" id="phone">
+		</div>
+		<div class="form-group col-sm-6">
+			<label for="age">Age</label>
+			<input required minlength="2" pattern="[0-9]{2,3}" #age="ngModel" [(ngModel)]="user.age" type="number" class="form-control" name="age" id="age">
+			<div class="alert-danger" *ngIf="age.dirty && age.touched && age.invalid && age.errors && age.errors.required">
+				The field first name is required
+			</div>
+			<div class="alert-danger" *ngIf="age.dirty && age.touched && age.invalid && age.errors && age.errors.minlength">
+				The min length is {{<a href=""></a>.errors.minlength.requiredLength}} chars
+			</div>
+			<div class="alert-danger" *ngIf="age.dirty && age.touched && age.invalid && age.errors && age.errors.pattern">
+				Il numero deve avere almeno due cifre
+			</div>
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="email">Email</label>
-		<input [(ngModel)]="user.email" type="email" class="form-control" name="email" id="email">
-	</div>
-	<div class="form-group">
-		<label for="phone">Phone</label>
-		<input [(ngModel)]="user.phone" class="form-control" name="phone" id="phone">
-	</div>
-	<div class="form-group">
-		<label for="age">Age</label>
-		<input [(ngModel)]="user.age" type="number" class="form-control" name="age" id="age">
-	</div>
-	<div class="form-group">
+	<div class="form-group col-sm-6">
 		<label for="province">Province</label>
 		<input [(ngModel)]="user.province" class="form-control" name="province" id="province">
 	</div>
-	<div class="form-group form-footer text-center">
+	<div class="form-group form-footer text-center pt-3 col-sm-4 mx-auto">
 		<button (click)="backToUsers()" class="btn btn-primary">BACK</button>
 		<button class="btn btn-outline-secondary" (click)="resetForm(f.form)">RESET</button>
-		<button class="btn btn-success" (click)="saveUser()">SAVE</button>
+		<!-- Pulsante di salvataggio abilitato solo se la form ha tutti campi validi -->
+		<button [disabled]="f.invalid" class="btn btn-success" (click)="saveUser()">SAVE</button>
 	</div>
 </form>

@@ -17,13 +17,22 @@ export class UserDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = new User();
-    this.route.params.subscribe(
+
+    
+    this.route.paramMap.subscribe(
       (p) => {
-        this.userService.getUser(+p.id).subscribe(
-          res => {
-            this.user = res.data;
-          }
-        );  // Necessario + per cast a numero
+
+        let idUserS;
+        let idUserN: number;
+        idUserS = p.get('id');
+        if (idUserS) {
+          idUserN = +idUserS; // Con + si fa il cast a number
+          this.userService.getUser(idUserN).subscribe(
+            res => {
+              this.user = res.data;
+            }
+          );
+        }
       }
     );
   }

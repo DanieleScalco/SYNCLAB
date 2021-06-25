@@ -33,7 +33,7 @@ export class UserService {
 	}
 	
 	// Ottengo gli users dall'API
-	getUsers(): any {
+	getUsers() {
 		return this.http.get<UsersResponse>(this.APIURL);
 	}
 
@@ -51,9 +51,15 @@ export class UserService {
 	}
 
 	deleteUser(user: User) {
+		/*
+		Prima dell'api
 		let index = this.users.indexOf(user);
 		if (index >= 0)	// Altrimenti non esiste
 			this.users.splice(index, 1); // Elimina un elemento a partire dall'indice
+		*/
+
+		// Mettere il tipo UserResponse permette di avere poi l'autocompletamento
+		return this.http.delete<UserResponse>(this.APIURL + '/' + user.id);
 	}
 
 	updateUser(user: UserInterface) {
@@ -67,8 +73,12 @@ export class UserService {
 	}
 
 	createUser(user: UserInterface) {
+		/*
+		Prima dell'api
 		user.id = this.users.length + 1;
 		this.users.splice(0, 0, user);
+		*/
+		return this.http.post<UserResponse>(this.APIURL, user);
 	}
 	
 }
