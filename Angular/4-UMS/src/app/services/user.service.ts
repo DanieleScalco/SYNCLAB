@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { UserInterface } from './../interfaces/userInterface';
 // NomeServizioSingolare.service.ts (se più parole usare '-')
+// I servizi devono essere messi tra i providers nell app.module.ts
 
 import { Injectable } from "@angular/core";
 import { User } from "../classes/user";

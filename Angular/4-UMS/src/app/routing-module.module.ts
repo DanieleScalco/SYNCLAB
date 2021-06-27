@@ -1,10 +1,12 @@
+import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersComponent } from './users/users.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserDataComponent } from './user-data/user-data.component';
-import { RouteGuardService } from './route-guard.service';
+import { RouteGuardService } from './services/route-guard.service';
 
 // Modulo apposta per impostare le rotte (da importare nell'app module)
 // Elenco di rotte
@@ -30,6 +32,14 @@ const routes: Routes = [
   {
     path: 'users/:id', // i ':' indicano un parametro
     component: UserDataComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
   }
 ]
 

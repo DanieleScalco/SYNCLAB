@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { RoutingModuleModule } from './routing-module.module';
 import { UserService } from './services/user.service';
 import { UsersComponent } from './users/users.component';
@@ -11,6 +12,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavComponent } from './nav/nav.component';
 import { UserDataComponent } from './user-data/user-data.component'; // Per usare le rotte
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 
 
@@ -21,7 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
     UserComponent,
     UserDetailComponent,
     NavComponent,
-    UserDataComponent
+    UserDataComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     RoutingModuleModule
   ],
   providers: [
-    UserService
+    UserService, AuthService
   ],
   bootstrap: [AppComponent]
 })

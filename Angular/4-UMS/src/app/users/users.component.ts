@@ -15,7 +15,7 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 
 // Una volta creato il componente bisogna dichiararlo nell'app.module.ts
 
-// E' meglio seprarare i dati dal componente
+// E' meglio separare i dati dal componente
 
 // Bisogna impostare un decoratore per ogni component
 @Component({

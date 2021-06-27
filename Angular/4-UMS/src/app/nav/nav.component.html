@@ -22,6 +22,20 @@
 		  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 		  <button class="btn btn-outline-success" type="submit">Search</button>
 		</form>
+		<div class="nav-item text-nowrap">
+			<!-- Necessario lasciare href perchè altrimenti non viene visto come link
+				e non comparirebbe la manina quando ci si passa sopra col mouse -->
+			<a *ngIf="!isUserLoggedIn" class="nav-link px-3" (click)="signIn($event)" href="#">Login</a>
+		</div>
+		<div class="nav-item text-nowrap">
+			<a *ngIf="!isUserLoggedIn" class="nav-link px-3" (click)="signUp($event)" href="#">Sign up</a>
+		</div>
+		<div class="nav-item text-nowrap">
+			<div *ngIf="isUserLoggedIn" class="text-primary px-3">{{username}}</div>
+		</div>
+		<div class="nav-item text-nowrap">
+			<a *ngIf="isUserLoggedIn" class="nav-link px-3" (click)="logout($event)" href="#">Logout</a>
+		</div>
 	  </div>
 	</div>
   </nav>
