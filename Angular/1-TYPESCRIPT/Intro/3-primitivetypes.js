@@ -13,7 +13,7 @@ age = 50;
 // Array
 var array;
 array = [1, 2];
-// Si possono passare pure oggetti generici (es: T). Due notazioni per dichiareare un array
+// Si possono passare pure oggetti generici (es: T). Due notazioni per dichiarare un array
 var array2 = ["Hello", "World"];
 console.log(array2);
 // Object
